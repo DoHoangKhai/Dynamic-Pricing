@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-commerce Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon">D</div>
+        <span>Dashboard</span>
+      </div>
+      <div class="user-profile">
+        <span>John Smith</span>
+        <div class="user-avatar">JS</div>
+      </div>
+    </div>
+    
+    <div class="tab-container">
+      <div class="tab active" onclick="switchTab('dashboard')">Overview</div>
+      <div class="tab" onclick="switchTab('pricing')">Pricing Tool</div>
+    </div>
+    
+    <div id="dashboard-tab" class="tab-content">
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Monthly Revenue</h3>
+            <div class="card-icon blue-bg">$</div>
+          </div>
+          <div class="chart-container">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Total Sales</h3>
+            <div class="card-icon pink-bg">S</div>
+          </div>
+          <div class="chart-container">
+            <canvas id="salesChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Your Goals</h3>
+            <div class="card-icon yellow-bg">G</div>
+          </div>
+          <div>
+            <h4>Upgrade your accounts</h4>
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill blue-bg" style="width: 65%"></div>
+              </div>
+              <span>65%</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card wide-card">
+          <div class="card-header">
+            <h3 class="card-title">Latest Transactions</h3>
+            <div class="card-icon purple-bg">T</div>
+          </div>
+          <div class="task-list">
+            <div class="task-item">
+              <div class="task-info">
+                <div class="task-status" style="background-color: #2d7bf8;"></div>
+                <div class="task-text">Wireless Earbuds</div>
+              </div>
+              <div class="task-value">$89.99</div>
+            </div>
+            <div class="task-item">
+              <div class="task-info">
+                <div class="task-status" style="background-color: #ff6b6b;"></div>
+                <div class="task-text">Smart Watch</div>
+              </div>
+              <div class="task-value">$199.95</div>
+            </div>
+            <div class="task-item">
+              <div class="task-info">
+                <div class="task-status" style="background-color: #ffbe0b;"></div>
+                <div class="task-text">Bluetooth Speaker</div>
+              </div>
+              <div class="task-value">$79.99</div>
+            </div>
+            <div class="task-item">
+              <div class="task-info">
+                <div class="task-status" style="background-color: #9b5de5;"></div>
+                <div class="task-text">Phone Case</div>
+              </div>
+              <div class="task-value">$24.50</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Revenue by Category</h3>
+          </div>
+          <div class="chart-container">
+            <canvas id="categoryChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="pricing-tab" class="tab-content hidden">
+      <div class="card full-width">
+        <div class="card-header">
+          <h3 class="card-title">Price Recommendation Tool</h3>
+        </div>
+        <p>Enter details about your product to get an optimal price recommendation based on market data.</p>
+        
+        <div class="seller-form">
+          <div class="form-group">
+            <label class="form-label">Product Type</label>
+            <select class="form-select" id="productType" onchange="updateProductGroups()">
+              <option value="">Select Product Type</option>
+              <option value="Computers&Accessories">Computers & Accessories</option>
+              <option value="Electronics">Electronics</option>
+              <option value="MusicalInstruments">Musical Instruments</option>
+              <option value="OfficeProducts">Office Products</option>
+              <option value="Home&Kitchen">Home & Kitchen</option>
+              <option value="HomeImprovement">Home Improvement</option>
+              <option value="Toys&Games">Toys & Games</option>
+              <option value="Car&Motorbike">Car & Motorbike</option>
+              <option value="Health&PersonalCare">Health & Personal Care</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Product Group</label>
+            <div class="search-container">
+              <input type="text" id="groupSearchInput" class="form-input" placeholder="Search product groups..." onkeyup="filterProductGroups()">
+            </div>
+            <select class="form-select" id="productGroup" disabled size="5">
+              <option value="">Select Product Type First</option>
+            </select>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group half-width">
+              <label class="form-label">Actual Price ($)</label>
+              <input type="number" class="form-input" id="actualPrice" placeholder="e.g. 99.99">
+            </div>
+            
+            <div class="form-group half-width">
+              <label class="form-label">Discounted Price ($)</label>
+              <input type="number" class="form-input" id="discountedPrice" placeholder="e.g. 79.99">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group half-width">
+              <label class="form-label">Discount Percentage (%)</label>
+              <input type="number" class="form-input" id="discountPercentage" placeholder="e.g. 20">
+            </div>
+            
+            <div class="form-group half-width">
+              <label class="form-label">Rating (0-5)</label>
+              <input type="number" class="form-input" id="rating" placeholder="e.g. 4.5" min="0" max="5" step="0.1">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group half-width">
+              <label class="form-label">Average Market Price ($)</label>
+              <input type="number" class="form-input" id="averagePrice" placeholder="e.g. 85.99">
+            </div>
+            
+            <div class="form-group half-width">
+              <label class="form-label">Average Shipping Value ($)</label>
+              <input type="number" class="form-input" id="averageShippingValue" placeholder="e.g. 5.99">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group half-width">
+              <label class="form-label">Number of Orders</label>
+              <input type="number" class="form-input" id="numberOfOrders" placeholder="e.g. 120">
+            </div>
+            
+            <div class="form-group half-width">
+              <label class="form-label">Competitor Price ($)</label>
+              <input type="number" class="form-input" id="competitorPrice" placeholder="e.g. 89.99">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Additional Features/Description</label>
+            <textarea class="form-input" id="productDescription" rows="3" placeholder="Enter any additional details about your product..."></textarea>
+          </div>
+          
+          <button class="btn btn-primary" onclick="getPriceRecommendation()">Get Price Recommendation</button>
+        </div>
+        
+        <div class="result-card" id="resultCard">
+          <h3>Recommended Price</h3>
+          <div class="price-recommendation" id="recommendedPrice">$0.00</div>
+          <div class="price-range" id="priceRange">Competitive price range: $0.00 - $0.00</div>
+          <p class="price-explanation" id="priceExplanation"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
