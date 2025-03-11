@@ -1,76 +1,186 @@
+import os
 import numpy as np
-from gymnasium import Env, spaces
+import gymnasium as gym
+from gymnasium import spaces
 
-class DynamicPricingEnv(Env):
-    metadata = {"render_modes": ["human"], "name": "dynamic_pricing_v1"}
+class DynamicPricingEnv(gym.Env):
+    """Custom Environment for Dynamic Pricing"""
+    metadata = {'render.modes': ['human']}
 
-    def __init__(self, max_price=500, min_price=10, demand_intercept=1000, demand_slope=2, noise_std=10, historical_data=None, render_mode=None):
-        super().__init__()
-        self.max_price = max_price
+    def __init__(self, max_price=500, min_price=10, demand_intercept=100, 
+                 demand_slope=0.5, noise_std=10, historical_data=None,
+                 elasticity=1.0, ppi=1.0, rating=4.0, num_orders=50):
+        super(DynamicPricingEnv, self).__init__()
+        
+        # Price range and step size
         self.min_price = min_price
+        self.max_price = max_price
+        self.price_step = 10
+        
+        # Number of discrete price levels
+        num_prices = int((max_price - min_price) / self.price_step) + 1
+        
+        # Define action space (discrete price levels)
+        self.action_space = spaces.Discrete(num_prices)
+        
+        # Basic market parameters
         self.demand_intercept = demand_intercept
         self.demand_slope = demand_slope
         self.noise_std = noise_std
-        self.render_mode = render_mode
-        self.historical_data = historical_data
-
-        # Action space: Discrete prices between min_price and max_price (steps of 10)
-        self.action_space = spaces.Discrete((max_price - min_price) // 10 + 1)
-
-        # State space: Features + sales history
-        # Calculate expected feature dimension: 8 numerical + product_type one-hot + product_group one-hot
-        # Based on data_loader.py analysis
-        expected_features = 8 + 9 + 207  # 224 total features + 1 for sales = 225
+        self.elasticity = elasticity
+        self.ppi = ppi
+        self.rating = rating
+        self.num_orders = num_orders
         
-        # State space: Current price + selected features + initial sales
-        if historical_data is not None:
-            # When historical data is provided, use its shape
-            self.observation_space = spaces.Box(low=0, high=1, shape=(historical_data.shape[1] + 1,), dtype=np.float32)
-        else:
-            # When no historical data, use expected shape (225)
-            self.observation_space = spaces.Box(low=0, high=1, shape=(expected_features + 1,), dtype=np.float32)
-
-        # Episode tracking
-        self.current_step = 0
-        self.max_steps = 30  # 30 days per episode
-        self.price = np.random.randint(min_price, max_price)
-        self.state = self._get_initial_state()
-
+        # Maximum steps per episode
+        self.max_steps = 30
+        self.step_count = 0
+        
+        # Historical data for state representation
+        self.historical_data = historical_data
+        self.price_history = np.zeros(3)  # Track last 3 prices
+        
+        # Create observation space with correct dimensions to match prototype environment
+        # Product type one-hot (9) + Product group one-hot (207) + Basic features (9) + 
+        # Competitor features (4) + Price history (3) + PPI categories (5)
+        total_obs_dim = 9 + 207 + 9 + 4 + 3 + 5
+        self.observation_space = spaces.Box(
+            low=-10.0, high=10.0, shape=(total_obs_dim,), dtype=np.float32
+        )
+        
     def _get_initial_state(self):
-        if self.historical_data is not None:
-            # Select a random row from historical data
-            row_idx = np.random.randint(len(self.historical_data))
-            row = self.historical_data[row_idx]
-            return np.array(list(row) + [0], dtype=np.float32)  # Add initial sales
-        else:
-            return np.zeros(self.observation_space.shape[0], dtype=np.float32)
+        """Generate the initial state observation"""
+        # Create a zero-filled array for the state
+        state = np.zeros(self.observation_space.shape[0], dtype=np.float32)
+        
+        # Set default values for product type (first type in one-hot encoding)
+        state[9] = 1.0  # First product type
+        
+        # Set default values for product group (first group in one-hot encoding)
+        state[9 + 207] = 1.0  # First product group
+        
+        # Set default values for basic features
+        basic_feat_start = 9 + 207
+        state[basic_feat_start] = (self.rating - 1) / 4  # Normalized rating (1-5)
+        state[basic_feat_start + 1] = (self.ppi - 0.5) / 1.0  # Normalized PPI (0.5-1.5)
+        state[basic_feat_start + 2] = (self.elasticity - 0.5) / 1.0  # Normalized elasticity
+        
+        # Elasticity category indicators (one-hot)
+        is_high_elasticity = 1.0 if self.elasticity > 1.2 else 0.0  # Price sensitive
+        is_medium_elasticity = 1.0 if 0.8 <= self.elasticity <= 1.2 else 0.0  # Neutral
+        is_low_elasticity = 1.0 if self.elasticity < 0.8 else 0.0  # Price insensitive
+        
+        state[basic_feat_start + 3] = is_high_elasticity
+        state[basic_feat_start + 4] = is_medium_elasticity
+        state[basic_feat_start + 5] = is_low_elasticity
+        
+        # Add optimal price ratio hint
+        target_price = 1.0 / self.elasticity if self.elasticity > 0 else 1.0
+        state[basic_feat_start + 6] = (target_price - 0.5) / 1.0
+        
+        # Add normalized number of orders
+        state[basic_feat_start + 7] = self.num_orders / 200  # Normalized to max 200 orders
+        
+        # Default value for pages
+        state[basic_feat_start + 8] = 0.5  # Mid-range for pages
+        
+        # Initialize competitor features
+        comp_start = basic_feat_start + 9
+        state[comp_start:comp_start+4] = 0.5  # Neutral competitor values
+        
+        # Initialize price history
+        hist_start = comp_start + 4
+        state[hist_start:hist_start+3] = 0.5  # Neutral price history
+        
+        # Initialize PPI categories (one-hot)
+        ppi_start = hist_start + 3
+        # Default to middle PPI category
+        state[ppi_start + 2] = 1.0
+        
+        return state
 
     def reset(self, seed=None, options=None):
-        super().reset(seed=seed)  # Important: Reset the random number generator
-        self.current_step = 0
-        self.price = np.random.randint(self.min_price, self.max_price)
+        """Reset the environment to initial state"""
+        # Reset step counter
+        self.step_count = 0
+        
+        # Reset price history
+        self.price_history = np.zeros(3)
+        
+        # Get initial state
         self.state = self._get_initial_state()
-        return self.state, {}
+        
+        # Support both old and new Gym API
+        if options is not None:  # New Gym API
+            return self.state, {}
+        else:  # Old Gym API
+            return self.state
 
     def step(self, action):
-        self.price = 10 + action * 10  # Map action to price (10, 20, ..., 500)
-
+        """Take an action in the environment"""
+        # Convert action to price
+        price = self.min_price + action * self.price_step
+        
+        # Calculate demand using an elasticity-influenced demand curve
+        # Higher elasticity means more sensitive to price changes
+        base_demand = self.demand_intercept - self.demand_slope * price * self.elasticity
         noise = np.random.normal(0, self.noise_std)
-        demand = max(0, self.demand_intercept - self.demand_slope * self.price + noise)
-        reward = self.price * demand
-        self.state[-1] = demand  # Update sales in the last position
+        actual_demand = max(0, base_demand + noise)
+        
+        # Calculate revenue
+        revenue = price * actual_demand
+        
+        # Calculate cost (simplified)
+        unit_cost = price * 0.6  # Assume cost is 60% of price
+        total_cost = unit_cost * actual_demand
+        
+        # Calculate profit
+        profit = revenue - total_cost
+        
+        # Calculate reward (profit)
+        reward = profit
+        
+        # Update step counter
+        self.step_count += 1
+        
+        # Update price history
+        self.price_history = np.roll(self.price_history, 1)
+        self.price_history[0] = price / self.max_price  # Normalize price
+        
+        # Update state
+        self.state = self._get_initial_state()
+        
+        # Update price history in state
+        hist_start = (9 + 207 + 9 + 4)
+        self.state[hist_start:hist_start+3] = self.price_history
+        
+        # Check if episode is done
+        done = self.step_count >= self.max_steps
+        
+        # New Gym API requires additional info dictionary
+        info = {
+            'price': price,
+            'demand': actual_demand,
+            'profit': profit,
+            'revenue': revenue,
+            'cost': total_cost
+        }
+        
+        # Return state, reward, done, and info
+        truncated = False  # Assume never truncated for simplicity
+        return self.state, reward, done, truncated, info
 
-        observation = self.state
-
-        self.current_step += 1
-        done = self.current_step >= self.max_steps
-        truncated = False
-
-        return observation, reward, done, truncated, {}
-
-    def render(self):
+    def render(self, mode='human'):
+        """Render the environment"""
+        # Not implemented, but required by the Gym interface
         pass
 
-# Convert to Gymnasium-compatible environment
-def make_env(historical_data=None):
-    return DynamicPricingEnv(historical_data=historical_data)
+def make_env(historical_data=None, elasticity=1.0, ppi=1.0, rating=4.0, num_orders=50):
+    """Create an instance of the DynamicPricingEnv"""
+    return DynamicPricingEnv(
+        historical_data=historical_data,
+        elasticity=elasticity,
+        ppi=ppi,
+        rating=rating,
+        num_orders=num_orders
+    )

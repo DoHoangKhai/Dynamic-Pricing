@@ -1,11 +1,9 @@
 const productGroupMap = {
     "Computers&Accessories": [
-      "Mice", "GraphicTablets", "Lapdesks", "NotebookComputerStands", "Keyboards",
-      "Keyboard&MouseSets", "ExternalHardDisks", "DustCovers", "GamingMice", "MousePads",
-      "HardDiskBags", "NetworkingDevices", "Routers", "Monitors", "Gamepads",
-      "USBHubs", "PCMicrophones", "LaptopSleeves&Slipcases", "ExternalMemoryCardReaders",
-      "EthernetCables", "Memory", "UninterruptedPowerSupplies", "Cases", "SecureDigitalCards",
-      "Webcams", "CoolingPads", "LaptopAccessories", "InternalSolidStateDrives",
+      "GamingLaptops", "Keyboards", "Mouse", "MousePads", "Monitors", "GraphicsCards",
+      "ExternalHardDrives", "NetworkingDevices", "RAMs", "Routers", "WirelessAccessPoint",
+      "USBFlashDrives", "CPUs", "Motherboards", "PCCasings", "Barebone", "PowerSupplies",
+      "SoundCards", "WiredNetworkAdapters", "Webcams", "CoolingPads", "LaptopAccessories", "InternalSolidStateDrives",
       "MultimediaSpeakerSystems", "DataCards&Dongles", "LaptopChargers&PowerSupplies",
       "PCSpeakers", "InternalHardDrives", "Printers", "SATACables", "PCHeadsets",
       "GamingKeyboards", "ExternalSolidStateDrives", "PowerLANAdapters", "Caddies",
@@ -315,9 +313,9 @@ async function getPriceRecommendation() {
 
 // Function to display the recommendation results
 function displayRecommendation(recommendation) {
-  // Create or update the recommendation result section
-  const resultSection = document.getElementById('recommendationResult') || 
-                       createRecommendationSection();
+  // Get the result card
+  const resultCard = document.getElementById('resultCard');
+  resultCard.style.display = 'block';
   
   // Format currency values
   const formatCurrency = new Intl.NumberFormat('en-US', {
@@ -327,41 +325,68 @@ function displayRecommendation(recommendation) {
   
   // Get original price for comparison
   const originalPrice = parseFloat(document.getElementById('actualPrice').value);
-  const recommendedPrice = recommendation.predicted_price;
-  const priceDifference = recommendedPrice - originalPrice;
-  const percentChange = (priceDifference / originalPrice) * 100;
   
-  // Build HTML for the result
-  resultSection.innerHTML = `
-    <h3>Price Recommendation</h3>
-    <div class="result-item">
-      <strong>Recommended Price:</strong> ${formatCurrency.format(recommendedPrice)}
-    </div>
-    <div class="result-item">
-      <strong>Suggested Price Range:</strong> 
-      ${formatCurrency.format(recommendedPrice * 0.95)} - ${formatCurrency.format(recommendedPrice * 1.05)}
-    </div>
-    <div class="result-item">
-      <strong>Price Change:</strong> 
-      <span class="${priceDifference >= 0 ? 'positive' : 'negative'}">
-        ${priceDifference >= 0 ? '+' : ''}${formatCurrency.format(priceDifference)} 
-        (${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(2)}%)
-      </span>
-    </div>
-    <div class="result-item">
-      <strong>Model Used:</strong> ${recommendation.model_info || "DQN"}
-    </div>
-    <div class="charts">
-      <div id="priceChart" class="chart-container"></div>
-    </div>
+  // Extract values from API response with proper key names
+  const recommendedPrice = recommendation.recommended_price;
+  const minPrice = recommendation.min_price;
+  const maxPrice = recommendation.max_price;
+  const elasticity = recommendation.elasticity;
+  const explanation = recommendation.explanation;
+  
+  // Calculate price difference
+  const priceDifference = originalPrice ? (recommendedPrice - originalPrice) : 0;
+  const percentChange = originalPrice ? ((priceDifference / originalPrice) * 100) : 0;
+  
+  // Update the display elements
+  document.getElementById('recommendedPrice').textContent = formatCurrency.format(recommendedPrice);
+  document.getElementById('priceRange').textContent = `Competitive price range: ${formatCurrency.format(minPrice)} - ${formatCurrency.format(maxPrice)}`;
+  
+  // Create detailed explanation text
+  let detailedExplanation = `
+    <p><strong>Elasticity:</strong> ${elasticity}</p>
   `;
   
-  // Show the result section
-  resultSection.style.display = 'block';
+  // Only add price change if originalPrice exists
+  if (originalPrice) {
+    detailedExplanation += `
+      <p><strong>Price Change:</strong> 
+        <span class="${priceDifference >= 0 ? 'positive' : 'negative'}">
+          ${priceDifference >= 0 ? '+' : ''}${formatCurrency.format(priceDifference)} 
+          (${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(2)}%)
+        </span>
+      </p>
+    `;
+  }
   
-  // Render a simple chart if Chart.js is available
-  if (typeof Chart !== 'undefined') {
-    renderPriceComparisonChart(recommendedPrice);
+  // Add the API explanation
+  detailedExplanation += `<p>${explanation}</p>`;
+  
+  // Add competitor price comparison if available
+  const competitorPrice = parseFloat(document.getElementById('competitorPrice').value);
+  if (!isNaN(competitorPrice) && competitorPrice > 0) {
+    const competitiveDiff = recommendedPrice - competitorPrice;
+    const competitivePercent = (competitiveDiff / competitorPrice) * 100;
+    
+    detailedExplanation += `
+      <p><strong>Competitor Comparison:</strong> 
+        <span class="${competitiveDiff >= 0 ? 'positive' : 'negative'}">
+          ${competitiveDiff >= 0 ? '+' : ''}${formatCurrency.format(competitiveDiff)} 
+          (${competitivePercent >= 0 ? '+' : ''}${competitivePercent.toFixed(2)}%)
+        </span>
+      </p>
+    `;
+  }
+  
+  // Update the explanation text
+  document.getElementById('priceExplanation').innerHTML = detailedExplanation;
+  
+  // Update styling based on elasticity
+  if (elasticity === "high") {
+    resultCard.className = 'result-card high-elasticity';
+  } else if (elasticity === "low") {
+    resultCard.className = 'result-card low-elasticity';
+  } else {
+    resultCard.className = 'result-card medium-elasticity';
   }
 }
 

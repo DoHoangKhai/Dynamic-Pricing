@@ -252,25 +252,83 @@ body {
 }
 
 .result-card {
-    background-color: #f8f9fa;
-    border: 1px solid #e0e0e0;
+    background-color: #fff;
     border-radius: 8px;
-    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     margin-top: 20px;
+    padding: 20px;
     display: none;
+    transition: all 0.3s ease;
+}
+
+.result-card h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.5rem;
 }
 
 .price-recommendation {
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 15px 0;
     color: #2d7bf8;
-    margin-top: 10px;
 }
 
 .price-range {
-    font-size: 14px;
+    font-size: 1.1rem;
     color: #555;
-    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.price-explanation {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #666;
+}
+
+.price-explanation p {
+    margin: 8px 0;
+}
+
+.high-elasticity .price-recommendation {
+    color: #f86b6b; /* Red for price-sensitive */
+}
+
+.medium-elasticity .price-recommendation {
+    color: #ffbe0b; /* Yellow for neutral elasticity */
+}
+
+.low-elasticity .price-recommendation {
+    color: #2d9f6c; /* Green for premium pricing */
+}
+
+.positive {
+    color: #2d9f6c;
+}
+
+.negative {
+    color: #f86b6b;
+}
+
+/* Elasticity indicators */
+.elasticity-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.high-elasticity .elasticity-indicator {
+    background-color: #f86b6b;
+}
+
+.medium-elasticity .elasticity-indicator {
+    background-color: #ffbe0b;
+}
+
+.low-elasticity .elasticity-indicator {
+    background-color: #2d9f6c;
 }
 
 .tab-container {

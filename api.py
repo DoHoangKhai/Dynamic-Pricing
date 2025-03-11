@@ -7,14 +7,22 @@ from RL_env1 import make_env
 
 app = Flask(__name__)
 
-# Load the model once at startup
+# Global variable to store the loaded model
 MODEL = None
+
+# Try to load the model at startup
 try:
-    MODEL = DQN.load("dynamic_pricing_dqn")
-    print("Model loaded successfully at startup")
+    # Use the absolute path to the model file
+    model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dynamic_pricing_dqn.zip")
+    if os.path.exists(model_path):
+        MODEL = DQN.load(model_path)
+        print(f"Model loaded successfully at startup from {model_path}")
+    else:
+        print(f"Model file not found at {model_path}")
+        print("Will attempt to load model on first request")
 except Exception as e:
-    print(f"Warning: Could not load model at startup: {e}")
-    # We'll try to load again when needed
+    print(f"Could not load model at startup: {e}")
+    print("Will attempt to load model on first request")
 
 # Map product types to indices
 PRODUCT_TYPE_MAP = {
@@ -29,16 +37,13 @@ PRODUCT_TYPE_MAP = {
     "Health&PersonalCare": 8
 }
 
-# Create a flattened list of all product groups
-ALL_PRODUCT_GROUPS = []
+# Map product groups to their respective product types
 PRODUCT_GROUP_MAP = {
     "Computers&Accessories": [
-      "Mice", "GraphicTablets", "Lapdesks", "NotebookComputerStands", "Keyboards",
-      "Keyboard&MouseSets", "ExternalHardDisks", "DustCovers", "GamingMice", "MousePads",
-      "HardDiskBags", "NetworkingDevices", "Routers", "Monitors", "Gamepads",
-      "USBHubs", "PCMicrophones", "LaptopSleeves&Slipcases", "ExternalMemoryCardReaders",
-      "EthernetCables", "Memory", "UninterruptedPowerSupplies", "Cases", "SecureDigitalCards",
-      "Webcams", "CoolingPads", "LaptopAccessories", "InternalSolidStateDrives",
+      "GamingLaptops", "Keyboards", "Mouse", "MousePads", "Monitors", "GraphicsCards",
+      "ExternalHardDrives", "NetworkingDevices", "RAMs", "Routers", "WirelessAccessPoint",
+      "USBFlashDrives", "CPUs", "Motherboards", "PCCasings", "Barebone", "PowerSupplies",
+      "SoundCards", "WiredNetworkAdapters", "Webcams", "CoolingPads", "LaptopAccessories", "InternalSolidStateDrives",
       "MultimediaSpeakerSystems", "DataCards&Dongles", "LaptopChargers&PowerSupplies",
       "PCSpeakers", "InternalHardDrives", "Printers", "SATACables", "PCHeadsets",
       "GamingKeyboards", "ExternalSolidStateDrives", "PowerLANAdapters", "Caddies",
@@ -97,7 +102,49 @@ PRODUCT_GROUP_MAP = {
     "Health&PersonalCare": ["Scientific"]
 }
 
+# Define elasticity values for product groups (example values)
+PRODUCT_GROUP_ELASTICITY = {
+    "Computers&Accessories": {
+        "GamingLaptops": 0.8,      # Less elastic - premium product
+        "TraditionalLaptops": 1.2,  # More elastic - more competition
+        "Mouse": 1.4,               # More elastic - commodity item
+        "Keyboards": 1.3,           # More elastic - commodity item
+        "Monitors": 1.1,            # Moderate elasticity
+        "ExternalHardDrives": 1.2,  # More elastic
+        "InternalSolidStateDrives": 0.9, # Less elastic - specialty item
+        "GraphicsCards": 0.7,       # Low elasticity - specialized hardware
+    },
+    "Electronics": {
+        "SmartTelevisions": 1.1,    # Moderate elasticity
+        "Smartphones": 0.9,         # Less elastic - premium devices
+        "PowerBanks": 1.3,          # More elastic - commodity
+        "BluetoothSpeakers": 1.2,   # More elastic
+        "Tablets": 1.0,             # Neutral elasticity
+        "Headsets": 1.1             # Moderate elasticity
+    },
+    "Home&Kitchen": {
+        "AirFryers": 1.2,           # More elastic - competitive market
+        "ElectricKettles": 1.4,     # More elastic - commodity
+        "RoboticVacuums": 0.8,      # Less elastic - premium product
+        "CeilingFans": 1.0          # Neutral elasticity
+    }
+}
+
+# Default elasticity for product types
+PRODUCT_TYPE_ELASTICITY = {
+    "Computers&Accessories": 1.1,
+    "Electronics": 1.0,
+    "MusicalInstruments": 0.8,
+    "OfficeProducts": 1.3,
+    "Home&Kitchen": 1.2,
+    "HomeImprovement": 1.1,
+    "Toys&Games": 1.0,
+    "Car&Motorbike": 0.9,
+    "Health&PersonalCare": 0.8
+}
+
 # Flatten all product groups
+ALL_PRODUCT_GROUPS = []
 for product_type, groups in PRODUCT_GROUP_MAP.items():
     for group in groups:
         if group not in ALL_PRODUCT_GROUPS:
@@ -105,6 +152,45 @@ for product_type, groups in PRODUCT_GROUP_MAP.items():
 
 # Create a map of product group to index
 PRODUCT_GROUP_INDEX_MAP = {group: idx for idx, group in enumerate(ALL_PRODUCT_GROUPS)}
+
+def get_elasticity(product_type, product_group):
+    """Calculate elasticity based on product type and group"""
+    # If we have specific elasticity for this product group
+    if (product_type in PRODUCT_GROUP_ELASTICITY and 
+        product_group in PRODUCT_GROUP_ELASTICITY[product_type]):
+        return PRODUCT_GROUP_ELASTICITY[product_type][product_group]
+    
+    # Otherwise use the product type elasticity
+    if product_type in PRODUCT_TYPE_ELASTICITY:
+        return PRODUCT_TYPE_ELASTICITY[product_type]
+    
+    # Default elasticity
+    return 1.0
+
+def get_price_ranges(elasticity, base_price):
+    """Calculate price ranges based on elasticity"""
+    if elasticity > 1.2:  # High elasticity - price sensitive
+        min_price = base_price * 0.7
+        max_price = base_price * 0.9
+        optimal_price = base_price * 0.8
+        sensitivity = "Price sensitive"
+    elif elasticity < 0.8:  # Low elasticity - price insensitive
+        min_price = base_price * 0.9
+        max_price = base_price * 1.3
+        optimal_price = base_price * 1.2
+        sensitivity = "Premium pricing"
+    else:  # Medium elasticity - neutral
+        min_price = base_price * 0.8
+        max_price = base_price * 1.1
+        optimal_price = base_price
+        sensitivity = "Balanced pricing"
+    
+    return {
+        "min_price": round(min_price, 2),
+        "max_price": round(max_price, 2),
+        "optimal_price": round(optimal_price, 2),
+        "sensitivity": sensitivity
+    }
 
 @app.route('/api/predict-price', methods=['POST'])
 def predict_price():
@@ -117,75 +203,100 @@ def predict_price():
     try:
         data = request.json
         
+        # Print received data for debugging
+        print("Received data:", data)
+        
         # Try to load model if not already loaded
         if MODEL is None:
             try:
-                print("Attempting to load model...")  # Debug log
-                MODEL = DQN.load("dynamic_pricing_dqn")
-                print("Model loaded successfully")  # Debug log
+                print("Attempting to load model...")
+                model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dynamic_pricing_dqn.zip")
+                MODEL = DQN.load(model_path)
+                print("Model loaded successfully")
             except Exception as e:
-                print(f"Error loading model: {e}")  # Debug log
+                print(f"Error loading model: {e}")
                 return jsonify({"error": f"Failed to load model: {e}"}), 500
         
-        # Create the environment to get observation space
-        env = make_env()
-        
         # Extract features from the request
-        product_type = data.get('productType')
-        product_group = data.get('productGroup')
+        # Match the exact field names as sent from frontend
+        product_type = data.get('productType', '')
+        product_group = data.get('productGroup', '')
         
-        # Prepare numerical features
-        numerical_features = np.array([
-            float(data.get('discountedPrice', 0)),
-            float(data.get('actualPrice', 0)),
-            float(data.get('discountPercentage', 0)) / 100,  # Convert to decimal
-            float(data.get('rating', 0)),
-            float(data.get('averagePrice', 0)),
-            float(data.get('averageShippingValue', 0)),
-            float(data.get('numberOfOrders', 0)),
-            float(data.get('competitorPrice', 0))
-        ], dtype=np.float32)
+        # Get elasticity
+        elasticity = get_elasticity(product_type, product_group)
         
-        # One-hot encode product type (9 dimensions)
-        product_type_idx = PRODUCT_TYPE_MAP.get(product_type, 0)
-        product_type_onehot = np.zeros(9, dtype=np.float32)
-        product_type_onehot[product_type_idx] = 1
+        # Derive PPI (Price Position Index) - simplified for now
+        actual_price = float(data.get('actualPrice', 0))
+        competitor_price = float(data.get('competitorPrice', 0))
         
-        # One-hot encode product group (207 dimensions)
-        product_group_idx = PRODUCT_GROUP_INDEX_MAP.get(product_group, 0)
-        product_group_onehot = np.zeros(207, dtype=np.float32)
-        if product_group in PRODUCT_GROUP_INDEX_MAP and product_group_idx < 207:
-            product_group_onehot[product_group_idx] = 1
+        ppi = 1.0
+        if competitor_price > 0:
+            ppi = actual_price / competitor_price
         
-        # Combine all features
-        features = np.concatenate([
-            numerical_features,
-            product_type_onehot,
-            product_group_onehot
-        ])
+        # Get rating and number of orders
+        rating = float(data.get('rating', 4.0))
+        num_orders = float(data.get('numberOfOrders', 0))
         
-        # Add sales history feature (making it 225 dimensions total as in test.py)
-        features = np.append(features, 0).astype(np.float32)
+        print(f"Processing with: elasticity={elasticity}, ppi={ppi}, rating={rating}, num_orders={num_orders}")
         
-        # Ensure feature vector has correct shape
-        expected_shape = env.observation_space.shape
-        if features.shape != expected_shape:
-            if len(features) < expected_shape[0]:
-                features = np.pad(features, (0, expected_shape[0] - len(features)))
-            elif len(features) > expected_shape[0]:
-                features = features[:expected_shape[0]]
+        # Create environment with our custom parameters
+        env = make_env(
+            elasticity=elasticity,
+            ppi=ppi,
+            rating=rating,
+            num_orders=num_orders
+        )
+        
+        # Get initial observation
+        observation = env.reset()
         
         # Make prediction
-        action, _ = MODEL.predict(features, deterministic=True)
+        action, _ = MODEL.predict(observation, deterministic=True)
         
-        # Convert action to price (assuming action maps to price as in test.py)
-        predicted_price = 10 + (action * 10)  # Map action to price (10, 20, ..., 500)
+        # Convert action to price (assuming action maps to price as in environment)
+        base_price = env.min_price + (action * env.price_step)
         
-        return jsonify({
-            "predicted_price": float(predicted_price),
-            "model_info": "DQN RL model",
-            "action_index": int(action)
-        })
+        # Get price ranges based on elasticity
+        price_ranges = get_price_ranges(elasticity, base_price)
+        
+        # Generate explanation based on elasticity
+        if elasticity > 1.2:
+            explanation = "This product has high price elasticity, making it price-sensitive. We recommend competitive pricing to maximize sales volume."
+            elasticity_category = "high"
+        elif elasticity < 0.8:
+            explanation = "This product has low price elasticity, suggesting premium positioning. You can prioritize higher margins with less impact on demand."
+            elasticity_category = "low"
+        else:
+            explanation = "This product has moderate price elasticity. We recommend balanced pricing that considers both competitive positioning and profit margins."
+            elasticity_category = "medium"
+            
+        # Calculate price change percentage from current price
+        price_change_pct = ((price_ranges["optimal_price"] - actual_price) / actual_price) * 100 if actual_price > 0 else 0
+        
+        # Compare with competitor
+        competitor_comparison = "lower than" if price_ranges["optimal_price"] < competitor_price else "higher than"
+        if abs(price_ranges["optimal_price"] - competitor_price) < 0.05 * competitor_price:
+            competitor_comparison = "comparable to"
+        
+        # Create comprehensive explanation
+        comprehensive_explanation = (
+            f"{explanation} The recommended price of ${price_ranges['optimal_price']} is "
+            f"{abs(round(price_change_pct, 1))}% {'higher' if price_change_pct > 0 else 'lower'} than your current price "
+            f"and {competitor_comparison} your competitor's price of ${competitor_price}."
+        )
+        
+        # Prepare response
+        response = {
+            "recommended_price": price_ranges["optimal_price"],
+            "min_price": price_ranges["min_price"],
+            "max_price": price_ranges["max_price"],
+            "elasticity": elasticity_category,
+            "explanation": comprehensive_explanation,
+            "model_info": "Enhanced DQN Model with Elasticity Awareness"
+        }
+        
+        print("Sending response:", response)
+        return jsonify(response)
         
     except Exception as e:
         import traceback
