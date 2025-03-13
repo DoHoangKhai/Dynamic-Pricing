@@ -68,18 +68,24 @@ const productGroupMap = {
 
 // Switch between tabs
 function switchTab(tabName) {
-  const tabs = document.querySelectorAll('.tab');
+  // Remove active class from all tab buttons
+  const tabButtons = document.querySelectorAll('.tab-button');
+  tabButtons.forEach(button => button.classList.remove('active'));
+  
+  // Hide all tab contents
   const tabContents = document.querySelectorAll('.tab-content');
+  tabContents.forEach(content => content.classList.remove('active'));
   
-  tabs.forEach(tab => tab.classList.remove('active'));
-  tabContents.forEach(content => content.classList.add('hidden'));
+  // Add active class to selected tab button and show corresponding content
+  const selectedButton = document.querySelector(`.tab-button[onclick="switchTab('${tabName}')"]`);
+  if (selectedButton) {
+    selectedButton.classList.add('active');
+  }
   
-  if (tabName === 'dashboard') {
-    document.getElementById('dashboard-tab').classList.remove('hidden');
-    document.querySelector('.tab:nth-child(1)').classList.add('active');
-  } else if (tabName === 'pricing') {
-    document.getElementById('pricing-tab').classList.remove('hidden');
-    document.querySelector('.tab:nth-child(2)').classList.add('active');
+  // Show the selected tab content
+  const selectedContent = document.getElementById(tabName);
+  if (selectedContent) {
+    selectedContent.classList.add('active');
   }
 }
 
@@ -438,6 +444,409 @@ function renderPriceComparisonChart(recommendedPrice) {
     }
   });
 }
+
+// Function to calculate optimal price
+function calculatePrice() {
+    // Get input values
+    const productType = document.getElementById('productType').value;
+    const productGroup = document.getElementById('productGroup').value;
+    const asin = document.getElementById('asin').value;
+    const actualPrice = parseFloat(document.getElementById('actualPrice').value);
+    const competitorPrice = parseFloat(document.getElementById('competitorPrice').value);
+    const rating = parseFloat(document.getElementById('rating').value);
+    const numberOfOrders = parseInt(document.getElementById('numberOfOrders').value);
+    
+    // Validate inputs
+    if (isNaN(actualPrice) || isNaN(competitorPrice) || isNaN(rating) || isNaN(numberOfOrders)) {
+        alert('Please enter valid numbers for price, rating, and orders.');
+        return;
+    }
+    
+    // Show loading state
+    document.getElementById('calculateButton').textContent = 'Calculating...';
+    document.getElementById('calculateButton').disabled = true;
+    
+    // Make API request
+    fetch('/api/predict-price', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            productType: productType,
+            productGroup: productGroup,
+            asin: asin,
+            actualPrice: actualPrice,
+            competitorPrice: competitorPrice,
+            rating: rating,
+            numberOfOrders: numberOfOrders
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Update UI with results
+        document.getElementById('recommendedPrice').textContent = `$${data.recommendedPrice.toFixed(2)}`;
+        document.getElementById('minPrice').textContent = `$${data.minPrice.toFixed(2)}`;
+        document.getElementById('maxPrice').textContent = `$${data.maxPrice.toFixed(2)}`;
+        document.getElementById('elasticityCategory').textContent = data.elasticityCategory;
+        document.getElementById('explanation').textContent = data.explanation;
+        document.getElementById('ratingImpact').textContent = `${data.ratingImpact}%`;
+        document.getElementById('orderImpact').textContent = `${data.orderImpact}%`;
+        document.getElementById('marketImpact').textContent = `${data.marketImpact}%`;
+        
+        // Show market insights if available
+        if (data.marketInsights) {
+            document.getElementById('marketInsightsSection').classList.remove('hidden');
+            document.getElementById('priceTrend').textContent = data.marketInsights.priceTrend;
+            document.getElementById('priceVolatility').textContent = `${data.marketInsights.priceVolatility.toFixed(1)}%`;
+            document.getElementById('marketPosition').textContent = data.marketInsights.marketPosition;
+            document.getElementById('sentimentScore').textContent = data.marketInsights.sentimentScore.toFixed(2);
+            
+            // Add classes based on price trend
+            document.getElementById('priceTrend').className = `trend-${data.marketInsights.priceTrend}`;
+        } else {
+            document.getElementById('marketInsightsSection').classList.add('hidden');
+        }
+        
+        // Show results
+        document.getElementById('resultsContent').classList.remove('hidden');
+        document.getElementById('noResults').classList.add('hidden');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error calculating price. See console for details.');
+    })
+    .finally(() => {
+        // Reset button
+        document.getElementById('calculateButton').textContent = 'Calculate Optimal Price';
+        document.getElementById('calculateButton').disabled = false;
+    });
+}
+
+// Initialize charts when the DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Update product groups based on initial product type
+    updateProductGroups();
+    
+    // Initialize revenue chart
+    const revenueChartCtx = document.getElementById('revenueChart').getContext('2d');
+    new Chart(revenueChartCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Monthly Revenue',
+                data: [28500, 32400, 35200, 42100, 43250, 48352],
+                borderColor: '#2c7be5',
+                backgroundColor: 'rgba(44, 123, 229, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return '$' + value.toLocaleString();
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // Initialize sales chart
+    const salesChartCtx = document.getElementById('salesChart').getContext('2d');
+    new Chart(salesChartCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Total Sales',
+                data: [856, 932, 978, 1054, 1150, 1245],
+                backgroundColor: '#00d97e',
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+
+// Function to format currency
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    }).format(amount);
+}
+
+// Function to refresh market data
+function refreshMarketData() {
+    const asin = document.getElementById('marketProductAsin').value.trim();
+    
+    if (!asin) {
+        alert('Please enter a valid product ASIN');
+        return;
+    }
+    
+    // Show loading state
+    document.getElementById('refreshMarketDataBtn').textContent = 'Refreshing...';
+    document.getElementById('refreshMarketDataBtn').disabled = true;
+    
+    // Call the API to refresh market data
+    fetch(`/api/market-data/refresh?asin=${asin}`, {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Update status indicators
+        document.getElementById('bestSellersStatus').textContent = data.bestSellersStatus || 'Not Collected';
+        document.getElementById('productDetailsStatus').textContent = data.productDetailsStatus || 'Not Collected';
+        document.getElementById('reviewsStatus').textContent = data.reviewsStatus || 'Not Collected';
+        document.getElementById('dealsStatus').textContent = data.dealsStatus || 'Not Collected';
+        
+        // Show success message
+        alert('Market data refreshed successfully');
+    })
+    .catch(error => {
+        console.error('Error refreshing market data:', error);
+        alert('Error refreshing market data. See console for details.');
+    })
+    .finally(() => {
+        // Reset button
+        document.getElementById('refreshMarketDataBtn').textContent = 'Refresh Market Data';
+        document.getElementById('refreshMarketDataBtn').disabled = false;
+    });
+}
+
+// Function to analyze product
+function analyzeProduct() {
+    const asin = document.getElementById('marketProductAsin').value.trim();
+    
+    if (!asin) {
+        alert('Please enter a valid product ASIN');
+        return;
+    }
+    
+    // Show loading state
+    document.getElementById('analyzeProductBtn').textContent = 'Analyzing...';
+    document.getElementById('analyzeProductBtn').disabled = true;
+    
+    // Call the API to analyze the product
+    fetch(`/api/market-data/analyze?asin=${asin}`, {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Update price trend chart
+        updatePriceTrendChart(data.priceTrend);
+        
+        // Update sentiment chart
+        updateSentimentChart(data.sentimentData);
+        
+        // Update market position
+        document.getElementById('pricePosition').textContent = data.pricePosition || 'Average';
+        document.getElementById('pricePosition').className = `value status-${(data.pricePosition || 'average').toLowerCase().replace(' ', '-')}`;
+        document.getElementById('competitiveIndex').textContent = `${data.competitiveIndex || '65'}/100`;
+        document.getElementById('pricePercentile').textContent = `${data.pricePercentile || '50'}%`;
+        document.getElementById('priceVolatilityValue').textContent = data.priceVolatility || 'Medium';
+        
+        // Update report date
+        document.getElementById('reportDate').textContent = `Generated: ${new Date().toLocaleString()}`;
+        
+        // Update market summary content
+        const summaryContent = document.getElementById('marketSummaryContent');
+        if (data.summary) {
+            summaryContent.innerHTML = `
+                <div class="market-summary">
+                    <h4>Market Overview</h4>
+                    <p>${data.summary.overview || 'No overview available'}</p>
+                    
+                    <div class="summary-stats">
+                        <div class="stat">
+                            <span>Average Price</span>
+                            <span class="value">${formatCurrency(data.summary.averagePrice || 0)}</span>
+                        </div>
+                        <div class="stat">
+                            <span>Price Range</span>
+                            <span class="value">${formatCurrency(data.summary.minPrice || 0)} - ${formatCurrency(data.summary.maxPrice || 0)}</span>
+                        </div>
+                        <div class="stat">
+                            <span>Your Position</span>
+                            <span class="value">${data.summary.pricePosition || 'Average'}</span>
+                        </div>
+                        <div class="stat">
+                            <span>Market Size</span>
+                            <span class="value">${data.summary.marketSize || 'Medium'}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="deals-summary">
+                    <h4>Deals Activity</h4>
+                    <p>${data.summary.dealsOverview || 'No deals data available'}</p>
+                    
+                    <div class="trend-stats">
+                        <div class="trend-stat">
+                            <span>Price Trend</span>
+                            <span class="value trend-${data.summary.priceTrend || 'stable'}">${data.summary.priceTrend || 'Stable'}</span>
+                        </div>
+                        <div class="trend-stat">
+                            <span>Deal Frequency</span>
+                            <span class="value">${data.summary.dealFrequency || 'Low'}</span>
+                        </div>
+                        <div class="trend-stat">
+                            <span>Average Discount</span>
+                            <span class="value">${data.summary.averageDiscount || '0'}%</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            summaryContent.innerHTML = `<p class="no-data-message">No market summary data available.</p>`;
+        }
+    })
+    .catch(error => {
+        console.error('Error analyzing product:', error);
+        alert('Error analyzing product. See console for details.');
+    })
+    .finally(() => {
+        // Reset button
+        document.getElementById('analyzeProductBtn').textContent = 'Analyze Product';
+        document.getElementById('analyzeProductBtn').disabled = false;
+    });
+}
+
+// Function to update price trend chart
+function updatePriceTrendChart(trendData) {
+    // If trendData is not provided, use dummy data
+    const data = trendData || {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        values: [149.99, 159.99, 154.99, 149.99, 144.99, 139.99]
+    };
+    
+    const ctx = document.getElementById('priceTrendChart').getContext('2d');
+    
+    // Clear any existing chart
+    if (window.priceTrendChart) {
+        window.priceTrendChart.destroy();
+    }
+    
+    // Create new chart
+    window.priceTrendChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                label: 'Product Price',
+                data: data.values,
+                borderColor: '#2c7be5',
+                backgroundColor: 'rgba(44, 123, 229, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    ticks: {
+                        callback: function(value) {
+                            return '$' + value.toLocaleString();
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Function to update sentiment chart
+function updateSentimentChart(sentimentData) {
+    // If sentimentData is not provided, use dummy data
+    const data = sentimentData || {
+        labels: ['Positive', 'Neutral', 'Negative'],
+        values: [65, 25, 10]
+    };
+    
+    const ctx = document.getElementById('sentimentChart').getContext('2d');
+    
+    // Clear any existing chart
+    if (window.sentimentChart) {
+        window.sentimentChart.destroy();
+    }
+    
+    // Create new chart
+    window.sentimentChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                data: data.values,
+                backgroundColor: [
+                    '#00d97e',  // Positive - green
+                    '#95aac9',  // Neutral - gray
+                    '#e63757'   // Negative - red
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right'
+                }
+            }
+        }
+    });
+}
+
+// Initialize charts with dummy data on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the existing charts in the Overview tab
+    
+    // Initialize market analysis charts with dummy data
+    // These will be updated with real data when the user clicks Analyze Product
+    setTimeout(() => {
+        if (document.getElementById('priceTrendChart')) {
+            updatePriceTrendChart();
+        }
+        if (document.getElementById('sentimentChart')) {
+            updateSentimentChart();
+        }
+    }, 1000);
+});
 
 
 

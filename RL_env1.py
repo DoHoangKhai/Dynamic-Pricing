@@ -15,13 +15,15 @@ class DynamicPricingEnv(gym.Env):
         # Price range and step size
         self.min_price = min_price
         self.max_price = max_price
-        self.price_step = 10
         
-        # Number of discrete price levels
-        num_prices = int((max_price - min_price) / self.price_step) + 1
+        # Number of discrete price levels - match the prototype environment
+        self.n_price_levels = 21
+        
+        # Calculate price step based on range and levels
+        self.price_step = (max_price - min_price) / (self.n_price_levels - 1)
         
         # Define action space (discrete price levels)
-        self.action_space = spaces.Discrete(num_prices)
+        self.action_space = spaces.Discrete(self.n_price_levels)
         
         # Basic market parameters
         self.demand_intercept = demand_intercept
@@ -41,25 +43,24 @@ class DynamicPricingEnv(gym.Env):
         self.price_history = np.zeros(3)  # Track last 3 prices
         
         # Create observation space with correct dimensions to match prototype environment
-        # Product type one-hot (9) + Product group one-hot (207) + Basic features (9) + 
-        # Competitor features (4) + Price history (3) + PPI categories (5)
-        total_obs_dim = 9 + 207 + 9 + 4 + 3 + 5
+        # The prototype model expects exactly 251 dimensions
         self.observation_space = spaces.Box(
-            low=-10.0, high=10.0, shape=(total_obs_dim,), dtype=np.float32
+            low=-10.0, high=10.0, shape=(251,), dtype=np.float32
         )
         
     def _get_initial_state(self):
         """Generate the initial state observation"""
-        # Create a zero-filled array for the state
-        state = np.zeros(self.observation_space.shape[0], dtype=np.float32)
+        # Create a zero-filled array for the state with 251 dimensions
+        state = np.zeros(251, dtype=np.float32)
         
-        # Set default values for product type (first type in one-hot encoding)
-        state[9] = 1.0  # First product type
+        # For compatibility with the prototype model, keep the same structure:
+        # First 9 indices: Product type one-hot encoding
+        state[0] = 1.0  # First product type
         
-        # Set default values for product group (first group in one-hot encoding)
-        state[9 + 207] = 1.0  # First product group
+        # Next 207 indices: Product group one-hot encoding
+        state[9] = 1.0  # First product group
         
-        # Set default values for basic features
+        # Next 9 indices: Basic features
         basic_feat_start = 9 + 207
         state[basic_feat_start] = (self.rating - 1) / 4  # Normalized rating (1-5)
         state[basic_feat_start + 1] = (self.ppi - 0.5) / 1.0  # Normalized PPI (0.5-1.5)
@@ -84,18 +85,20 @@ class DynamicPricingEnv(gym.Env):
         # Default value for pages
         state[basic_feat_start + 8] = 0.5  # Mid-range for pages
         
-        # Initialize competitor features
+        # Next 4 indices: Competitor features
         comp_start = basic_feat_start + 9
         state[comp_start:comp_start+4] = 0.5  # Neutral competitor values
         
-        # Initialize price history
+        # Next 3 indices: Price history
         hist_start = comp_start + 4
         state[hist_start:hist_start+3] = 0.5  # Neutral price history
         
-        # Initialize PPI categories (one-hot)
+        # Next 5 indices: PPI categories (one-hot)
         ppi_start = hist_start + 3
         # Default to middle PPI category
         state[ppi_start + 2] = 1.0
+        
+        # Ensure the rest of the state array is zero-filled
         
         return state
 
@@ -121,9 +124,19 @@ class DynamicPricingEnv(gym.Env):
         # Convert action to price
         price = self.min_price + action * self.price_step
         
-        # Calculate demand using an elasticity-influenced demand curve
+        # Calculate demand using an elasticity-influenced demand curve with rating and orders influence
         # Higher elasticity means more sensitive to price changes
-        base_demand = self.demand_intercept - self.demand_slope * price * self.elasticity
+        # Higher rating increases base demand
+        # Higher number of orders indicates product popularity and increases demand
+        
+        # Rating factor: 0.85 to 1.35 scale based on rating (1-5) - reduced influence
+        rating_factor = 0.85 + (self.rating - 1) * 0.125  # Changed from 0.175 to 0.125
+        
+        # Order popularity factor: 0.9 to 1.1 scale based on number of orders (0-200) - significantly reduced influence
+        order_factor = 0.9 + min(200, self.num_orders) / 1000  # Changed from 400 to 1000
+        
+        # Apply factors to base demand
+        base_demand = self.demand_intercept * rating_factor * order_factor - self.demand_slope * price * self.elasticity
         noise = np.random.normal(0, self.noise_std)
         actual_demand = max(0, base_demand + noise)
         
@@ -137,8 +150,14 @@ class DynamicPricingEnv(gym.Env):
         # Calculate profit
         profit = revenue - total_cost
         
-        # Calculate reward (profit)
-        reward = profit
+        # Calculate reward (profit) with quality and popularity bonuses
+        # Products with higher ratings can command a premium, incentivizing higher prices for quality products
+        # Products with more orders get a smaller bonus to encourage volume-based pricing strategies
+        rating_bonus = profit * (self.rating / 5) * 0.15  # Reduced from 0.2 to 0.15
+        order_bonus = profit * (min(200, self.num_orders) / 200) * 0.05  # Reduced from 0.15 to 0.05
+        
+        # Calculate final reward with bonuses
+        reward = profit + rating_bonus + order_bonus
         
         # Update step counter
         self.step_count += 1
@@ -163,7 +182,11 @@ class DynamicPricingEnv(gym.Env):
             'demand': actual_demand,
             'profit': profit,
             'revenue': revenue,
-            'cost': total_cost
+            'cost': total_cost,
+            'rating_factor': rating_factor,
+            'order_factor': order_factor,
+            'rating_bonus': rating_bonus,
+            'order_bonus': order_bonus
         }
         
         # Return state, reward, done, and info

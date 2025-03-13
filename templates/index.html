@@ -3,71 +3,228 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>E-commerce Dashboard</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>Dynamic Pricing Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <div class="logo">
-        <div class="logo-icon">D</div>
-        <span>Dashboard</span>
-      </div>
+    <header>
+      <h1>Dynamic Pricing Dashboard</h1>
       <div class="user-profile">
-        <span>John Smith</span>
-        <div class="user-avatar">JS</div>
+        <span class="user-name">Admin User</span>
+        <span class="user-role">Admin</span>
       </div>
-    </div>
-    
-    <div class="tab-container">
-      <div class="tab active" onclick="switchTab('dashboard')">Overview</div>
-      <div class="tab" onclick="switchTab('pricing')">Pricing Tool</div>
-    </div>
-    
-    <div id="dashboard-tab" class="tab-content">
+    </header>
+
+    <nav class="tabs">
+      <button class="tab-button active" onclick="switchTab('overview')">Overview</button>
+      <button class="tab-button" onclick="switchTab('pricingTool')">Pricing Tool</button>
+      <button class="tab-button" onclick="switchTab('marketAnalysis')">Market Analysis</button>
+    </nav>
+
+    <div id="overview" class="tab-content active">
       <div class="dashboard-grid">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Monthly Revenue</h3>
-            <div class="card-icon blue-bg">$</div>
+            <h3>Monthly Revenue</h3>
+            <span class="icon">📈</span>
           </div>
-          <div class="chart-container">
+          <div class="card-content">
+            <h2>$48,352</h2>
+            <p class="trend positive">+12.5% from last month</p>
             <canvas id="revenueChart"></canvas>
           </div>
         </div>
-        
+
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Total Sales</h3>
-            <div class="card-icon pink-bg">S</div>
+            <h3>Total Sales</h3>
+            <span class="icon">🛒</span>
           </div>
-          <div class="chart-container">
+          <div class="card-content">
+            <h2>1,245</h2>
+            <p class="trend positive">+8.3% from last month</p>
             <canvas id="salesChart"></canvas>
           </div>
         </div>
-        
+
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Your Goals</h3>
-            <div class="card-icon yellow-bg">G</div>
+            <h3>User Goals</h3>
+            <span class="icon">🎯</span>
           </div>
-          <div>
-            <h4>Upgrade your accounts</h4>
+          <div class="card-content">
             <div class="progress-container">
+              <label>Monthly Revenue</label>
               <div class="progress-bar">
-                <div class="progress-fill blue-bg" style="width: 65%"></div>
+                <div class="progress" style="width: 80%;"></div>
+              </div>
+              <span>80%</span>
+            </div>
+            <div class="progress-container">
+              <label>New Customers</label>
+              <div class="progress-bar">
+                <div class="progress" style="width: 65%;"></div>
               </div>
               <span>65%</span>
             </div>
+            <div class="progress-container">
+              <label>Conversion Rate</label>
+              <div class="progress-bar">
+                <div class="progress" style="width: 45%;"></div>
+              </div>
+              <span>45%</span>
+            </div>
           </div>
         </div>
-        
-        <div class="card wide-card">
+
+        <div class="card wide">
           <div class="card-header">
-            <h3 class="card-title">Latest Transactions</h3>
-            <div class="card-icon purple-bg">T</div>
+            <h3>Latest Transactions</h3>
+            <span class="icon">📋</span>
           </div>
+          <div class="card-content">
+            <ul class="transaction-list">
+              <li class="transaction-item">
+                <span class="transaction-product">Sony WH-1000XM4 Headphones</span>
+                <span class="transaction-date">Today, 2:34 PM</span>
+                <span class="transaction-amount">$348.00</span>
+                <span class="transaction-status completed">Completed</span>
+              </li>
+              <li class="transaction-item">
+                <span class="transaction-product">Apple MacBook Pro 16"</span>
+                <span class="transaction-date">Today, 1:12 PM</span>
+                <span class="transaction-amount">$2,399.00</span>
+                <span class="transaction-status completed">Completed</span>
+              </li>
+              <li class="transaction-item">
+                <span class="transaction-product">Samsung Galaxy S21 Ultra</span>
+                <span class="transaction-date">Yesterday, 7:54 PM</span>
+                <span class="transaction-amount">$1,199.00</span>
+                <span class="transaction-status pending">Pending</span>
+              </li>
+              <li class="transaction-item">
+                <span class="transaction-product">Logitech MX Master 3</span>
+                <span class="transaction-date">Yesterday, 3:22 PM</span>
+                <span class="transaction-amount">$99.99</span>
+                <span class="transaction-status completed">Completed</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pricingTool" class="tab-content">
+      <div class="pricing-tool">
+        <div class="pricing-form">
+          <h2>Dynamic Price Calculator</h2>
+          <div class="form-group">
+            <label for="productType">Product Type</label>
+            <select id="productType" onchange="updateProductGroups()">
+              <option value="Electronics">Electronics</option>
+              <option value="Computers&Accessories">Computers & Accessories</option>
+              <option value="MusicalInstruments">Musical Instruments</option>
+              <option value="OfficeProducts">Office Products</option>
+              <option value="Home&Kitchen">Home & Kitchen</option>
+              <option value="HomeImprovement">Home Improvement</option>
+              <option value="Toys&Games">Toys & Games</option>
+              <option value="Car&Motorbike">Car & Motorbike</option>
+              <option value="Health&PersonalCare">Health & Personal Care</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="productGroup">Product Group</label>
+            <select id="productGroup">
+              <!-- Options will be populated based on Product Type -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="asin">Amazon ASIN (Optional)</label>
+            <input type="text" id="asin" placeholder="e.g., B08N5KWB9H">
+          </div>
+          <div class="form-group">
+            <label for="actualPrice">Current Price ($)</label>
+            <input type="number" id="actualPrice" min="0.01" step="0.01" placeholder="Enter actual price" value="999.99">
+          </div>
+          <div class="form-group">
+            <label for="competitorPrice">Competitor Price ($)</label>
+            <input type="number" id="competitorPrice" min="0.01" step="0.01" placeholder="Enter competitor price" value="1049.99">
+          </div>
+          <div class="form-group">
+            <label for="rating">Rating (1-5)</label>
+            <input type="number" id="rating" min="1" max="5" step="0.1" placeholder="Enter rating" value="4.5">
+          </div>
+          <div class="form-group">
+            <label for="numberOfOrders">Recent Orders</label>
+            <input type="number" id="numberOfOrders" min="0" placeholder="Enter number of orders" value="120">
+          </div>
+          <button id="calculateButton" onclick="calculatePrice()">Calculate Optimal Price</button>
+        </div>
+        <div class="pricing-results">
+          <h2>Price Recommendation</h2>
+          <div id="resultsContent" class="results-content hidden">
+            <div class="price-card">
+              <h3>Recommended Price</h3>
+              <div class="price" id="recommendedPrice">$0.00</div>
+            </div>
+            <div class="price-range">
+              <div class="min-price">
+                <span>Min</span>
+                <div id="minPrice">$0.00</div>
+              </div>
+              <div class="max-price">
+                <span>Max</span>
+                <div id="maxPrice">$0.00</div>
+              </div>
+            </div>
+            <div class="elasticity-info">
+              <h3>Elasticity Category</h3>
+              <div id="elasticityCategory">Unknown</div>
+            </div>
+            <div class="impact-factors">
+              <h3>Impact Factors</h3>
+              <div class="factor">
+                <span>Rating Impact:</span>
+                <span id="ratingImpact">0%</span>
+              </div>
+              <div class="factor">
+                <span>Order Volume Impact:</span>
+                <span id="orderImpact">0%</span>
+              </div>
+              <div class="factor">
+                <span>Market Data Impact:</span>
+                <span id="marketImpact">0%</span>
+              </div>
+            </div>
+            <div class="explanation">
+              <h3>Analysis</h3>
+              <p id="explanation"></p>
+            </div>
+            <div id="marketInsightsSection" class="market-insights hidden">
+              <h3>Market Insights</h3>
+              <div class="insights-grid">
+                <div class="insight">
+                  <span>Price Trend</span>
+                  <span id="priceTrend">stable</span>
+                </div>
+                <div class="insight">
+                  <span>Price Volatility</span>
+                  <span id="priceVolatility">0%</span>
+                </div>
+                <div class="insight">
+                  <span>Market Position</span>
+                  <span id="marketPosition">average</span>
+                </div>
+                <div class="insight">
+                  <span>Sentiment Score</span>
+                  <span id="sentimentScore">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="noResults" class="no-results">
           <div class="task-list">
             <div class="task-item">
               <div class="task-info">
@@ -106,6 +263,94 @@
           </div>
           <div class="chart-container">
             <canvas id="categoryChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="marketAnalysis" class="tab-content">
+      <div class="market-analysis">
+        <div class="control-panel">
+          <h2>Market Data Control Panel</h2>
+          <div class="form-group">
+            <label for="marketProductAsin">Enter Product ASIN</label>
+            <input type="text" id="marketProductAsin" placeholder="e.g., B07ZPKBL9V">
+          </div>
+          <button id="refreshMarketDataBtn" onclick="refreshMarketData()">Refresh Market Data</button>
+          <button id="analyzeProductBtn" onclick="analyzeProduct()">Analyze Product</button>
+          
+          <div class="data-status">
+            <h3>Data Collection Status</h3>
+            <div class="status-item">
+              <span>Best Sellers Data</span>
+              <span id="bestSellersStatus">Not Collected</span>
+            </div>
+            <div class="status-item">
+              <span>Product Details</span>
+              <span id="productDetailsStatus">Not Collected</span>
+            </div>
+            <div class="status-item">
+              <span>Reviews Data</span>
+              <span id="reviewsStatus">Not Collected</span>
+            </div>
+            <div class="status-item">
+              <span>Market Deals</span>
+              <span id="dealsStatus">Not Collected</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="analysis-panel">
+          <h2>Market Analysis</h2>
+          <div class="visualization-container">
+            <h3>Price Trend Analysis</h3>
+            <div class="visualization">
+              <canvas id="priceTrendChart"></canvas>
+            </div>
+            
+            <h3>Review Sentiment Analysis</h3>
+            <div class="visualization">
+              <canvas id="sentimentChart"></canvas>
+            </div>
+          </div>
+          
+          <div class="market-position">
+            <h3>Market Position Analysis</h3>
+            <div class="position-card">
+              <h4>Price Positioning</h4>
+              <div class="position-info">
+                <div class="position-item">
+                  <span>Price Position</span>
+                  <span id="pricePosition" class="value status-average">Average</span>
+                </div>
+                <div class="position-item">
+                  <span>Competitive Index</span>
+                  <span id="competitiveIndex" class="value">65/100</span>
+                </div>
+                <div class="position-item">
+                  <span>Price Percentile</span>
+                  <span id="pricePercentile" class="value">58%</span>
+                </div>
+                <div class="position-item">
+                  <span>Price Volatility</span>
+                  <span id="priceVolatilityValue" class="value">Medium</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="report-panel">
+        <h2>Market Summary Report</h2>
+        <div class="report-card">
+          <div class="report-header">
+            <h3>Market Insights</h3>
+            <span id="reportDate" class="report-date">Generated: Not Available</span>
+          </div>
+          
+          <div id="marketSummaryContent">
+            <p class="no-data-message">Run an analysis to generate a market summary report.</p>
           </div>
         </div>
       </div>
