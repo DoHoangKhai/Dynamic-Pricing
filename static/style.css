@@ -704,3 +704,98 @@ canvas {
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
 }
+
+/* Add styles for market analysis visualization */
+
+/* Status colors */
+.status-success {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.status-error {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.status-warning {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.status-default {
+  color: #6c757d;
+}
+
+/* Market position classes */
+.status-budget {
+  color: #28a745;
+}
+
+.status-competitive {
+  color: #17a2b8;
+}
+
+.status-average {
+  color: #ffc107;
+}
+
+.status-premium {
+  color: #fd7e14;
+}
+
+.status-luxury {
+  color: #dc3545;
+}
+
+/* Trend classes */
+.trend-up {
+  color: #28a745;
+}
+
+.trend-down {
+  color: #dc3545;
+}
+
+.trend-stable {
+  color: #6c757d;
+}
+
+/* Market summary */
+.market-summary {
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+
+.summary-item {
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.summary-item .label {
+  font-weight: bold;
+  color: #495057;
+}
+
+.summary-item .value {
+  font-weight: 500;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+/* Ensures there's space for the market insights section */
+#marketSummaryContent {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+/* Add more specific styles for the market analysis */
+.position-budget { color: #00c853; }
+.position-competitive { color: #2196f3; }
+.position-average { color: #ff9800; }
+.position-premium { color: #f44336; }
+.position-luxury { color: #9c27b0; }

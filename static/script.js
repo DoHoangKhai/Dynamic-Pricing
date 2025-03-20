@@ -356,10 +356,10 @@ function displayRecommendation(recommendation) {
   if (originalPrice) {
     detailedExplanation += `
       <p><strong>Price Change:</strong> 
-        <span class="${priceDifference >= 0 ? 'positive' : 'negative'}">
-          ${priceDifference >= 0 ? '+' : ''}${formatCurrency.format(priceDifference)} 
-          (${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(2)}%)
-        </span>
+      <span class="${priceDifference >= 0 ? 'positive' : 'negative'}">
+        ${priceDifference >= 0 ? '+' : ''}${formatCurrency.format(priceDifference)} 
+        (${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(2)}%)
+      </span>
       </p>
     `;
   }
@@ -456,15 +456,51 @@ function calculatePrice() {
     const rating = parseFloat(document.getElementById('rating').value);
     const numberOfOrders = parseInt(document.getElementById('numberOfOrders').value);
     
+    console.log("Preparing to calculate price with:", {
+        productType, productGroup, asin, actualPrice, 
+        competitorPrice, rating, numberOfOrders
+    });
+    
     // Validate inputs
     if (isNaN(actualPrice) || isNaN(competitorPrice) || isNaN(rating) || isNaN(numberOfOrders)) {
-        alert('Please enter valid numbers for price, rating, and orders.');
+        // Show error in the results area instead of an alert
+        document.getElementById('noResults').innerHTML = `
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <strong>Error:</strong> Please enter valid numbers for price, rating, and orders.
+            </div>
+        `;
+        document.getElementById('noResults').style.display = 'block';
+        document.getElementById('resultsContent').classList.add('hidden');
         return;
     }
     
     // Show loading state
     document.getElementById('calculateButton').textContent = 'Calculating...';
     document.getElementById('calculateButton').disabled = true;
+    document.getElementById('noResults').innerHTML = `
+        <div class="text-center py-4">
+            <div class="spinner-border text-primary mb-3" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mb-0 text-muted">Calculating optimal price...</p>
+        </div>
+    `;
+    document.getElementById('noResults').style.display = 'block';
+    document.getElementById('resultsContent').classList.add('hidden');
+    
+    // Prepare request payload
+    const payload = {
+        productType: productType,
+        productGroup: productGroup,
+        asin: asin,
+        actualPrice: actualPrice,
+        competitorPrice: competitorPrice,
+        rating: rating,
+        numberOfOrders: numberOfOrders
+    };
+    
+    console.log("Sending API request with payload:", payload);
     
     // Make API request
     fetch('/api/predict-price', {
@@ -472,49 +508,79 @@ function calculatePrice() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            productType: productType,
-            productGroup: productGroup,
-            asin: asin,
-            actualPrice: actualPrice,
-            competitorPrice: competitorPrice,
-            rating: rating,
-            numberOfOrders: numberOfOrders
-        })
+        body: JSON.stringify(payload)
     })
-    .then(response => response.json())
+    .then(response => {
+        console.log("Received API response status:", response.status);
+        if (!response.ok) {
+            throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+        }
+        return response.json();
+    })
     .then(data => {
-        // Update UI with results
-        document.getElementById('recommendedPrice').textContent = `$${data.recommendedPrice.toFixed(2)}`;
-        document.getElementById('minPrice').textContent = `$${data.minPrice.toFixed(2)}`;
-        document.getElementById('maxPrice').textContent = `$${data.maxPrice.toFixed(2)}`;
-        document.getElementById('elasticityCategory').textContent = data.elasticityCategory;
-        document.getElementById('explanation').textContent = data.explanation;
-        document.getElementById('ratingImpact').textContent = `${data.ratingImpact}%`;
-        document.getElementById('orderImpact').textContent = `${data.orderImpact}%`;
-        document.getElementById('marketImpact').textContent = `${data.marketImpact}%`;
+        console.log("API response data:", data);
+        // Clear error display
+        document.getElementById('noResults').style.display = 'none';
+        
+        // Check if data contains the expected properties
+        if (!data.recommendedPrice && !data.minPrice && !data.maxPrice) {
+            throw new Error('Invalid response from server: missing price data');
+        }
+        
+        // Update UI with results - safely handle potentially undefined values
+        document.getElementById('recommendedPrice').textContent = data.recommendedPrice !== undefined ? 
+            `$${Number(data.recommendedPrice).toFixed(2)}` : '$0.00';
+            
+        document.getElementById('minPrice').textContent = data.minPrice !== undefined ? 
+            `$${Number(data.minPrice).toFixed(2)}` : '$0.00';
+            
+        document.getElementById('maxPrice').textContent = data.maxPrice !== undefined ? 
+            `$${Number(data.maxPrice).toFixed(2)}` : '$0.00';
+            
+        document.getElementById('elasticityCategory').textContent = data.elasticityCategory || 'Unknown';
+        document.getElementById('explanation').textContent = data.explanation || 'No explanation available';
+        document.getElementById('ratingImpact').textContent = data.ratingImpact !== undefined ? 
+            `${Number(data.ratingImpact).toFixed(1)}%` : '0%';
+            
+        document.getElementById('orderImpact').textContent = data.orderImpact !== undefined ? 
+            `${Number(data.orderImpact).toFixed(1)}%` : '0%';
+            
+        document.getElementById('marketImpact').textContent = data.marketImpact !== undefined ? 
+            `${Number(data.marketImpact).toFixed(1)}%` : '0%';
         
         // Show market insights if available
         if (data.marketInsights) {
             document.getElementById('marketInsightsSection').classList.remove('hidden');
-            document.getElementById('priceTrend').textContent = data.marketInsights.priceTrend;
-            document.getElementById('priceVolatility').textContent = `${data.marketInsights.priceVolatility.toFixed(1)}%`;
-            document.getElementById('marketPosition').textContent = data.marketInsights.marketPosition;
-            document.getElementById('sentimentScore').textContent = data.marketInsights.sentimentScore.toFixed(2);
+            document.getElementById('priceTrend').textContent = data.marketInsights.priceTrend || 'stable';
+            document.getElementById('priceVolatility').textContent = data.marketInsights.priceVolatility !== undefined ? 
+                `${Number(data.marketInsights.priceVolatility).toFixed(1)}%` : '0%';
+                
+            document.getElementById('marketPosition').textContent = data.marketInsights.marketPosition || 'average';
+            document.getElementById('sentimentScore').textContent = data.marketInsights.sentimentScore !== undefined ? 
+                Number(data.marketInsights.sentimentScore).toFixed(2) : '0.00';
             
             // Add classes based on price trend
-            document.getElementById('priceTrend').className = `trend-${data.marketInsights.priceTrend}`;
+            document.getElementById('priceTrend').className = `trend-${data.marketInsights.priceTrend || 'stable'}`;
         } else {
             document.getElementById('marketInsightsSection').classList.add('hidden');
         }
         
         // Show results
         document.getElementById('resultsContent').classList.remove('hidden');
-        document.getElementById('noResults').classList.add('hidden');
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error calculating price. See console for details.');
+        // Display error message in the results area
+        document.getElementById('noResults').innerHTML = `
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <strong>Error calculating price:</strong> ${error.message}
+                <hr>
+                <p class="mb-0">Please try again or contact support if the problem persists.</p>
+            </div>
+        `;
+        document.getElementById('noResults').style.display = 'block';
+        document.getElementById('resultsContent').classList.add('hidden');
     })
     .finally(() => {
         // Reset button
@@ -741,53 +807,91 @@ function analyzeProduct() {
 
 // Function to update price trend chart
 function updatePriceTrendChart(trendData) {
-    // If trendData is not provided, use dummy data
-    const data = trendData || {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-        values: [149.99, 159.99, 154.99, 149.99, 144.99, 139.99]
-    };
-    
-    const ctx = document.getElementById('priceTrendChart').getContext('2d');
-    
-    // Clear any existing chart
-    if (window.priceTrendChart) {
-        window.priceTrendChart.destroy();
-    }
-    
-    // Create new chart
-    window.priceTrendChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: data.labels,
-            datasets: [{
-                label: 'Product Price',
-                data: data.values,
-                borderColor: '#2c7be5',
-                backgroundColor: 'rgba(44, 123, 229, 0.1)',
-                tension: 0.4,
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: true
-                }
+    try {
+        // If trendData is not provided, use dummy data
+        const data = trendData || {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            values: [149.99, 159.99, 154.99, 149.99, 144.99, 139.99]
+        };
+        
+        const chartElement = document.getElementById('priceTrendChart');
+        if (!chartElement) {
+            console.error("Price trend chart element not found");
+            return;
+        }
+        
+        const ctx = chartElement.getContext('2d');
+        
+        // Clear any existing chart
+        if (window.priceTrendChart && typeof window.priceTrendChart.destroy === 'function') {
+            window.priceTrendChart.destroy();
+        } else {
+            // If chart exists but destroy method is not available, create a fresh canvas
+            console.warn("Could not properly destroy previous chart. Creating new canvas.");
+            const parent = chartElement.parentNode;
+            if (parent) {
+                // Remove the old canvas
+                parent.removeChild(chartElement);
+                
+                // Create a new canvas with the same ID
+                const newCanvas = document.createElement('canvas');
+                newCanvas.id = 'priceTrendChart';
+                parent.appendChild(newCanvas);
+                
+                // Get the new context
+                const newCtx = newCanvas.getContext('2d');
+                ctx = newCtx;
+            }
+        }
+        
+        // Create new chart
+        window.priceTrendChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Product Price',
+                    data: data.values,
+                    borderColor: '#2c7be5',
+                    backgroundColor: 'rgba(44, 123, 229, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
             },
-            scales: {
-                y: {
-                    beginAtZero: false,
-                    ticks: {
-                        callback: function(value) {
-                            return '$' + value.toLocaleString();
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
                         }
                     }
                 }
             }
+        });
+    } catch (err) {
+        console.error("Error updating price trend chart:", err);
+        // Create error message in the chart container
+        const chartContainer = document.getElementById('priceTrendChart').parentNode;
+        if (chartContainer) {
+            chartContainer.innerHTML = `
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <strong>Chart Error:</strong> Could not display price trend chart.
+                </div>
+                <canvas id="priceTrendChart"></canvas>
+            `;
         }
-    });
+    }
 }
 
 // Function to update sentiment chart

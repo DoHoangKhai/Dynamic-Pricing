@@ -183,18 +183,38 @@ def fetch_deals(country="US"):
         "country": country
     }
     
-    response = make_api_request("deals-v2", params)
-    
-    if "error" in response:
-        print(f"Error fetching deals: {response['error']}")
-        return None
-    
-    # Save raw data
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"deals_{country}_{timestamp}.json"
-    save_raw_data(response, filename)
-    
-    return response
+    try:
+        response = make_api_request("deals-v2", params)
+        
+        if not response:
+            print("[ERROR] make_api_request returned None")
+            return {"error": "API request failed with no response"}
+            
+        if "error" in response:
+            error_msg = response.get('error', 'Unknown error')
+            print(f"[ERROR] Error fetching deals: {error_msg}")
+            return {"error": f"API error: {error_msg}"}
+        
+        # Validate response structure
+        if "data" not in response or "deals" not in response.get("data", {}):
+            print(f"[ERROR] Invalid API response structure: {list(response.keys())}")
+            return {"error": "Invalid API response structure"}
+            
+        deals_count = len(response.get("data", {}).get("deals", []))
+        print(f"[SUCCESS] Successfully fetched {deals_count} deals")
+        
+        # Save raw data
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"deals_{country}_{timestamp}.json"
+        save_raw_data(response, filename)
+        
+        return response
+        
+    except Exception as e:
+        error_msg = str(e)
+        print(f"[ERROR] Exception in fetch_deals: {error_msg}")
+        traceback.print_exc()
+        return {"error": f"Exception: {error_msg}"}
 
 def process_best_sellers_time_series(category="bestsellers", country="US", type_="best_sellers"):
     """

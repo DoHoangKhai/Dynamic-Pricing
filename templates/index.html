@@ -6,6 +6,7 @@
   <title>Dynamic Pricing Dashboard</title>
   <link rel="stylesheet" href="/static/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
   <div class="container">
@@ -225,35 +226,7 @@
             </div>
           </div>
           <div id="noResults" class="no-results">
-          <div class="task-list">
-            <div class="task-item">
-              <div class="task-info">
-                <div class="task-status" style="background-color: #2d7bf8;"></div>
-                <div class="task-text">Wireless Earbuds</div>
-              </div>
-              <div class="task-value">$89.99</div>
-            </div>
-            <div class="task-item">
-              <div class="task-info">
-                <div class="task-status" style="background-color: #ff6b6b;"></div>
-                <div class="task-text">Smart Watch</div>
-              </div>
-              <div class="task-value">$199.95</div>
-            </div>
-            <div class="task-item">
-              <div class="task-info">
-                <div class="task-status" style="background-color: #ffbe0b;"></div>
-                <div class="task-text">Bluetooth Speaker</div>
-              </div>
-              <div class="task-value">$79.99</div>
-            </div>
-            <div class="task-item">
-              <div class="task-info">
-                <div class="task-status" style="background-color: #9b5de5;"></div>
-                <div class="task-text">Phone Case</div>
-              </div>
-              <div class="task-value">$24.50</div>
-            </div>
+            <!-- Empty div - static items removed -->
           </div>
         </div>
         
@@ -261,7 +234,7 @@
           <div class="card-header">
             <h3 class="card-title">Revenue by Category</h3>
           </div>
-          <div class="chart-container">
+          <div class="chart-container" style="height: 250px; padding: 10px;">
             <canvas id="categoryChart"></canvas>
           </div>
         </div>
@@ -455,6 +428,409 @@
       </div>
     </div>
   </div>
+  <div class="row mb-4">
+    <div class="col-md-10 mx-auto">
+      <div class="card wide">
+        <div class="card-header">
+          <h3>Market Deals Analysis</h3>
+          <span class="icon"><i class="fas fa-chart-line"></i></span>
+        </div>
+        
+        <div class="card-content">
+          <!-- Button to fetch deals -->
+          <div class="action-row">
+            <button id="fetchDealsBtn" class="action-button">
+              <i class="fas fa-sync-alt me-2"></i>Fetch Current Deals
+            </button>
+            <span id="lastUpdatedBadge" style="display: none;" class="last-updated">
+              Last updated: <span id="lastUpdatedTime"></span>
+            </span>
+          </div>
+          
+          <!-- Loading state -->
+          <div id="dealsLoading" style="display: none;" class="text-center py-4">
+            <div class="spinner-border text-primary mb-3" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mb-0 text-muted">Analyzing current market deals...</p>
+          </div>
+          
+          <!-- Error state -->
+          <div id="dealsError" style="display: none;" class="py-3">
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+              <i class="fas fa-exclamation-circle me-2"></i>
+              <div id="errorMessage">Failed to fetch deals data.</div>
+            </div>
+          </div>
+          
+          <!-- Result state -->
+          <div id="dealsResult" style="display: none;">
+            <h4 class="section-title">Market Deals Summary</h4>
+            
+            <div class="deal-metrics">
+              <!-- Total Deals -->
+              <div class="metric-box">
+                <div class="key-metric">
+                  <div class="metric-label">Active Deals</div>
+                  <div class="metric-value">
+                    <i class="fas fa-tags metric-icon"></i>
+                    <span id="totalDealsValue" class="pricing-impact">-</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Average Discount -->
+              <div class="metric-box">
+                <div class="key-metric">
+                  <div class="metric-label">Average Discount</div>
+                  <div class="metric-value">
+                    <i class="fas fa-percentage metric-icon"></i>
+                    <span id="avgDiscountValue" class="pricing-impact">-</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Market Activity -->
+              <div class="metric-box">
+                <div class="key-metric">
+                  <div class="metric-label">Activity Level</div>
+                  <div class="metric-value">
+                    <i class="fas fa-chart-bar metric-icon"></i>
+                    <span id="marketActivityValue" class="pricing-impact">-</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Pricing Impact Section -->
+            <div class="impact-section">
+              <h4 class="section-title">Pricing Impact</h4>
+              
+              <div class="impact-content">
+                <div id="impactIcon" class="impact-icon">
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                
+                <p id="impactText" class="impact-text">Analyzing market data...</p>
+                
+                <!-- Gauge visualization -->
+                <div class="impact-gauge">
+                  <div class="progress-bar-container">
+                    <div id="impactGaugeBar" class="progress-bar" style="width: 50%"></div>
+                  </div>
+                  <div class="gauge-labels">
+                    <span>Decrease Prices</span>
+                    <span>Increase Prices</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="{{ url_for('static', filename='category_revenue.js') }}"></script>
+  <script src="{{ url_for('static', filename='market_analyzer.js') }}"></script>
+  <script>
+  // Add this to your existing JavaScript
+  document.addEventListener('DOMContentLoaded', function() {
+    // Other existing initialization...
+
+    // Market Deals functionality
+    const fetchDealsBtn = document.getElementById('fetchDealsBtn');
+    if (fetchDealsBtn) {
+      fetchDealsBtn.addEventListener('click', async function() {
+        try {
+          // Show loading state
+          document.getElementById('dealsLoading').style.display = 'block';
+          document.getElementById('dealsResult').style.display = 'none';
+          document.getElementById('dealsError').style.display = 'none';
+          
+          fetchDealsBtn.disabled = true;
+          fetchDealsBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+          
+          const response = await fetch('/api/market-deals');
+          const data = await response.json();
+          
+          console.log('Deals API response:', data);
+          
+          // Hide loading state
+          document.getElementById('dealsLoading').style.display = 'none';
+          
+          if (data.success) {
+            // Show result state
+            document.getElementById('dealsResult').style.display = 'block';
+            
+            // Update last updated time
+            const lastUpdatedBadge = document.getElementById('lastUpdatedBadge');
+            const lastUpdatedTime = document.getElementById('lastUpdatedTime');
+            lastUpdatedBadge.style.display = 'inline-block';
+            lastUpdatedTime.textContent = new Date().toLocaleTimeString();
+            
+            // Update deals summary values
+            const totalDealsValue = document.getElementById('totalDealsValue');
+            const avgDiscountValue = document.getElementById('avgDiscountValue');
+            const marketActivityValue = document.getElementById('marketActivityValue');
+
+            totalDealsValue.textContent = data.deals_count;
+            avgDiscountValue.textContent = data.avg_discount + '%';
+            
+            const marketActivity = data.deals_summary.market_activity.toUpperCase();
+            marketActivityValue.textContent = marketActivity;
+            
+            // Set color based on activity level
+            if (marketActivity === 'HIGH') {
+              marketActivityValue.className = 'pricing-impact critical';
+              document.querySelectorAll('.key-metric')[2].classList.add('highlight');
+            } else if (marketActivity === 'MEDIUM') {
+              marketActivityValue.className = 'pricing-impact text-warning';
+            } else {
+              marketActivityValue.className = 'pricing-impact text-success';
+            }
+
+            // Highlight critical metrics that significantly impact pricing
+            if (data.deals_count > 25) {
+              totalDealsValue.className = 'pricing-impact critical';
+              document.querySelectorAll('.key-metric')[0].classList.add('highlight');
+            }
+            
+            if (data.avg_discount > 15) {
+              avgDiscountValue.className = 'pricing-impact critical';
+            }
+            
+            // Determine pricing impact
+            const impactText = document.getElementById('impactText');
+            const impactIcon = document.getElementById('impactIcon').querySelector('i');
+            const impactGaugeBar = document.getElementById('impactGaugeBar');
+            
+            if (data.avg_discount > 20 && data.deals_count > 30) {
+              // High discount environment
+              impactText.textContent = 'Consider reducing prices by 4% to remain competitive in this high-discount environment';
+              impactText.className = 'mb-0 fw-bold text-danger';
+              impactIcon.className = 'fas fa-arrow-down text-danger';
+              impactGaugeBar.style.width = '20%';
+              impactGaugeBar.className = 'progress-bar bg-danger';
+            } else if (data.avg_discount > 10 && data.deals_count > 20) {
+              // Moderate discount environment
+              impactText.textContent = 'Consider reducing prices by 2% to adapt to moderate discount activity';
+              impactText.className = 'mb-0 fw-bold text-warning';
+              impactIcon.className = 'fas fa-arrow-down text-warning';
+              impactGaugeBar.style.width = '35%';
+              impactGaugeBar.className = 'progress-bar bg-warning';
+            } else if (data.avg_discount < 5 && data.deals_count < 10) {
+              // Low discount environment
+              impactText.textContent = 'Opportunity to increase prices by 1% in this low-discount environment';
+              impactText.className = 'mb-0 fw-bold text-success';
+              impactIcon.className = 'fas fa-arrow-up text-success';
+              impactGaugeBar.style.width = '65%';
+              impactGaugeBar.className = 'progress-bar bg-success';
+            } else {
+              // No significant change needed
+              impactText.textContent = 'No significant pricing adjustment needed based on current deals';
+              impactText.className = 'mb-0 fw-bold text-info';
+              impactIcon.className = 'fas fa-arrow-right text-info';
+              impactGaugeBar.style.width = '50%';
+              impactGaugeBar.className = 'progress-bar bg-info';
+            }
+
+            // Add tooltip explaining why metrics are highlighted
+            const keyMetrics = document.querySelectorAll('.key-metric.highlight');
+            keyMetrics.forEach(metric => {
+              metric.setAttribute('title', 'This metric significantly impacts pricing recommendations');
+              metric.style.cursor = 'help';
+            });
+          } else {
+            // Show error state
+            document.getElementById('dealsError').style.display = 'block';
+            document.getElementById('errorMessage').textContent = data.message || 'Unknown error fetching deals data';
+          }
+        } catch (error) {
+          console.error('Network Error:', error);
+          // Show error state
+          document.getElementById('dealsLoading').style.display = 'none';
+          document.getElementById('dealsError').style.display = 'block';
+          document.getElementById('errorMessage').textContent = 'Failed to connect to deals API. Please try again later.';
+        } finally {
+          fetchDealsBtn.disabled = false;
+          fetchDealsBtn.innerHTML = '<i class="fas fa-sync-alt me-2"></i>Fetch Current Deals';
+        }
+      });
+    }
+  });
+  </script>
+  <style>
+    .bg-gradient-primary-to-secondary {
+      background: linear-gradient(to right, #2c7be5, #6bb2e8);
+    }
+    
+    #impactGaugeBar {
+      transition: width 0.5s ease;
+    }
+    
+    .card {
+      transition: all 0.3s ease;
+    }
+    
+    .shadow-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    .key-metric {
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+    
+    .key-metric.highlight {
+      border-left: 4px solid #ff5a5f;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .pricing-impact {
+      font-weight: 600;
+    }
+    
+    .pricing-impact.critical {
+      color: #ff5a5f;
+      font-weight: 700;
+    }
+
+    /* Market Deals Analysis Styling - Matching Latest Transactions style */
+    .action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    
+    .action-button {
+      background-color: #4c6ef5;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+    }
+    
+    .action-button:hover {
+      background-color: #3b5bdb;
+    }
+    
+    .last-updated {
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+    
+    .section-title {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      color: #343a40;
+      font-weight: 600;
+    }
+    
+    .deal-metrics {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+    
+    .metric-box {
+      flex: 1;
+      min-width: 180px;
+    }
+    
+    .key-metric {
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      border-left: 4px solid transparent;
+      transition: all 0.3s ease;
+    }
+    
+    .key-metric.highlight {
+      border-left: 4px solid #4c6ef5;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .metric-label {
+      font-size: 0.85rem;
+      color: #6c757d;
+      margin-bottom: 5px;
+    }
+    
+    .metric-value {
+      display: flex;
+      align-items: center;
+    }
+    
+    .metric-icon {
+      margin-right: 8px;
+      color: #4c6ef5;
+    }
+    
+    .pricing-impact {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #212529;
+    }
+    
+    .pricing-impact.critical {
+      color: #dc3545;
+      font-weight: 700;
+    }
+    
+    .impact-section {
+      padding: 15px;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      background-color: #fff;
+    }
+    
+    .impact-content {
+      text-align: center;
+    }
+    
+    .impact-icon {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #495057;
+    }
+    
+    .impact-text {
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+    
+    .impact-gauge {
+      margin-top: 15px;
+    }
+    
+    .progress-bar-container {
+      height: 8px;
+      background-color: #e9ecef;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background-color: #4c6ef5;
+      transition: width 0.5s ease;
+    }
+    
+    .gauge-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+      font-size: 0.75rem;
+      color: #6c757d;
+    }
+  </style>
 </body>
 </html>

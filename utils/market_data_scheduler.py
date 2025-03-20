@@ -11,9 +11,13 @@ import argparse
 import json
 from datetime import datetime
 import schedule
+import sys
+
+# Add parent directory to path to allow imports from sibling modules
+sys.path.append('..')
 
 # Import our Amazon API module
-from amazon_api import collect_market_data, EXAMPLE_ASINS
+from api.amazon_api import collect_market_data, EXAMPLE_ASINS
 
 # Configure logging
 log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logs')

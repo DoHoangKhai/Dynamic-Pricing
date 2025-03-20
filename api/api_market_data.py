@@ -1,18 +1,24 @@
 #!/usr/bin/env python
 """
-API endpoints for market data visualization and pricing features.
-Integrates with app.py to provide market insights for pricing model.
+Market data API endpoints for the dynamic pricing system.
+Provides access to market data collection, analysis, and visualization.
 """
 
 import os
 import json
+import requests
 from flask import Blueprint, jsonify, request, send_file
-import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
+import traceback
+import sys
 
-# Import our market data modules
-from market_data_scheduler import collect_data_job, load_config
-from market_data_analysis import MarketDataAnalyzer
+# Add parent directory to path to allow imports from sibling modules
+sys.path.append('..')
+
+# Import market data modules
+from utils.market_data_analysis import MarketDataAnalyzer
+from api.amazon_api import fetch_product_details, fetch_product_reviews, fetch_deals, fetch_best_sellers
+from api.amazon_web_scraper import scrape_product_details, extract_price_trends, extract_similar_products
 
 # Constants
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
@@ -29,6 +35,54 @@ market_data_bp = Blueprint('market_data', __name__)
 
 # Initialize analyzer
 analyzer = MarketDataAnalyzer()
+
+@market_data_bp.route('/market/analyze', methods=['GET'])
+def analyze_product():
+    """Analyze a product using live Amazon data"""
+    try:
+        asin = request.args.get('asin')
+        country = request.args.get('country', 'US')
+        
+        if not asin:
+            return jsonify({
+                'success': False,
+                'message': 'ASIN parameter is required'
+            }), 400
+        
+        # Use web scraper to get real-time data
+        product_data = scrape_product_details(asin, country)
+        price_trends = extract_price_trends(asin, country)
+        similar_products = extract_similar_products(asin, country)
+        
+        if not product_data.get('success'):
+            return jsonify({
+                'success': False,
+                'message': f"Error fetching product data: {product_data.get('error', 'Unknown error')}"
+            }), 500
+        
+        # Create response
+        response = {
+            'success': True,
+            'timestamp': datetime.now().isoformat(),
+            'asin': asin,
+            'product_details': product_data,
+            'price_trends': price_trends,
+            'market_position': {
+                'position': similar_products.get('price_position', 'unknown'),
+                'percentile': similar_products.get('price_percentile', 0),
+                'similar_products': similar_products.get('similar_products', []),
+                'competitive_index': similar_products.get('competitive_index', 0)
+            }
+        }
+        
+        return jsonify(response)
+        
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({
+            'success': False,
+            'message': f'Error analyzing product: {str(e)}'
+        }), 500
 
 @market_data_bp.route('/market/refresh', methods=['POST'])
 def refresh_market_data():

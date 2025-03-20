@@ -2,6 +2,7 @@ import os
 import numpy as np
 import gymnasium as gym
 from gymnasium import spaces
+from .pricing_strategies import PricingStrategy, CustomerSegmentation
 
 class DynamicPricingEnv(gym.Env):
     """Custom Environment for Dynamic Pricing"""
@@ -9,7 +10,8 @@ class DynamicPricingEnv(gym.Env):
 
     def __init__(self, max_price=500, min_price=10, demand_intercept=100, 
                  demand_slope=0.5, noise_std=10, historical_data=None,
-                 elasticity=1.0, ppi=1.0, rating=4.0, num_orders=50):
+                 elasticity=1.0, ppi=1.0, rating=4.0, num_orders=50,
+                 product_type='Electronics', product_group='Laptops'):
         super(DynamicPricingEnv, self).__init__()
         
         # Price range and step size
@@ -33,6 +35,12 @@ class DynamicPricingEnv(gym.Env):
         self.ppi = ppi
         self.rating = rating
         self.num_orders = num_orders
+        self.product_type = product_type
+        self.product_group = product_group
+        
+        # Initialize pricing strategies and customer segmentation
+        self.pricing_strategy = PricingStrategy()
+        self.customer_segmentation = CustomerSegmentation()
         
         # Maximum steps per episode
         self.max_steps = 30
@@ -124,26 +132,64 @@ class DynamicPricingEnv(gym.Env):
         # Convert action to price
         price = self.min_price + action * self.price_step
         
-        # Calculate demand using an elasticity-influenced demand curve with rating and orders influence
-        # Higher elasticity means more sensitive to price changes
-        # Higher rating increases base demand
-        # Higher number of orders indicates product popularity and increases demand
+        # Create product dictionary for pricing strategies
+        product = {
+            'product_id': 'test_product',
+            'product_type': self.product_type,
+            'product_group': self.product_group,
+            'price': price,
+            'cost': price * 0.6,  # Assume cost is 60% of price
+            'elasticity': self.elasticity,
+            'rating': self.rating,
+            'ppi': self.ppi,
+            'number_of_orders': self.num_orders
+        }
         
-        # Rating factor: 0.85 to 1.35 scale based on rating (1-5) - reduced influence
-        rating_factor = 0.85 + (self.rating - 1) * 0.125  # Changed from 0.175 to 0.125
+        # Create market information
+        market_info = {
+            'competitive_intensity': 0.7,  # Default to moderately competitive
+            'price_trend': 0.0,  # Default to stable prices
+            'current_price_ratio': self.ppi
+        }
         
-        # Order popularity factor: 0.9 to 1.1 scale based on number of orders (0-200) - significantly reduced influence
-        order_factor = 0.9 + min(200, self.num_orders) / 1000  # Changed from 400 to 1000
+        # Get customer segmentation
+        segments = self.customer_segmentation.get_segment_distribution(
+            self.product_type, self.product_group, self.rating
+        )
         
-        # Apply factors to base demand
-        base_demand = self.demand_intercept * rating_factor * order_factor - self.demand_slope * price * self.elasticity
+        # Calculate price ratio compared to reference price
+        price_ratio = price / (self.ppi * price)
+        
+        # Get segment conversion probabilities
+        segment_conversion = self.customer_segmentation.calculate_segment_conversion_probabilities(
+            price_ratio, product
+        )
+        
+        # Get demand modifier from customer segmentation
+        margin = (price - product['cost']) / price
+        demand_modifier = self.customer_segmentation.get_demand_modifier(
+            product, price_ratio, margin
+        )
+        
+        # Calculate demand using enhanced approach
+        # Base demand calculation using elasticity-influenced demand curve
+        base_demand = self.demand_intercept - self.demand_slope * price * self.elasticity
+        
+        # Adjust demand using customer segmentation
+        conversion_prob = segment_conversion['weighted_conversion']
+        profit_multiplier = segment_conversion['expected_profit_multiplier']
+        
+        # Apply demand modifier
+        modified_demand = base_demand * demand_modifier
+        
+        # Add randomness
         noise = np.random.normal(0, self.noise_std)
-        actual_demand = max(0, base_demand + noise)
+        actual_demand = max(0, modified_demand + noise)
         
         # Calculate revenue
         revenue = price * actual_demand
         
-        # Calculate cost (simplified)
+        # Calculate cost
         unit_cost = price * 0.6  # Assume cost is 60% of price
         total_cost = unit_cost * actual_demand
         
@@ -151,13 +197,16 @@ class DynamicPricingEnv(gym.Env):
         profit = revenue - total_cost
         
         # Calculate reward (profit) with quality and popularity bonuses
-        # Products with higher ratings can command a premium, incentivizing higher prices for quality products
-        # Products with more orders get a smaller bonus to encourage volume-based pricing strategies
-        rating_bonus = profit * (self.rating / 5) * 0.15  # Reduced from 0.2 to 0.15
-        order_bonus = profit * (min(200, self.num_orders) / 200) * 0.05  # Reduced from 0.15 to 0.05
+        # Products with higher ratings can command a premium
+        rating_bonus = profit * (self.rating / 5) * 0.15
+        # Products with more orders get a smaller bonus to encourage volume-based pricing
+        order_bonus = profit * (min(200, self.num_orders) / 200) * 0.05
+        
+        # Apply profit multiplier from customer segmentation
+        profit_bonus = profit * (profit_multiplier - 1.0) * 0.5
         
         # Calculate final reward with bonuses
-        reward = profit + rating_bonus + order_bonus
+        reward = profit + rating_bonus + order_bonus + profit_bonus
         
         # Update step counter
         self.step_count += 1
@@ -183,10 +232,12 @@ class DynamicPricingEnv(gym.Env):
             'profit': profit,
             'revenue': revenue,
             'cost': total_cost,
-            'rating_factor': rating_factor,
-            'order_factor': order_factor,
+            'conversion_prob': conversion_prob,
+            'profit_multiplier': profit_multiplier,
+            'demand_modifier': demand_modifier,
             'rating_bonus': rating_bonus,
-            'order_bonus': order_bonus
+            'order_bonus': order_bonus,
+            'profit_bonus': profit_bonus
         }
         
         # Return state, reward, done, and info
@@ -198,12 +249,15 @@ class DynamicPricingEnv(gym.Env):
         # Not implemented, but required by the Gym interface
         pass
 
-def make_env(historical_data=None, elasticity=1.0, ppi=1.0, rating=4.0, num_orders=50):
+def make_env(historical_data=None, elasticity=1.0, ppi=1.0, rating=4.0, num_orders=50, 
+            product_type='Electronics', product_group='Laptops'):
     """Create an instance of the DynamicPricingEnv"""
     return DynamicPricingEnv(
         historical_data=historical_data,
         elasticity=elasticity,
         ppi=ppi,
         rating=rating,
-        num_orders=num_orders
+        num_orders=num_orders,
+        product_type=product_type,
+        product_group=product_group
     )
