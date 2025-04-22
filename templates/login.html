@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - QuickPrice</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      /* Dark Theme (Default) */
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --text-color: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-color: #3b82f6;
+      --hover-color: #2563eb;
+      --danger-color: #ef4444;
+      --success-color: #22c55e;
+    }
+    
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      padding: 30px;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    .brand {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .brand h1 {
+      color: var(--text-color);
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    .brand p {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-top: 0;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-color);
+      font-size: 14px;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--card-border);
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      color: var(--text-color);
+      font-size: 15px;
+      transition: all 0.2s;
+      box-sizing: border-box;
+    }
+    
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+    }
+    
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+    
+    .form-options a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+    
+    .form-options a:hover {
+      text-decoration: underline;
+    }
+    
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+    }
+    
+    .checkbox-container input {
+      margin-right: 8px;
+    }
+    
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    button:hover {
+      background-color: var(--hover-color);
+    }
+    
+    .login-footer {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    
+    .login-footer a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+    
+    .login-footer a:hover {
+      text-decoration: underline;
+    }
+    
+    .alert {
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    
+    .alert-danger {
+      background-color: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    
+    .alert-success {
+      background-color: rgba(34, 197, 94, 0.2);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="brand">
+      <h1>QuickPrice</h1>
+      <p>Sign in to access your account</p>
+    </div>
+    
+    <div id="alert" class="alert"></div>
+    
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      </div>
+      
+      <div class="form-options">
+        <div class="checkbox-container">
+          <input type="checkbox" id="remember" name="remember">
+          <label for="remember">Remember me</label>
+        </div>
+        <a href="#">Forgot password?</a>
+      </div>
+      
+      <button type="submit">Sign In</button>
+    </form>
+    
+    <div class="login-footer">
+      Don't have an account? <a href="/signup">Sign up</a>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if already logged in
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (currentUser) {
+        window.location.href = '/';
+      }
+      
+      // Create demo user if none exists
+      if (!localStorage.getItem('users')) {
+        const users = [
+          {
+            name: 'Sarah Johnson',
+            email: 'sarah@example.com',
+            password: 'password123',
+            role: 'Admin',
+            id: '12345',
+            createdAt: new Date().toISOString(),
+            company: 'Tech Innovations Ltd',
+            position: 'Senior Product Manager'
+          }
+        ];
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+      
+      // Handle login form submission
+      const loginForm = document.getElementById('loginForm');
+      const alert = document.getElementById('alert');
+      
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        console.log("Login form submitted");
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        // Get users from localStorage
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        console.log("Checking credentials against localStorage users");
+        
+        // Find user with matching credentials
+        const user = users.find(u => u.email === email && u.password === password);
+        
+        if (user) {
+          console.log("User found in localStorage:", user);
+          // Create a session and store current user
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          
+          // Also send to server for session
+          console.log("Sending user data to server for session");
+          fetch('/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: user.email,
+              name: user.name,
+              role: user.role
+            })
+          })
+          .then(response => {
+            console.log("Server response status:", response.status);
+            return response.json();
+          })
+          .then(data => {
+            console.log("Server login response:", data);
+            // Show success message
+            alert.className = 'alert alert-success';
+            alert.style.display = 'block';
+            alert.innerHTML = 'Login successful! Redirecting...';
+            
+            // Redirect to dashboard
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 1000);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert.className = 'alert alert-danger';
+            alert.style.display = 'block';
+            alert.innerHTML = 'Error creating server session. Please try again.';
+          });
+        } else {
+          console.log("User not found in localStorage");
+          // Show error message
+          alert.className = 'alert alert-danger';
+          alert.style.display = 'block';
+          alert.innerHTML = 'Invalid email or password. Please try again.';
+        }
+      });
+    });
+  </script>
+</body>
+</html> 

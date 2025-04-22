@@ -1,9 +1,19 @@
 #!/bin/bash
-# Simple startup script for Dynamic Pricing
+# Run script for QuickPrice Web Application
+# This script starts the Flask web server for the QuickPrice Dashboard
 
-# Kill any running Flask servers
-pkill -f "python app.py" || echo "No running servers"
+# Get the directory of this script
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-# Start the server
-echo "Starting Dynamic Pricing server on port 5005..."
-python app.py 
+# Set the port (default to 5050)
+PORT=${1:-5050}
+
+# Go to the correct directory
+cd "$DIR"
+
+echo "Starting QuickPrice Dashboard on port $PORT..."
+
+# Run the Flask application
+export FLASK_APP=app.py
+export FLASK_ENV=development
+python app.py --port $PORT 

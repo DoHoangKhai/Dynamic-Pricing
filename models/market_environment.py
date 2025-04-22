@@ -20,14 +20,17 @@ from typing import Dict, List, Tuple, Any, Optional
 
 # Import the pricing strategies
 try:
-    from prototype.pricing_strategies import PricingStrategy, CustomerSegmentation
+    from models.pricing_strategies import PricingStrategy, CustomerSegmentation
 except ImportError:
     try:
         from pricing_strategies import PricingStrategy, CustomerSegmentation
     except ImportError:
-        print("Warning: pricing_strategies module not found. Using internal fallback.")
-        PricingStrategy = None
-        CustomerSegmentation = None
+        try:
+            from prototype.pricing_strategies import PricingStrategy, CustomerSegmentation
+        except ImportError:
+            print("Warning: pricing_strategies module not found. Using internal fallback.")
+            PricingStrategy = None
+            CustomerSegmentation = None
 
 
 # Add MarketEnvironment class for app.py compatibility
@@ -1100,161 +1103,102 @@ class EcommerceMarketEnv(gym.Env):
     
     def step(self, action):
         """
-        Take a step in the environment with enhanced strategy insights
+        Take a step in the environment by applying a pricing action
         
         Args:
-            action: The pricing action (index of price level)
+            action: Discrete action index
             
         Returns:
-            observation: The new state
-            reward: The reward for the action
-            done: Whether the episode is complete
-            truncated: Whether the episode was truncated
+            observation: Next state observation
+            reward: Reward for the action
+            terminated: Whether the episode is done
+            truncated: Whether the episode is truncated
             info: Additional information
         """
-        # Check if episode is already done
-        if self.done:
-            return self.current_observation, 0.0, True, False, {}
-        
-        # Extract the current product information
-        product = self.current_product_info
-        
         # Convert action to price ratio
         price_ratio = self._action_to_price_ratio(action)
         
-        # Calculate reference prices
-        reference_price = product['price']
-        optimal_price_ratio = self._get_optimal_price_ratio()
+        # Get product attributes
+        product = self.current_product_info
+        base_price = product.get('actual_price', product.get('price', 100.0))
+        cost = product.get('cost', 0.6 * base_price)  # Default cost is 60% of price
         
-        # Get pricing strategy recommendations if available
-        pricing_recommendation = None
-        strategy_confidence = 0.0
+        # Apply price ratio to get new price
+        price = base_price * price_ratio
+        self.current_price = price
+        self.current_price_ratio = price_ratio
         
-        if hasattr(self, 'pricing_strategy') and self.pricing_strategy is not None:
-            # Create market info from current state
-            market_info = {
-                'competitive_intensity': 0.5 + 0.3 * np.random.random(),  # Simulated for now
-                'price_trend': 0.01 * (np.random.random() - 0.5),  # Small random trend for now
-                'current_price_ratio': price_ratio
-            }
-            
-            # Get strategy recommendations
-            pricing_recommendations = self.pricing_strategy.get_price_recommendations(product, market_info)
-            
-            # Extract key information
-            strategy_confidence = pricing_recommendations['weighted_recommendation']['total_confidence']
-            recommended_price_ratio = pricing_recommendations['weighted_recommendation']['price_ratio']
-            pricing_recommendation = pricing_recommendations
+        # Calculate demand and conversion probability
+        demand = self._calculate_demand(price_ratio)
+        conversion_prob, conversion = self._calculate_conversion(price_ratio, demand)
         
-        # Calculate the applied price
-        price = reference_price * price_ratio
-        
-        # Ensure minimum price covers cost
-        cost = product['cost']
-        if price < cost * 1.1:  # Ensure at least 10% markup over cost
-            price = cost * 1.1
-            price_ratio = price / reference_price
-        
-        # Simulate competitor response
-        competitor_response = self._simulate_competitor_response(price_ratio)
-        
-        # Update pricing strategy with competitor response if available
-        if hasattr(self, 'pricing_strategy') and self.pricing_strategy is not None:
-            # Track competitor responses
-            self.pricing_strategy.observed_competitor_responses.append(competitor_response)
-            
-            # Update market trends with new data
-            price_data = [self.episode_profits[-1]] if self.episode_profits else [0]
-            self.pricing_strategy.update_market_trends(price_data, 
-                                                     self.pricing_strategy.observed_competitor_responses)
-        
-        # Calculate demand at this price point
-        demand = self._calculate_demand(price_ratio, competitor_response)
-        
-        # Determine if conversion occurs
-        conversion_prob, conversion = self._calculate_conversion_probability(price_ratio, demand)
-        
-        # Calculate profits and update episode metrics
-        profit = (price - cost) if conversion else 0.0
-        
-        # Optimal profit (for reference)
-        optimal_price = reference_price * optimal_price_ratio
-        optimal_profit = optimal_price - cost
-        
-        # Calculate profit gap from optimal
-        profit_diff = profit - optimal_profit
-        profit_diff_pct = profit_diff / optimal_profit if optimal_profit != 0 else 0.0
-        
-        # Update episode statistics
-        self.episode_step += 1
-        self.episode_actions.append(action)
-        self.episode_profits.append(profit)
-        self.episode_profit += profit
-        
-        # Track conversions
+        # Calculate profit
+        profit = 0.0
         if conversion:
-            self.episode_conversion_count += 1
+            revenue = price * demand
+            total_cost = cost * demand
+            profit = revenue - total_cost
         
-        # Check if episode is done
-        self.done = self.episode_step >= self.episode_length
+        # Store result in history
+        self.price_history.append(price)
+        self.demand_history.append(demand)
+        self.profit_history.append(profit)
+        self.conversion_history.append(conversion)
+        
+        # Update state
+        self._update_state(price_ratio, demand, conversion, profit)
         
         # Calculate reward
-        reward = self._calculate_reward(
-            self.current_product_info,
-            price_ratio,
-            self._get_observation()
-        )
+        reward = self._calculate_reward(self.state, price, self.next_state)
         
-        # Update the observation with the new state
-        self._update_state(price_ratio, profit, conversion)
+        # Implement dynamic adjustment for conversions/non-conversions based on profit
+        # This is a key improvement to make the model focus on profit and not just conversions
+        if conversion:
+            # For conversions, add a profit-scaled bonus instead of a fixed bonus
+            profit_bonus = min(profit * 0.5, 100)  # Cap the bonus at 100
+            reward += profit_bonus
+        else:
+            # For non-conversions, penalty is already in _calculate_reward, but we can refine
+            # We want to penalize price choices that lead to no conversion AND have no profit potential
+            # If the price is strategic (e.g., high margin premium positioning), reduce penalty
+            strategic_factor = 0.0
+            if price_ratio > 1.1 and product.get('rating', 3.0) >= 4.0:
+                # Premium product with premium pricing - more strategic
+                strategic_factor = 0.6
+            elif price_ratio < 0.9 and self.episode_step < 10:
+                # Early penetration pricing - more strategic
+                strategic_factor = 0.4
+                
+            # Apply strategic adjustment to non-conversion penalty
+            strategic_adjustment = 10 * strategic_factor
+            reward += strategic_adjustment  # Reduce penalty for strategic pricing
         
-        # Create info dictionary
+        # Update episode step
+        self.episode_step += 1
+        
+        # Check if episode is done
+        done = self.episode_step >= self.episode_length
+        
+        # Get observation
+        observation = self._get_observation()
+        
+        # Return step result
         info = {
-            'price': float(price),
-            'price_ratio': float(price_ratio),
-            'profit': float(profit),
-            'demand': float(demand),
-            'conversion': bool(conversion),
-            'conversion_probability': float(conversion_prob),
-            'profit_diff': float(profit_diff),
-            'profit_diff_pct': float(profit_diff_pct),
-            'optimal_price_ratio': float(optimal_price_ratio),
-            'product_type': str(product['product_type']),
-            'product_group': str(product['product_group']),
-            'elasticity': float(product['elasticity']),
-            'reward_components': self.reward_components,
-            'episode_step': int(self.episode_step),
-            'episode_profit': float(self.episode_profit),
-            'episode_conversion_count': int(self.episode_conversion_count)
+            'product_id': product.get('product_id', ''),
+            'product_type': product.get('product_type', ''),
+            'product_group': product.get('product_group', ''),
+            'elasticity': product.get('elasticity', 1.0),
+            'price': price,
+            'price_ratio': price_ratio,
+            'demand': demand,
+            'conversion': conversion,
+            'profit': profit,
+            'rating': product.get('rating', 3.0),
+            'ppi': product.get('ppi', 1.0),
+            'reference_price': base_price
         }
         
-        # Add strategy information if available
-        if pricing_recommendation is not None:
-            info['pricing_strategy_confidence'] = float(strategy_confidence)
-            info['recommended_price_ratio'] = float(recommended_price_ratio)
-            # Include top strategies with their confidence
-            top_strategies = {}
-            for strategy, data in pricing_recommendations['strategies'].items():
-                if data['confidence'] > 0.2:  # Only include strategies with reasonable confidence
-                    top_strategies[strategy] = {
-                        'confidence': float(data['confidence']),
-                        'price_ratio': float(data['recommended_price_ratio'])
-                    }
-            info['top_strategies'] = top_strategies
-        
-        # Include customer segment information if available
-        if hasattr(self, 'segment_conversion_probs'):
-            info['segment_conversions'] = self.segment_conversion_probs
-        
-        # Include PPI if available
-        if 'ppi' in product:
-            info['ppi'] = float(product['ppi'])
-        
-        # Include rating if available
-        if 'rating' in product:
-            info['rating'] = float(product['rating'])
-        
-        return self.current_observation, reward, self.done, False, info
+        return observation, reward, done, False, info
     
     def _simulate_competitor_response(self, price_ratio):
         """
@@ -1665,8 +1609,8 @@ class EcommerceMarketEnv(gym.Env):
     
     def _calculate_reward(self, state, action, next_state):
         """
-        Calculate the reward for the current action with a strong focus on market-beating performance
-        while maintaining profitability and price reasonableness.
+        Calculate the reward for the current action with a stronger focus on profitability
+        while maintaining market-beating performance and price reasonableness.
         """
         price = action
         cost = state['cost']
@@ -1683,33 +1627,48 @@ class EcommerceMarketEnv(gym.Env):
         # Base reward starts at zero
         reward = 0
         
-        # Market performance component (significantly strengthened)
+        # PROFIT COMPONENT - SIGNIFICANTLY STRENGTHENED
+        # Direct profit reward is now the primary driver
+        # This encourages finding the optimal price point for maximum profit
+        profit = next_state.get('profit', 0)
+        reward += profit * 2.5  # Increased multiplier from previous implicit value
+        
+        # Market performance component (balanced)
         margin_difference = margin - market_margin
         if margin_difference > 0:
-            # Exponential reward for beating market margins
-            reward += 150 * (margin_difference ** 1.5)  # Stronger exponential scaling
+            # Reward for beating market margins, but less exponential
+            reward += 100 * margin_difference  # Less exponential scaling
         else:
-            # Stronger penalty for underperforming
-            reward -= 80 * abs(margin_difference)
+            # More moderate penalty for underperforming
+            reward -= 50 * abs(margin_difference)  # Reduced penalty
         
-        # Price reasonableness component (simplified)
+        # Price reasonableness component (maintained)
         price_diff_pct = abs(price - market_price) / market_price
         if price_diff_pct <= 0.20:
-            reward += 40 * (1 - price_diff_pct)  # Increased reward for reasonable prices
+            reward += 30 * (1 - price_diff_pct)  # Reasonable reward for reasonable prices
         else:
-            reward -= 120 * price_diff_pct  # Stronger penalty for unreasonable prices
+            reward -= 80 * price_diff_pct  # Significant but not overwhelming penalty
         
-        # Profitability bonus (enhanced)
-        if margin >= 0.35:
-            reward += 70  # Very strong bonus for high margins
-        elif margin >= 0.25:
-            reward += 50  # Strong bonus for good margins
+        # Profitability bonus (enhanced but more gradual)
+        if margin >= 0.40:
+            reward += 90  # Very strong bonus for high margins
+        elif margin >= 0.30:
+            reward += 60  # Strong bonus for good margins
         elif margin >= 0.20:
             reward += 30  # Moderate bonus for acceptable margins
+        elif margin >= 0.15:
+            reward += 10  # Small bonus for minimum acceptable margins
         
-        # Market competitiveness bonus (enhanced)
+        # Conversion penalty (REDUCED SIGNIFICANTLY)
+        # This is a key change - we no longer heavily penalize non-conversions
+        # Instead, we rely on the profit component to implicitly handle this
+        conversion = next_state.get('conversion', False)
+        if not conversion:
+            reward -= 20  # Reduced from previous -200, creating more balanced incentives
+        
+        # Market competitiveness bonus (rebalanced)
         if price < market_price and margin >= 0.20:
-            reward += 60  # Significant bonus for profitable market-beating prices
+            reward += 40  # Significant but not dominant bonus
         
         # Strategic pricing bonus
         product_type = state.get('product_type', 'standard')
@@ -1718,56 +1677,72 @@ class EcommerceMarketEnv(gym.Env):
         # Premium product pricing strategy
         if product_type.lower() in ['luxury', 'premium']:
             if price > market_price and margin >= 0.30 and rating >= 4.0:
-                reward += 40  # Bonus for premium products with premium pricing and good ratings
+                reward += 30  # Bonus for premium products with premium pricing
         
         # Value product pricing strategy
         elif product_type.lower() in ['basic', 'economy']:
             if price < market_price and price > cost * 1.25:
-                reward += 40  # Bonus for value products with competitive but profitable pricing
+                reward += 30  # Bonus for value products with competitive pricing
         
         return reward
     
     def _calculate_ppi_reward(self, effective_ppi, original_ppi, profit, rating, elasticity):
-        """Calculate reward based on PPI positioning"""
+        """
+        Calculate reward based on PPI positioning with stronger emphasis on profitability.
         
-        # Base reward/penalty based on PPI category
+        Args:
+            effective_ppi: Effective PPI after pricing decision
+            original_ppi: Original PPI before pricing decision
+            profit: Profit from this pricing decision
+            rating: Product rating
+            elasticity: Price elasticity of demand
+            
+        Returns:
+            PPI-based reward component
+        """
+        
+        # Base reward now starts with a profit factor regardless of PPI category
+        # This shifts incentives towards maximizing profit rather than landing in a specific range
+        base_profit_factor = 0.5  # Start with a base profit multiplier
+        
+        # PPI categories with adjusted rewards
         if effective_ppi <= 0.8:  # Significantly underpriced
-            # Penalty for leaving money on the table, especially for premium products
+            # Reduced penalty for underpricing compared to before
             quality_factor = rating / 5.0
-            underpricing_penalty = -profit * 0.2 * (0.8 - effective_ppi) * quality_factor
+            underpricing_penalty = -profit * 0.15 * (0.8 - effective_ppi) * quality_factor
             # But if original PPI was very high, reward moving toward better pricing
             if original_ppi > 1.3:
-                correction_bonus = profit * 0.3 * min(1.0, (original_ppi - effective_ppi))
-                return underpricing_penalty + correction_bonus
-            return underpricing_penalty
+                correction_bonus = profit * 0.4 * min(1.0, (original_ppi - effective_ppi))
+                return (profit * base_profit_factor) + underpricing_penalty + correction_bonus
+            return (profit * base_profit_factor) + underpricing_penalty
             
         elif effective_ppi <= 0.95:  # Slightly underpriced
-            # Small bonus for slightly underpriced items (good volume strategy)
-            return profit * 0.1
+            # Increased bonus for slightly underpriced items, which often have high volume
+            return profit * (base_profit_factor + 0.2)
             
         elif effective_ppi <= 1.1:  # Optimally priced
-            # Strong bonus for optimal pricing
-            optimal_bonus = profit * 0.25
+            # Strong bonus for optimal pricing, but less dominant than before
+            optimal_bonus = profit * 0.3
             # Extra bonus for moving into optimal range from outside
             if original_ppi <= 0.8 or original_ppi > 1.3:
-                optimal_bonus += profit * 0.15
-            return optimal_bonus
+                optimal_bonus += profit * 0.2
+            return (profit * base_profit_factor) + optimal_bonus
             
         elif effective_ppi <= 1.3:  # Moderately overpriced
-            # Small penalty for moderate overpricing
-            # But allow premium products (high rating) to charge a premium
+            # Less penalty for moderate overpricing, especially for high-rated products
             quality_factor = rating / 5.0
-            return profit * (0.05 - (effective_ppi - 1.1) * 0.3) * (1.0 + quality_factor)
+            # The higher the quality, the more we reward premium pricing
+            return profit * (base_profit_factor + 0.1 * quality_factor)
             
         else:  # Significantly overpriced
-            # Strong penalty for significant overpricing
-            # The higher the elasticity, the stronger the penalty
-            overpricing_penalty = -profit * 0.3 * (effective_ppi - 1.3) * elasticity
+            # Elasticity-adjusted penalty for significant overpricing
+            # The higher the elasticity, the more customers are price-sensitive
+            overpricing_penalty = -profit * 0.25 * (effective_ppi - 1.3) * elasticity
             # But if original PPI was even higher, reward moving toward better pricing
             if original_ppi > effective_ppi:
-                correction_bonus = profit * 0.2 * min(1.0, (original_ppi - effective_ppi))
-                return overpricing_penalty + correction_bonus
-            return overpricing_penalty
+                correction_bonus = profit * 0.3 * min(1.0, (original_ppi - effective_ppi))
+                return (profit * base_profit_factor) + overpricing_penalty + correction_bonus
+            return (profit * base_profit_factor) + overpricing_penalty
     
     def _calculate_strategy_reward(self, effective_category, original_category, 
                                  price_ratio, profit, rating, elasticity):
@@ -1854,7 +1829,7 @@ class EcommerceMarketEnv(gym.Env):
     def _get_optimal_price_ratio(self):
         """
         Calculate the optimal price ratio based on product attributes, elasticity,
-        and market conditions with enhanced focus on market-beating performance.
+        and market conditions with enhanced focus on profitability and reasonable pricing.
         
         Returns a price ratio that optimizes profit while maintaining market competitiveness.
         """
@@ -1868,35 +1843,36 @@ class EcommerceMarketEnv(gym.Env):
         # Calculate the cost-to-price ratio
         cost_ratio = cost / market_price if market_price > 0 else 0.6
         
-        # Base optimal markup based on elasticity
+        # Base optimal markup based on elasticity - ADJUSTED FOR HIGHER PROFITABILITY
         # For inelastic products (e < 1), we can price higher
         # For elastic products (e > 1), we need to be more price competitive
+        # But we ensure all products maintain reasonable profitability
         if elasticity < 0.8:  # Highly inelastic
-            base_markup = 1.15  # 15% above market price
+            base_markup = 1.18  # Increased from 1.15 (18% above market price)
         elif elasticity < 1.0:  # Moderately inelastic
-            base_markup = 1.08  # 8% above market price
+            base_markup = 1.10  # Increased from 1.08 (10% above market price)
         elif elasticity < 1.2:  # Moderately elastic
-            base_markup = 0.95  # 5% below market price
+            base_markup = 0.97  # Increased from 0.95 (3% below market price)
         else:  # Highly elastic
-            base_markup = 0.92  # 8% below market price
+            base_markup = 0.94  # Increased from 0.92 (6% below market price)
         
         # Enhanced rating adjustment - higher quality products can command higher prices
         rating_adjustment = 0.0
         if rating >= 4.5:  # Excellent rating
-            rating_adjustment = 0.12  # Up to 12% premium
+            rating_adjustment = 0.15  # Increased from 0.12 (up to 15% premium)
         elif rating >= 4.0:  # Very good rating
-            rating_adjustment = 0.08  # Up to 8% premium
+            rating_adjustment = 0.10  # Increased from 0.08 (up to 10% premium)
         elif rating >= 3.5:  # Good rating
-            rating_adjustment = 0.04  # Up to 4% premium
+            rating_adjustment = 0.05  # Increased from 0.04 (up to 5% premium)
         elif rating <= 2.5:  # Poor rating
-            rating_adjustment = -0.08  # 8% discount needed
+            rating_adjustment = -0.05  # Reduced discount from -0.08 (5% discount needed)
         
         # Product type adjustment
         type_adjustment = 0.0
         if product_type.lower() in ['luxury', 'premium']:
-            type_adjustment = 0.10  # Premium products can have higher margins
+            type_adjustment = 0.12  # Increased from 0.10 (premium products have higher margins)
         elif product_type.lower() in ['basic', 'economy']:
-            type_adjustment = -0.05  # Basic products need more competitive pricing
+            type_adjustment = -0.03  # Reduced discount from -0.05 (less discount on basic products)
         
         # Enhanced competitiveness adjustment based on cost ratio
         # Higher margin potential (lower cost ratio) allows more pricing flexibility
@@ -1904,11 +1880,11 @@ class EcommerceMarketEnv(gym.Env):
         competitiveness_adjustment = 0.0
         
         if margin_potential > 0.5:  # Very high margin potential
-            competitiveness_adjustment = 0.08  # Can price more aggressively
+            competitiveness_adjustment = 0.10  # Increased from 0.08 (can price more aggressively)
         elif margin_potential > 0.3:  # Good margin potential
-            competitiveness_adjustment = 0.05  # Moderate pricing premium
+            competitiveness_adjustment = 0.07  # Increased from 0.05 (moderate pricing premium)
         else:  # Limited margin potential
-            competitiveness_adjustment = -0.05  # Need more competitive pricing
+            competitiveness_adjustment = -0.03  # Reduced discount from -0.05 (need more competitive pricing)
         
         # Calculate total adjustment
         total_adjustment = rating_adjustment + type_adjustment + competitiveness_adjustment
@@ -1916,11 +1892,11 @@ class EcommerceMarketEnv(gym.Env):
         # Apply adjustments to base markup, with constraints
         optimal_ratio = base_markup + total_adjustment
         
-        # Ensure minimum profitability - at least 20% margin over cost
-        min_profitable_ratio = (cost * 1.25) / market_price
+        # INCREASED MINIMUM PROFITABILITY - at least 25% margin over cost (increased from 20%)
+        min_profitable_ratio = (cost * 1.33) / market_price
         
-        # Cap maximum price at 20% above market to maintain reasonableness
-        max_ratio = 1.20
+        # Cap maximum price at 25% above market to maintain reasonableness (increased from 20%)
+        max_ratio = 1.25
         
         # Apply constraints
         optimal_ratio = max(min_profitable_ratio, min(optimal_ratio, max_ratio))
@@ -1928,17 +1904,17 @@ class EcommerceMarketEnv(gym.Env):
         # Additional boost for products with high margin potential and good ratings
         if margin_potential > 0.4 and rating >= 4.0:
             # Further optimize to beat market pricing while maintaining profitability
-            optimal_ratio = min(optimal_ratio * 1.05, max_ratio)
+            optimal_ratio = min(optimal_ratio * 1.08, max_ratio)  # Increased from 1.05
         
         return optimal_ratio
     
     def get_optimal_price(self):
         """
         Calculate the optimal price for the current product based on its attributes,
-        elasticity, and market conditions with enhanced focus on market-beating performance.
+        elasticity, and market conditions with enhanced focus on profitability.
         
         Returns:
-            optimal_price: The calculated optimal price
+            optimal_price: The calculated optimal price that maximizes profit
         """
         product = self.current_product_info
         market_price = product.get('price', 100.0)
@@ -1953,35 +1929,35 @@ class EcommerceMarketEnv(gym.Env):
         # Calculate optimal price
         optimal_price = market_price * optimal_ratio
         
-        # Ensure minimum profitability - at least 25% margin over cost
-        min_price = cost * 1.25
+        # Ensure minimum profitability - at least 33% margin over cost (increased from 25%)
+        min_price = cost * 1.5  # Increased minimum markup for better profitability
         
         # Apply strategic adjustments based on product attributes
         if rating >= 4.5 and product_type.lower() in ['luxury', 'premium']:
             # Premium products with excellent ratings can command higher prices
-            optimal_price = max(optimal_price, market_price * 1.05)
+            optimal_price = max(optimal_price, market_price * 1.10)  # Increased from 1.05
         elif rating >= 4.0:
             # Good quality products should maintain good margins
-            optimal_price = max(optimal_price, cost * 1.35)
+            optimal_price = max(optimal_price, cost * 1.50)  # Increased from 1.35
         elif product_type.lower() in ['basic', 'economy']:
             # Basic products need to be competitively priced but still profitable
-            optimal_price = min(optimal_price, market_price * 0.95)
-            optimal_price = max(optimal_price, cost * 1.25)
+            optimal_price = min(optimal_price, market_price * 0.97)  # Less discount from 0.95
+            optimal_price = max(optimal_price, cost * 1.35)  # Increased from 1.25
         
         # Elasticity-based adjustments
         if elasticity < 0.8:  # Inelastic products
             # For inelastic products, we can price higher
-            optimal_price = max(optimal_price, market_price * 1.05)
+            optimal_price = max(optimal_price, market_price * 1.08)  # Increased from 1.05
         elif elasticity > 1.5:  # Highly elastic products
             # For elastic products, we need to be more price competitive
-            optimal_price = min(optimal_price, market_price * 0.95)
+            optimal_price = min(optimal_price, market_price * 0.96)  # Less discount from 0.95
             optimal_price = max(optimal_price, min_price)
         
         # Final bounds check
         optimal_price = max(min_price, optimal_price)
         
         # Ensure price is within reasonable bounds of market price
-        max_price = market_price * 1.2
+        max_price = market_price * 1.25  # Increased from 1.2
         optimal_price = min(optimal_price, max_price)
         
         return optimal_price

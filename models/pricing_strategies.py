@@ -10,20 +10,20 @@ import numpy as np
 import math
 
 class PricingStrategy:
-    """
-    Dynamic pricing strategy that combines multiple approaches to optimize pricing.
-    
-    This module implements various pricing strategies including:
-    1. Cost-plus pricing
-    2. Value-based pricing
-    3. Competition-based pricing
-    4. Elasticity-based pricing
-    
-    These strategies are combined using a weighted approach to determine the optimal price.
-    """
+    """Enhanced pricing strategy that incorporates competitor pricing, customer segments, and market insights."""
     
     def __init__(self):
-        """Initialize the pricing strategy module"""
+        """Initialize the pricing strategy with default parameters."""
+        # Pricing strategy parameters
+        self.margin_goal = 0.35  # Target profit margin
+        self.price_sensitivity = 0.7  # How sensitive price is to market factors
+        
+        # Importance weights for different factors - INCREASED COMPETITOR INFLUENCE
+        self.competitor_influence = 0.45  # Increased from ~0.2 to give competitor price more weight
+        self.rating_influence = 0.20  # Decreased slightly to balance
+        self.order_influence = 0.15  # Decreased slightly to balance
+        self.market_influence = 0.20  # Maintained
+        
         self.strategies = {
             'cost_plus': self._cost_plus_pricing,
             'value_based': self._value_based_pricing,
@@ -332,169 +332,216 @@ class PricingStrategy:
             'strategy': 'penetration'
         }
     
-    def get_price_recommendations(self, product, market_info=None):
+    def get_price_recommendations(self, product, market_info):
         """
-        Get pricing recommendations based on current strategies with enhanced
-        focus on market-beating performance and profitability.
+        Get recommended prices based on the product and market info.
         
         Args:
-            product: Product information dictionary
-            market_info: Market information dictionary
+            product (dict): Product information including price, cost, elasticity, etc.
+            market_info (dict): Market information including competitive intensity, etc.
             
         Returns:
-            Dictionary with strategy recommendations and weighted suggestion
+            dict: Price recommendations including optimal price, price range, etc.
         """
-        if market_info is None:
-            market_info = self.market_trends
+        try:
+            # Extract product info
+            current_price = product.get('price', 0)
+            competitor_price = product.get('competitors_price', 0)
+            elasticity = product.get('elasticity', 1.0)
+            rating = product.get('rating', 3.0)
+            order_count = product.get('number_of_orders', 0)
+            product_type = product.get('product_type', '').lower()
+            product_group = product.get('product_group', '').lower()
             
-        # Product type-based weight adjustments
-        product_type = product.get('product_type', 'standard')
-        rating = product.get('rating', 3.0)
-        elasticity = product.get('elasticity', 1.0)
-        
-        # Adjust strategy weights based on product type
-        self._adjust_strategy_weights(product, market_info)
-        
-        # Further adjust weights based on product attributes
-        if rating >= 4.5:  # Excellent quality products
-            # Increase premium and skimming for high-quality products
-            self.strategy_weights['premium'] += 0.10
-            self.strategy_weights['skimming'] += 0.05
-            self.strategy_weights['competition_based'] -= 0.10
-            self.strategy_weights['penetration'] -= 0.05
-        elif rating <= 2.5:  # Poor quality products
-            # Increase competitive and penetration for lower-quality products
-            self.strategy_weights['competition_based'] += 0.15
-            self.strategy_weights['penetration'] += 0.10
-            self.strategy_weights['premium'] -= 0.15
-            self.strategy_weights['skimming'] -= 0.10
+            print(f"Product Type: {product_type}, Product Group: {product_group}")
             
-        # Adjust for elasticity
-        if elasticity < 0.8:  # Inelastic products
-            # Increase premium and skimming for inelastic products
-            self.strategy_weights['premium'] += 0.05
-            self.strategy_weights['skimming'] += 0.05
-            self.strategy_weights['penetration'] -= 0.05
-            self.strategy_weights['dynamic_elasticity'] -= 0.05
-        elif elasticity > 1.2:  # Elastic products
-            # Increase competitive and penetration for elastic products
-            self.strategy_weights['competition_based'] += 0.10
-            self.strategy_weights['penetration'] += 0.05
-            self.strategy_weights['premium'] -= 0.10
-            self.strategy_weights['skimming'] -= 0.05
+            # Calculate base price using cost-plus method
+            cost = product.get('cost', current_price * 0.6)  # Default to 60% of price if not provided
+            base_price = cost / (1 - self.margin_goal)
             
-        # Normalize weights to ensure they sum to 1.0
-        total_weight = sum(self.strategy_weights.values())
-        if total_weight > 0:
-            for strategy in self.strategy_weights:
-                self.strategy_weights[strategy] /= total_weight
-        
-        # Get recommendations from each strategy
-        recommendations = {}
-        for strategy_name, strategy_func in self.strategies.items():
-            weight = self.strategy_weights.get(strategy_name, 0.0)
-            # Only call strategies with non-zero weights to improve performance
-            if weight > 0.001:
-                recommendations[strategy_name] = strategy_func(product, market_info)
-        
-        # Calculate weighted recommendation
-        weighted_recommendation = self._calculate_weighted_recommendation(recommendations)
-        
-        # Make sure we're returning the price ratio from the weighted recommendation
-        price_ratio = weighted_recommendation.get('price_ratio', 1.0)
-        
-        return {
-            'strategies': recommendations,
-            'weighted_recommendation': weighted_recommendation,
-            'strategy_weights': self.strategy_weights,
-            'price_ratio': price_ratio  # Add this explicit key at the top level
-        }
-    
-    def _calculate_weighted_recommendation(self, recommendations):
-        """
-        Calculate weighted recommendation based on strategy confidence and weights
-        with enhanced focus on profit maximization and market-beating performance.
-        
-        Args:
-            recommendations: Dictionary of strategy recommendations
+            # APPLY PRODUCT TYPE/GROUP SPECIFIC ADJUSTMENTS
+            product_type_factor = 1.0
             
-        Returns:
-            Dictionary with weighted recommendation details
-        """
-        weighted_price_ratio = 0.0
-        total_confidence_weight = 0.0
-        max_profit = 0.0
-        max_profit_strategy = None
-        profit_by_strategy = {}
-        
-        # Weight each strategy by its confidence and strategy weight
-        for strategy, rec in recommendations.items():
-            strategy_weight = self.strategy_weights.get(strategy, 0.0)
-            confidence = rec.get('confidence', 0.0)
-            price_ratio = rec.get('price_ratio', 1.0)
-            expected_profit = rec.get('expected_profit', 0.0)
+            # Apply specific product type adjustments
+            if product_type in ['premium', 'luxury']:
+                product_type_factor = 1.10  # Premium products can charge 10% more
+                print(f"Applied premium product type factor: {product_type_factor}")
+            elif product_type in ['commodity', 'basics', 'basic']:
+                product_type_factor = 0.92  # Commodity products need to be more price competitive
+                print(f"Applied commodity product type factor: {product_type_factor}")
+            elif product_type == 'electronics':
+                # Electronics have specific product group adjustments
+                if product_group == 'smartphones':
+                    # Smartphones are very competitive, adjust based on competitor price
+                    if competitor_price > 0 and current_price < competitor_price:
+                        product_type_factor = 1.03  # Can price higher if below competitor
+                        print("Applied smartphone factor (below competitor): 1.03")
+                    else:
+                        product_type_factor = 0.97  # Need to price more competitively
+                        print("Applied smartphone factor (above competitor): 0.97")
+                elif product_group == 'accessories':
+                    product_type_factor = 1.08  # Accessories have higher margins
+                    print("Applied electronics accessories factor: 1.08")
+                else:
+                    product_type_factor = 1.02  # General electronics adjustment
+                    print("Applied general electronics factor: 1.02")
             
-            # Track profit by strategy
-            profit_by_strategy[strategy] = expected_profit
+            # Calculate competitor influence (higher weight for competitive markets)
+            if competitor_price > 0:
+                # Calculate competitor price factor (how much competitor price affects our price)
+                price_ratio = current_price / competitor_price if competitor_price > 0 else 1.0
+                
+                # Base price factor calculation
+                if price_ratio < 0.85:  # Our price is significantly lower than competitor
+                    # We can increase price more substantially
+                    competitor_price_factor = 1 + ((competitor_price / current_price - 1) * 0.35)
+                elif price_ratio > 1.15:  # Our price is significantly higher than competitor
+                    # We should decrease price to be competitive
+                    competitor_price_factor = 1 - ((price_ratio - 1) * 0.25)
+                else:  # Our price is close to competitor's
+                    # Adjust slightly based on position relative to competitor
+                    competitor_price_factor = 1 + ((competitor_price / current_price - 1) * 0.15)
+                
+                # Cap competitor price factor to reasonable range
+                competitor_price_factor = max(0.85, min(1.25, competitor_price_factor))
+            else:
+                # If no competitor price, don't adjust based on competitor
+                competitor_price_factor = 1.0
             
-            # Track highest profit strategy
-            if expected_profit > max_profit:
-                max_profit = expected_profit
-                max_profit_strategy = strategy
+            # Calculate rating influence (higher rating = can charge more)
+            rating_adjustment = (rating - 3.0) / 2.0 * self.rating_influence
+            rating_factor = 1.0 + rating_adjustment
             
-            # Apply profit-based weighting - strategies with higher profit get more influence
-            profit_factor = 1.0
-            if expected_profit > 0:
-                # Scale profit factor based on relative profit performance
-                profit_factor = 1.0 + (expected_profit / (max_profit + 0.01)) * 0.5
+            # Calculate order volume influence (more orders = can be more competitive)
+            if order_count > 0:
+                volume_factor = 1.0 - (min(1.0, order_count / 200.0) * self.order_influence)
+            else:
+                volume_factor = 1.0
             
-            # Apply enhanced weighting
-            weighted_price_ratio += price_ratio * confidence * strategy_weight * profit_factor
-            total_confidence_weight += confidence * strategy_weight * profit_factor
-        
-        # Default to 1.0 if no confident strategies
-        if total_confidence_weight > 0:
-            final_price_ratio = weighted_price_ratio / total_confidence_weight
-        else:
-            final_price_ratio = 1.0
-        
-        # Adjust final price ratio to favor higher profit strategies
-        if max_profit_strategy and max_profit > 0:
-            max_profit_price_ratio = recommendations[max_profit_strategy]['price_ratio']
+            # Calculate market influence
+            market_competitiveness = market_info.get('competitive_intensity', 0.7)
+            market_trend = market_info.get('price_trend', 0.0)
+            market_factor = 1.0 + (market_trend - market_competitiveness * 0.1) * self.market_influence
             
-            # Blend with the highest profit strategy (giving it 40% influence - reduced from 50%)
-            profit_influence = 0.40
-            final_price_ratio = (1 - profit_influence) * final_price_ratio + profit_influence * max_profit_price_ratio
-        
-        # Ensure minimum profitability - get cost ratio from first product (they should all be the same)
-        first_strategy = next(iter(recommendations.values()))
-        product_info = first_strategy.get('product_info', {})
-        cost_ratio = product_info.get('cost_ratio', 0.6)
-        min_profitable_ratio = cost_ratio * 1.25  # Ensure at least 25% margin over cost
-        
-        # Apply minimum profitability constraint
-        final_price_ratio = max(min_profitable_ratio, final_price_ratio)
-        
-        # Ensure final price ratio is within the target range of 3-8% below market when appropriate
-        # Only apply this constraint for non-premium products to avoid forcing discounts on premium items
-        product_type = product_info.get('product_type', '').lower()
-        if product_type not in ['premium', 'luxury'] and final_price_ratio < 1.0:
-            # For below-market prices, ensure they're in the optimal range
-            final_price_ratio = max(0.92, min(0.97, final_price_ratio))
-        elif product_type not in ['premium', 'luxury'] and final_price_ratio > 1.0:
-            # For above-market prices, keep them reasonable
-            final_price_ratio = min(1.05, final_price_ratio)
-        elif product_type in ['premium', 'luxury']:
-            # For premium products, allow higher prices but still keep them reasonable
-            final_price_ratio = min(1.15, final_price_ratio)
+            # Calculate combined price factor
+            price_factor = competitor_price_factor * rating_factor * volume_factor * market_factor * product_type_factor
             
-        return {
-            'price_ratio': final_price_ratio,
-            'total_confidence': total_confidence_weight,
-            'max_profit_strategy': max_profit_strategy,
-            'max_profit': max_profit,
-            'profit_by_strategy': profit_by_strategy
-        }
+            # Apply elasticity-based adjustment (less elastic = can price higher)
+            if elasticity < 1.0:  # Inelastic demand
+                elasticity_adjustment = (1.0 - elasticity) * 0.15
+                price_factor *= (1.0 + elasticity_adjustment)
+            elif elasticity > 1.0:  # Elastic demand
+                elasticity_adjustment = (elasticity - 1.0) * 0.10
+                price_factor *= (1.0 - elasticity_adjustment)
+            
+            # REASONABLE PRICE ADJUSTMENT - Ensure price adjustments stay within reasonable bounds
+            if price_factor > 1.22:  # Cap maximum price increase to 22%
+                price_factor = 1.22
+                print("Capped maximum price increase to 22%")
+            elif price_factor < 0.85:  # Cap maximum price decrease to 15%
+                price_factor = 0.85
+                print("Capped maximum price decrease to 15%")
+            
+            # Calculate recommended price
+            recommended_price = current_price * price_factor
+            
+            # Ensure price isn't below cost plus minimum margin
+            min_price = cost * 1.15  # At least 15% margin
+            if recommended_price < min_price:
+                recommended_price = min_price
+                print(f"Adjusted to minimum price (cost+15%): ${min_price:.2f}")
+            
+            # COMPETITOR PRICE CEILING - Ensure we don't exceed competitor price by too much
+            if competitor_price > 0:
+                # For most products, don't exceed competitor price by more than 10%
+                max_competitor_ratio = 1.10
+                
+                # Adjust ceiling based on product type and rating
+                if product_type in ['premium', 'luxury'] and rating >= 4.0:
+                    max_competitor_ratio = 1.15  # Premium products with high ratings can charge more
+                    print(f"Using premium max competitor ratio: {max_competitor_ratio}")
+                elif product_type in ['commodity', 'basics', 'basic']:
+                    max_competitor_ratio = 1.05  # Commodity products should stay closer to competition
+                    print(f"Using commodity max competitor ratio: {max_competitor_ratio}")
+                # FIX: Special handling for electronics to be consistent at all price points
+                elif product_type == 'electronics':
+                    if product_group == 'smartphones':
+                        max_competitor_ratio = 0.98  # Smartphones should be below competitor price
+                        print(f"Using smartphone max competitor ratio: {max_competitor_ratio} (always below competitor)")
+                    elif product_group == 'accessories':
+                        max_competitor_ratio = 1.12  # Accessories can be priced higher
+                        print(f"Using accessories max competitor ratio: {max_competitor_ratio}")
+                    else:
+                        max_competitor_ratio = 1.08  # General electronics
+                        print(f"Using electronics max competitor ratio: {max_competitor_ratio}")
+                else:
+                    # For other product types, use default but log it
+                    print(f"Using default max competitor ratio: {max_competitor_ratio} for {product_type}")
+                
+                # Calculate absolute max price based on competitor
+                max_price = competitor_price * max_competitor_ratio
+                
+                # If our recommended price exceeds the max price, cap it
+                if recommended_price > max_price:
+                    print(f"Adjusted price downward from ${recommended_price:.2f} to ${max_price:.2f} to stay within {(max_competitor_ratio-1)*100:.0f}% of competitor price ${competitor_price:.2f}")
+                    recommended_price = max_price
+            
+            # Calculate recommended price range
+            price_range = {
+                'min_price': max(cost * 1.15, recommended_price * 0.9),
+                'max_price': recommended_price * 1.1
+            }
+            
+            # Calculate estimated price elasticity factor
+            if elasticity < 0.7:
+                elasticity_category = "Inelastic"
+            elif elasticity < 1.0:
+                elasticity_category = "Somewhat Inelastic"
+            elif elasticity < 1.3:
+                elasticity_category = "Unit Elastic"
+            else:
+                elasticity_category = "Elastic"
+            
+            # Log final factors
+            print(f"Price Factor Calculation:")
+            print(f"- Product Type Factor: {product_type_factor:.3f}")
+            print(f"- Competitor Factor: {competitor_price_factor:.3f}")
+            print(f"- Rating Factor: {rating_factor:.3f}")
+            print(f"- Volume Factor: {volume_factor:.3f}")
+            print(f"- Market Factor: {market_factor:.3f}")
+            print(f"- Total Factor: {price_factor:.3f}")
+            print(f"Current Price: ${current_price:.2f}, Recommended: ${recommended_price:.2f}")
+            
+            # Prepare and return recommendations
+            return {
+                'recommended_price': recommended_price,
+                'price_ratio': price_factor,
+                'price_range': price_range,
+                'elasticity_category': elasticity_category,
+                'elasticity_factor': elasticity,
+                'pricing_factors': {
+                    'product_type_factor': product_type_factor - 1.0,  # Convert to percentage change
+                    'competitor_factor': competitor_price_factor - 1.0,
+                    'rating_factor': rating_factor - 1.0,
+                    'volume_factor': volume_factor - 1.0,
+                    'market_factor': market_factor - 1.0
+                }
+            }
+            
+        except Exception as e:
+            print(f"Error in pricing strategy: {str(e)}")
+            # Return a safe default if something goes wrong
+            return {
+                'recommended_price': product.get('price', 100),
+                'price_ratio': 1.0,
+                'price_range': {
+                    'min_price': product.get('price', 100) * 0.9,
+                    'max_price': product.get('price', 100) * 1.1
+                },
+                'elasticity_category': "Unknown",
+                'elasticity_factor': 1.0,
+                'error': str(e)
+            }
     
     def update_market_trends(self, price_data, competitor_responses):
         """

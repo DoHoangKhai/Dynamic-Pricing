@@ -1,0 +1,827 @@
+{
+  "status": "OK",
+  "request_id": "901a5317-481d-4585-8b67-8b3600ad6d6a",
+  "parameters": {
+    "country": "US",
+    "price_range": "ALL",
+    "discount_range": "ALL",
+    "num_pages": 1
+  },
+  "data": {
+    "deals": [
+      {
+        "deal_id": "bb8643be",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Beats Studio Pro - Wireless Bluetooth Noise Cancelling Headphones - Personalized Spatial Audio, USB-C Lossless Audio, Apple & Android Compatibility, Up to 40 Hours Battery Life - Black",
+        "deal_photo": "https://m.media-amazon.com/images/I/61u-OaDSfQL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Beats-Studio-Pro-Personalized-Compatibility/dp/B0C8PR4W22",
+        "canonical_deal_url": "https://www.amazon.com/deal/bb8643be",
+        "deal_starts_at": "2025-03-16T07:05:00.000Z",
+        "deal_ends_at": "2025-03-30T06:59:59.000Z",
+        "deal_price": {
+          "amount": "179.95",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "349.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 49,
+        "savings_amount": {
+          "amount": "170.04",
+          "currency": "USD"
+        },
+        "deal_badge": "49% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0C8PR4W22"
+      },
+      {
+        "deal_id": "3f89a4fd",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "ZINUS 10 Inch Green Tea Memory Foam Mattress [New Version], Queen, Fiberglass free, Medium Firm Feel, Zoned Pressure Relief, Certified Safe Foams & Fabric, Mattress in A Box",
+        "deal_photo": "https://m.media-amazon.com/images/I/81XzXrlHljL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Zinus-Mattress-Fiberglass-Pressure-Certified/dp/B0CKYZ3B83",
+        "canonical_deal_url": "https://www.amazon.com/deal/3f89a4fd",
+        "deal_starts_at": "2025-03-14T15:00:00.000Z",
+        "deal_ends_at": "2025-04-12T06:59:59.000Z",
+        "deal_price": {
+          "amount": "174.0",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "219.98",
+          "currency": "USD"
+        },
+        "savings_percentage": 21,
+        "savings_amount": {
+          "amount": "45.98",
+          "currency": "USD"
+        },
+        "deal_badge": "21% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CKYZ3B83"
+      },
+      {
+        "deal_id": "ad9c6fd5",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Blink Outdoor 4 (newest model), Wire-free smart security camera, two-year battery life, two-way audio, HD live view, enhanced motion detection, Works with Alexa \u2013 5 camera system",
+        "deal_photo": "https://m.media-amazon.com/images/I/41Op5wMrmpL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Blink-Outdoor-4th-Gen-5-Camera/dp/B0B1N4LM4J",
+        "canonical_deal_url": "https://www.amazon.com/deal/ad9c6fd5",
+        "deal_starts_at": "2025-03-16T04:00:00.000Z",
+        "deal_ends_at": "2025-04-01T04:00:00.000Z",
+        "deal_price": {
+          "amount": "199.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "399.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 50,
+        "savings_amount": {
+          "amount": "200.0",
+          "currency": "USD"
+        },
+        "deal_badge": "50% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0B1N4LM4J"
+      },
+      {
+        "deal_id": "63419bf8",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Amazon Fire TV Stick 4K (newest model) with AI-powered Fire TV Search, Wi-Fi 6, stream over 1.5 million movies and shows, free & live TV",
+        "deal_photo": "https://m.media-amazon.com/images/I/51AIvaX964L.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Amazon-Fire-TV-Stick-4K-streaming-device/dp/B0CJM1GNFQ",
+        "canonical_deal_url": "https://www.amazon.com/deal/63419bf8",
+        "deal_starts_at": "2025-03-18T15:00:00.000Z",
+        "deal_ends_at": "2025-04-01T15:00:00.000Z",
+        "deal_price": {
+          "amount": "29.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "49.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 40,
+        "savings_amount": {
+          "amount": "20.0",
+          "currency": "USD"
+        },
+        "deal_badge": "40% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CJM1GNFQ"
+      },
+      {
+        "deal_id": "8cf32f8f",
+        "deal_type": "LIGHTNING_DEAL",
+        "deal_title": "eufy Robot Vacuum Omni C20, Robot Vacuum and Mop Combo, Self Emptying, Auto Mop Washing and Auto Drying for Hands-free Cleaning, 7000 Pa Powerful Suction, 3.35-Inch Ultra-Slim Body, All-in-One Station",
+        "deal_photo": "https://m.media-amazon.com/images/I/61fPLtmoSNL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/eufy-Emptying-hands-free-3-35-Inch-Ultra-Slim/dp/B0DCFNZF32",
+        "canonical_deal_url": "https://www.amazon.com/deal/8cf32f8f",
+        "deal_starts_at": "2025-03-20T15:30:00.000Z",
+        "deal_ends_at": "2025-03-21T03:00:00.000Z",
+        "deal_price": {
+          "amount": "399.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "699.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 43,
+        "savings_amount": {
+          "amount": "300.0",
+          "currency": "USD"
+        },
+        "deal_badge": "43% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0DCFNZF32"
+      },
+      {
+        "deal_id": "c072ca8d",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Stanley Quencher H2.0 Tumbler with Handle and Straw 30 oz | Flowstate 3-Position Lid | Cup Holder Compatible for Travel | Insulated Stainless Steel Cup | BPA-Free | Fuchsia",
+        "deal_photo": "https://m.media-amazon.com/images/I/61aFG92FqLL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Quencher-FlowState-Stainless-Insulated-Smoothie/dp/B0CRMZ9PFR",
+        "canonical_deal_url": "https://www.amazon.com/deal/c072ca8d",
+        "deal_starts_at": "2025-03-12T07:00:00.000Z",
+        "deal_ends_at": "2025-03-27T06:59:59.000Z",
+        "deal_price": {
+          "amount": "26.25",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "35.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 25,
+        "savings_amount": {
+          "amount": "8.75",
+          "currency": "USD"
+        },
+        "deal_badge": "25% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CRMZ9PFR"
+      },
+      {
+        "deal_id": "edef6f30",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "TurboTax Deluxe 2024 Tax Software, Federal & State Tax Return [PC/MAC Download]",
+        "deal_photo": "https://m.media-amazon.com/images/I/71UbHaUeeUL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/TurboTax-Deluxe-Software-Federal-Download/dp/B0DHYGWYJ6",
+        "canonical_deal_url": "https://www.amazon.com/deal/edef6f30",
+        "deal_starts_at": "2025-02-25T00:00:00.000Z",
+        "deal_ends_at": "2025-03-24T06:00:00.000Z",
+        "deal_price": {
+          "amount": "55.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "79.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 30,
+        "savings_amount": {
+          "amount": "24.0",
+          "currency": "USD"
+        },
+        "deal_badge": "30% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0DHYGWYJ6"
+      },
+      {
+        "deal_id": "2a9e5835",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Bose QuietComfort Bluetooth Headphones, Wireless Headphones with Active Over Ear Noise Cancelling and Mic, Deep Bass, Up to 24 Hours of Playtime, Black",
+        "deal_photo": "https://m.media-amazon.com/images/I/51aw022aEaL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Bose-QuietComfort-Cancelling-Headphones-Bluetooth/dp/B0CCZ26B5V",
+        "canonical_deal_url": "https://www.amazon.com/deal/2a9e5835",
+        "deal_starts_at": "2025-03-14T04:00:00.000Z",
+        "deal_ends_at": "2025-03-31T04:00:00.000Z",
+        "deal_price": {
+          "amount": "249.0",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "349.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 29,
+        "savings_amount": {
+          "amount": "100.0",
+          "currency": "USD"
+        },
+        "deal_badge": "29% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CCZ26B5V"
+      },
+      {
+        "deal_id": "8c2029f3",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "DEWALT 20V MAX Cordless Drill and Impact Driver, Power Tool Combo Kit with 2 Batteries and Charger (DCK240C2)",
+        "deal_photo": "https://m.media-amazon.com/images/I/71yHM6kK-zL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/DEWALT-DCK240C2-Lithium-Driver-Impact/dp/B00IJ0ALYS",
+        "canonical_deal_url": "https://www.amazon.com/deal/8c2029f3",
+        "deal_starts_at": "2025-03-01T08:00:00.000Z",
+        "deal_ends_at": "2025-03-30T06:59:59.000Z",
+        "deal_price": {
+          "amount": "124.0",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "239.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 48,
+        "savings_amount": {
+          "amount": "115.0",
+          "currency": "USD"
+        },
+        "deal_badge": "48% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B00IJ0ALYS"
+      },
+      {
+        "deal_id": "63419bf8",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Amazon Fire TV Stick HD (newest model), free and live TV, Alexa Voice Remote, smart home controls, HD streaming",
+        "deal_photo": "https://m.media-amazon.com/images/I/51GHEdUznQL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/amazon-fire-tv-stick-hd/dp/B0CQMRKRV5",
+        "canonical_deal_url": "https://www.amazon.com/deal/63419bf8",
+        "deal_starts_at": "2025-03-18T15:00:00.000Z",
+        "deal_ends_at": "2025-04-01T15:00:00.000Z",
+        "deal_price": {
+          "amount": "19.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "34.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 43,
+        "savings_amount": {
+          "amount": "15.0",
+          "currency": "USD"
+        },
+        "deal_badge": "43% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CQMRKRV5"
+      },
+      {
+        "deal_id": "e741cc76",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Google Pixel 9 Pro - Unlocked Android Smartphone with Gemini, Triple Rear Camera System, 24-Hour Battery, and 6.3\" Super Actua Display - Hazel - 256 GB",
+        "deal_photo": "https://m.media-amazon.com/images/I/61vp97LSYFL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Google-Pixel-Pro-Unlocked-Smartphone/dp/B0D7HVZVRZ",
+        "canonical_deal_url": "https://www.amazon.com/deal/e741cc76",
+        "deal_starts_at": "2025-03-16T07:00:00.000Z",
+        "deal_ends_at": "2025-03-30T06:59:59.000Z",
+        "deal_price": {
+          "amount": "849.0",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "1099.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 23,
+        "savings_amount": {
+          "amount": "250.0",
+          "currency": "USD"
+        },
+        "deal_badge": "23% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0D7HVZVRZ"
+      },
+      {
+        "deal_id": "9cf67e71",
+        "deal_type": "LIGHTNING_DEAL",
+        "deal_title": "Jackery Explorer 1000 v2 Portable Power Station,1070Wh LiFePO4 Battery,1500W AC/100W USB-C Output, 1 Hr Fast Charge, Solar Generator for Camping,Emergency, RV, Off-Grid Living(Solar Panel Optional)",
+        "deal_photo": "https://m.media-amazon.com/images/I/61JVKysP1nL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Jackery-Explorer-Portable-Generator-Emergency/dp/B0D7PPG25F",
+        "canonical_deal_url": "https://www.amazon.com/deal/9cf67e71",
+        "deal_starts_at": "2025-03-20T12:40:00.000Z",
+        "deal_ends_at": "2025-03-21T00:40:00.000Z",
+        "deal_price": {
+          "amount": "449.0",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "799.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 44,
+        "savings_amount": {
+          "amount": "350.0",
+          "currency": "USD"
+        },
+        "deal_badge": "44% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0D7PPG25F"
+      },
+      {
+        "deal_id": "c2c2b4e5",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Beats Solo 4 - Wireless Bluetooth On-Ear Headphones, Apple & Android Compatible, Up to 50 Hours of Battery Life - Matte Black",
+        "deal_photo": "https://m.media-amazon.com/images/I/515FE+S4yLL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Beats-Solo-Wireless-Headphones-Matte/dp/B0CZPLV566",
+        "canonical_deal_url": "https://www.amazon.com/deal/c2c2b4e5",
+        "deal_starts_at": "2025-03-16T07:00:00.000Z",
+        "deal_ends_at": "2025-03-30T06:59:59.000Z",
+        "deal_price": {
+          "amount": "129.95",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "199.95",
+          "currency": "USD"
+        },
+        "savings_percentage": 35,
+        "savings_amount": {
+          "amount": "70.0",
+          "currency": "USD"
+        },
+        "deal_badge": "35% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CZPLV566"
+      },
+      {
+        "deal_id": "63419bf8",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Amazon Fire TV Stick 4K Max streaming device (newest model) supports Wi-Fi 6E, free & live TV without cable or satellite",
+        "deal_photo": "https://m.media-amazon.com/images/I/51ZvnM5sALL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/all-new-amazon-fire-tv-stick-4k-max/dp/B0BP9SNVH9",
+        "canonical_deal_url": "https://www.amazon.com/deal/63419bf8",
+        "deal_starts_at": "2025-03-18T15:00:00.000Z",
+        "deal_ends_at": "2025-04-01T15:00:00.000Z",
+        "deal_price": {
+          "amount": "39.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "59.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 33,
+        "savings_amount": {
+          "amount": "20.0",
+          "currency": "USD"
+        },
+        "deal_badge": "33% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0BP9SNVH9"
+      },
+      {
+        "deal_id": "407b04ab",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Dyson V15 Detect Plus Cordless Vacuum, Yellow/Nickel",
+        "deal_photo": "https://m.media-amazon.com/images/I/61m8L2J6pQL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Dyson-Detect-Cordless-Vacuum-Yellow/dp/B0CT97D9R2",
+        "canonical_deal_url": "https://www.amazon.com/deal/407b04ab",
+        "deal_starts_at": "2025-03-18T19:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "599.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "749.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 20,
+        "savings_amount": {
+          "amount": "150.0",
+          "currency": "USD"
+        },
+        "deal_badge": "20% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CT97D9R2"
+      },
+      {
+        "deal_id": "f81c7766",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Amazon Fire HD 10 tablet (newest model) built for relaxation, 10.1\" vibrant Full HD screen, octa-core processor, 3 GB RAM, 32 GB, Black",
+        "deal_photo": "https://m.media-amazon.com/images/I/71t3j00C-yL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Amazon_Fire_HD_10/dp/B0BHZT5S12",
+        "canonical_deal_url": "https://www.amazon.com/deal/f81c7766",
+        "deal_starts_at": "2025-03-16T07:00:00.000Z",
+        "deal_ends_at": "2025-03-30T06:59:59.000Z",
+        "deal_price": {
+          "amount": "94.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "139.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 32,
+        "savings_amount": {
+          "amount": "45.0",
+          "currency": "USD"
+        },
+        "deal_badge": "32% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0BHZT5S12"
+      },
+      {
+        "deal_id": "fcd050c0",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Blink Video Doorbell (newest model), Two-way audio, HD video, motion and chime app alerts and Alexa enabled \u2014 wired or wire-free (Black)",
+        "deal_photo": "https://m.media-amazon.com/images/I/41te-uzWxDL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Blink-Video-Doorbell/dp/B08SG2MS3V",
+        "canonical_deal_url": "https://www.amazon.com/deal/fcd050c0",
+        "deal_starts_at": "2025-03-16T04:00:00.000Z",
+        "deal_ends_at": "2025-04-01T04:00:00.000Z",
+        "deal_price": {
+          "amount": "32.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "59.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 45,
+        "savings_amount": {
+          "amount": "27.0",
+          "currency": "USD"
+        },
+        "deal_badge": "45% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B08SG2MS3V"
+      },
+      {
+        "deal_id": "9191970d",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Amazon Brand - Solimo Dark Roast Coffee Pods, Compatible with Keurig 2.0 K-Cup Brewers 100 Count(Pack of 1)",
+        "deal_photo": "https://m.media-amazon.com/images/I/610TN-4nYjL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Amazon-Brand-Solimo-Compatible-Brewers/dp/B079V8CKDM",
+        "canonical_deal_url": "https://www.amazon.com/deal/9191970d",
+        "deal_starts_at": "2025-03-18T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "31.55",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "39.05",
+          "currency": "USD"
+        },
+        "savings_percentage": 19,
+        "savings_amount": {
+          "amount": "7.5",
+          "currency": "USD"
+        },
+        "deal_badge": "19% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B079V8CKDM"
+      },
+      {
+        "deal_id": "407b04ab",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Dyson V8 Plus Cordless Vacuum, Silver/Nickel",
+        "deal_photo": "https://m.media-amazon.com/images/I/51hFJWAdfNL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Dyson-Cordless-Vacuum-Silver-Nickel/dp/B0CT9552BL",
+        "canonical_deal_url": "https://www.amazon.com/deal/407b04ab",
+        "deal_starts_at": "2025-03-18T19:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "329.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "469.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 30,
+        "savings_amount": {
+          "amount": "140.0",
+          "currency": "USD"
+        },
+        "deal_badge": "30% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CT9552BL"
+      },
+      {
+        "deal_id": "01ed5878",
+        "deal_type": "LIGHTNING_DEAL",
+        "deal_title": "iHealth Track Smart Upper Arm Blood Pressure Monitor with Wide Range Cuff That fits Standard to Large Adult Arms, Bluetooth Compatible for iOS & Android Devices",
+        "deal_photo": "https://m.media-amazon.com/images/I/71cspBdrkmL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/iHealth-Wireless-Bluetooth-Compatible-Automatic/dp/B01C5QS1T8",
+        "canonical_deal_url": "https://www.amazon.com/deal/01ed5878",
+        "deal_starts_at": "2025-03-20T11:55:00.000Z",
+        "deal_ends_at": "2025-03-20T23:25:00.000Z",
+        "deal_price": {
+          "amount": "30.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "49.98",
+          "currency": "USD"
+        },
+        "savings_percentage": 38,
+        "savings_amount": {
+          "amount": "18.99",
+          "currency": "USD"
+        },
+        "deal_badge": "38% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B01C5QS1T8"
+      },
+      {
+        "deal_id": "3f0503ee",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Samsung Galaxy Tab A9+ Tablet 11\u201d 64GB Android Tablet, Big Screen, Quad Speakers, Upgraded Chipset, Multi Window Display, Slim, Light, Durable Design, US Version, 2024, Graphite",
+        "deal_photo": "https://m.media-amazon.com/images/I/61d46oYQgdL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/SAMSUNG-Android-Speakers-Upgraded-Graphite/dp/B0CLF3VPMV",
+        "canonical_deal_url": "https://www.amazon.com/deal/3f0503ee",
+        "deal_starts_at": "2025-03-17T07:00:00.000Z",
+        "deal_ends_at": "2025-03-24T06:59:59.000Z",
+        "deal_price": {
+          "amount": "164.75",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "219.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 25,
+        "savings_amount": {
+          "amount": "55.24",
+          "currency": "USD"
+        },
+        "deal_badge": "25% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CLF3VPMV"
+      },
+      {
+        "deal_id": "33fd1883",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Shark Upright Vacuum, Navigator Lift-Away with Swivel Steering, HEPA Filter, XL Dust Cup, Pet Power, Dusting Brush, and Crevice Tool, Perfect for Pet Hair, White/Silver, NV356E",
+        "deal_photo": "https://m.media-amazon.com/images/I/61MeBFOp2aL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Shark-Navigator-Lift-Away-Professional-NV356E/dp/B005KMDV9A",
+        "canonical_deal_url": "https://www.amazon.com/deal/33fd1883",
+        "deal_starts_at": "2025-03-18T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "149.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "199.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 25,
+        "savings_amount": {
+          "amount": "50.0",
+          "currency": "USD"
+        },
+        "deal_badge": "25% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B005KMDV9A"
+      },
+      {
+        "deal_id": "800e2b15",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Amazon Fire HD 10 Kids Pro tablet (newest model) ages 6-12. Bright 10.1\" HD screen, includes ad-free content, robust parental controls, 13-hr battery and slim case for older kids, 32 GB, Happy Day",
+        "deal_photo": "https://m.media-amazon.com/images/I/71qIWtJt8OL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Amazon_Fire_HD_10_Kids_Pro/dp/B0BL5C43SL",
+        "canonical_deal_url": "https://www.amazon.com/deal/800e2b15",
+        "deal_starts_at": "2025-03-16T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "139.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "189.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 26,
+        "savings_amount": {
+          "amount": "50.0",
+          "currency": "USD"
+        },
+        "deal_badge": "26% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0BL5C43SL"
+      },
+      {
+        "deal_id": "fcd050c0",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Blink Mini 2 (Newest Model) \u2014 Home Security & Pet Camera(s) with HD video, color night view, motion detection, two-way audio, and built-in spotlight \u2014 1 camera (White)",
+        "deal_photo": "https://m.media-amazon.com/images/I/31tp0vzZwRL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Blink-Mini-2-Camera-White/dp/B0BWWZXWPL",
+        "canonical_deal_url": "https://www.amazon.com/deal/fcd050c0",
+        "deal_starts_at": "2025-03-16T04:00:00.000Z",
+        "deal_ends_at": "2025-04-01T04:00:00.000Z",
+        "deal_price": {
+          "amount": "19.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "39.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 50,
+        "savings_amount": {
+          "amount": "20.0",
+          "currency": "USD"
+        },
+        "deal_badge": "50% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0BWWZXWPL"
+      },
+      {
+        "deal_id": "ce511f5f",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "BISSELL\u00ae Little Green\u00ae Max Pet Portable Carpet and Upholstery Deep Cleaner, Car/Auto Detailer, with Self-Cleaning Tough Stain Tool and Pet Hair Removal Tool (3860)",
+        "deal_photo": "https://m.media-amazon.com/images/I/81S23+xZwzL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/BISSELL%C2%AE-Portable-Upholstery-Detailer-Self-Cleaning/dp/B0CS1KZYH5",
+        "canonical_deal_url": "https://www.amazon.com/deal/ce511f5f",
+        "deal_starts_at": "2025-03-02T08:00:00.000Z",
+        "deal_ends_at": "2025-03-30T06:59:59.000Z",
+        "deal_price": {
+          "amount": "99.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "139.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 29,
+        "savings_amount": {
+          "amount": "40.0",
+          "currency": "USD"
+        },
+        "deal_badge": "29% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CS1KZYH5"
+      },
+      {
+        "deal_id": "cc339ac5",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "SAMSUNG 990 EVO Plus SSD 4TB, PCIe Gen 4x4 | Gen 5x2 M.2 2280, Speeds Up-to 7,250 MB/s, Upgrade Storage for PC/Laptops, HMB Technology and Intelligent Turbowrite 2.0, (MZ-V9S4T0B/AM)",
+        "deal_photo": "https://m.media-amazon.com/images/I/61OXVXIFeHL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/SAMSUNG-Technology-Intelligent-Turbowrite-MZ-V9S4T0B/dp/B0DHLBDSP7",
+        "canonical_deal_url": "https://www.amazon.com/deal/cc339ac5",
+        "deal_starts_at": "2025-03-10T07:05:00.000Z",
+        "deal_ends_at": "2025-03-24T06:59:59.000Z",
+        "deal_price": {
+          "amount": "249.97",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "344.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 28,
+        "savings_amount": {
+          "amount": "95.02",
+          "currency": "USD"
+        },
+        "deal_badge": "28% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0DHLBDSP7"
+      },
+      {
+        "deal_id": "0d54c99f",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "INSIGNIA 32-inch Class F20 Series Smart HD 720p Fire TV with Alexa Voice Remote (NS-32F201NA23)",
+        "deal_photo": "https://m.media-amazon.com/images/I/815E5aShTqL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/insignia-fire-tv-32-inch-class-f20-series-hd-smart-tv/dp/B09ZLTMWWH",
+        "canonical_deal_url": "https://www.amazon.com/deal/0d54c99f",
+        "deal_starts_at": "2025-03-17T04:55:00.000Z",
+        "deal_ends_at": "2025-04-01T04:55:00.000Z",
+        "deal_price": {
+          "amount": "74.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "129.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 42,
+        "savings_amount": {
+          "amount": "55.0",
+          "currency": "USD"
+        },
+        "deal_badge": "42% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B09ZLTMWWH"
+      },
+      {
+        "deal_id": "f4218b16",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Amazon eero 6+ mesh wifi system - Supports internet plans up to a Gigabit, Coverage up to 4,500 sq. ft., Connect 75+ devices, 3-pack",
+        "deal_photo": "https://m.media-amazon.com/images/I/41oSlpuNDmL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/eero-reliable-gigabit-connect-Coverage/dp/B08ZK2BHP2",
+        "canonical_deal_url": "https://www.amazon.com/deal/f4218b16",
+        "deal_starts_at": "2025-03-18T07:00:00.000Z",
+        "deal_ends_at": "2025-04-08T06:59:59.000Z",
+        "deal_price": {
+          "amount": "224.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "299.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 25,
+        "savings_amount": {
+          "amount": "75.0",
+          "currency": "USD"
+        },
+        "deal_badge": "25% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B08ZK2BHP2"
+      },
+      {
+        "deal_id": "77ee801c",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Ring Indoor Cam (newest model) \u2014 Home or business security in 1080p HD video, White",
+        "deal_photo": "https://m.media-amazon.com/images/I/51keHnu-7YL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/introducing-the-all-new-Ring-Indoor-Cam/dp/B0B6GLQJMV",
+        "canonical_deal_url": "https://www.amazon.com/deal/77ee801c",
+        "deal_starts_at": "2025-03-15T04:00:00.000Z",
+        "deal_ends_at": "2025-03-31T04:00:00.000Z",
+        "deal_price": {
+          "amount": "39.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "59.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 33,
+        "savings_amount": {
+          "amount": "20.0",
+          "currency": "USD"
+        },
+        "deal_badge": "33% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0B6GLQJMV"
+      },
+      {
+        "deal_id": "988b89d3",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "LEVOIT Air Purifiers for Home Large Room Up to 1800 Ft\u00b2 in 1 Hr with Washable Pre-Filter, Air Quality Monitor, Smart WiFi, HEPA Sleep Mode for Allergies, Pet Hair in Bedroom, Vital 200S-P, White",
+        "deal_photo": "https://m.media-amazon.com/images/I/710w2H0ip+L.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/LEVOIT-Purifiers-Washable-Filters-Quality/dp/B0BGPF71Q6",
+        "canonical_deal_url": "https://www.amazon.com/deal/988b89d3",
+        "deal_starts_at": "2025-03-11T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "159.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "189.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 16,
+        "savings_amount": {
+          "amount": "30.0",
+          "currency": "USD"
+        },
+        "deal_badge": "16% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0BGPF71Q6"
+      }
+    ],
+    "total_deals": 500,
+    "country": "US",
+    "domain": "www.amazon.com"
+  }
+}

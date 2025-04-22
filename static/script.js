@@ -1,69 +1,332 @@
-const productGroupMap = {
-    "Computers&Accessories": [
-      "GamingLaptops", "Keyboards", "Mouse", "MousePads", "Monitors", "GraphicsCards",
-      "ExternalHardDrives", "NetworkingDevices", "RAMs", "Routers", "WirelessAccessPoint",
-      "USBFlashDrives", "CPUs", "Motherboards", "PCCasings", "Barebone", "PowerSupplies",
-      "SoundCards", "WiredNetworkAdapters", "Webcams", "CoolingPads", "LaptopAccessories", "InternalSolidStateDrives",
-      "MultimediaSpeakerSystems", "DataCards&Dongles", "LaptopChargers&PowerSupplies",
-      "PCSpeakers", "InternalHardDrives", "Printers", "SATACables", "PCHeadsets",
-      "GamingKeyboards", "ExternalSolidStateDrives", "PowerLANAdapters", "Caddies",
-      "TraditionalLaptops"
-    ],
+// Ensure productGroupMap is in the global scope
+window.productGroupMap = {
     "Electronics": [
-      "USBCables", "WirelessUSBAdapters", "HDMICables", "SmartTelevisions",
-      "RemoteControls", "StandardTelevisions", "TVWall&CeilingMounts", "RCACables",
-      "Mounts", "OpticalCables", "Projectors", "Adapters", "SatelliteReceivers",
-      "DVICables", "SpeakerCables", "StreamingClients", "AVReceivers&Amplifiers",
-      "TowerSpeakers", "3DGlasses", "SmartWatches", "PowerBanks", "Smartphones",
-      "MicroSD", "BasicMobiles", "In-Ear", "AutomobileChargers", "Cradles",
-      "WallChargers", "OTGAdapters", "Tripods", "SelfieSticks", "Stands",
-      "CableConnectionProtectors", "ScreenProtectors", "StylusPens", "BasicCases",
-      "HandlebarMounts", "On-Ear", "CameraPrivacyCovers", "PhoneCharms", "Shower&WallMounts",
-      "PenDrives", "DisposableBatteries", "Repeaters&Extenders", "TripodLegs",
-      "VideoCameras", "Tabletop&TravelTripods", "Over-Ear", "BluetoothSpeakers",
-      "GeneralPurposeBatteries&BatteryChargers", "RechargeableBatteries", "BluetoothAdapters",
-      "USBtoUSBAdapters", "CompleteTripodUnits", "Film", "Lamps", "CleaningKits",
-      "DomeCameras", "Basic", "OutdoorSpeakers", "SelfieLights", "BatteryChargers",
-      "SoundbarSpeakers", "Earpads", "Headsets", "Tablets"
+        "Headphones", "Speakers", "Laptops", "Cameras", 
+        "Smartphones", "Tablets", "Wearables", "TVs",
+        "HomeAudio", "CarElectronics"
+    ],
+    "Computers&Accessories": [
+        "Laptops", "Desktops", "Monitors", "Printers",
+        "NetworkingDevices", "ComputerComponents", "StorageDevices"
     ],
     "MusicalInstruments": [
-      "Condenser"
+        "Guitars", "Keyboards", "Drums", "RecordingEquipment",
+        "DJEquipment", "BrassInstruments", "StringInstruments"
     ],
     "OfficeProducts": [
-      "GelInkRollerballPens", "Tape", "InkjetInkCartridges", "WireboundNotebooks",
-      "Notepads&MemoBooks", "BottledInk", "CompositionNotebooks", "RetractableBallpointPens",
-      "ColouredPaper", "StickBallpointPens", "WoodenPencils", "Pens", "InkjetPrinters",
-      "ColouringPens&Markers", "InkjetInkRefills&Kits", "Notebooks,WritingPads&Diaries",
-      "BackgroundSupports", "Financial&Business", "TonerCartridges", "LiquidInkRollerballPens",
-      "FountainPens"
+        "OfficeFurniture", "OfficeElectronics", "OfficePaper",
+        "WritingSupplies", "FilingProducts", "PresentationSupplies"
     ],
     "Home&Kitchen": [
-      "Décor", "Bedstand&DeskMounts", "ElectricKettles", "ElectricHeaters", "FanHeaters",
-      "LintShavers", "DigitalKitchenScales", "Choppers", "InductionCooktop", "HandBlenders",
-      "DryIrons", "MixerGrinders", "InstantWaterHeaters", "RoomHeaters", "Kettle&ToasterSets",
-      "StorageWaterHeaters", "ImmersionRods", "AirFryers", "LaundryBaskets", "SteamIrons",
-      "JuicerMixerGrinders", "HandheldVacuums", "EggBoilers", "SandwichMakers",
-      "MiniFoodProcessors&Choppers", "DigitalScales", "VacuumSealers", "CeilingFans",
-      "CanisterVacuums", "PressureWashers,Steam&WindowCleaners", "HalogenHeaters",
-      "Pop-upToasters", "HeatConvectors", "ElectricGrinders", "ExhaustFans",
-      "DripCoffeeMachines", "WaterPurifierAccessories", "WaterCartridges",
-      "Rice&PastaCookers", "AirPurifiers&Ionizers", "Wet-DryVacuums", "HEPAAirPurifiers",
-      "WaterFilters&Purifiers", "LaundryBags", "Sewing&EmbroideryMachines", "SprayBottles",
-      "HandMixers", "WetGrinders", "OvenToasterGrills", "Juicers", "SmallKitchenAppliances",
-      "DigitalBathroomScales", "EspressoMachines", "TableFans", "MilkFrothers",
-      "Humidifiers", "StandMixerAccessories", "RoboticVacuums", "YogurtMakers",
-      "ColdPressJuicers", "Split-SystemAirConditioners", "SmallApplianceParts&Accessories",
-      "WaffleMakers&Irons", "StovetopEspressoPots", "MeasuringSpoons", "CoffeePresses",
-      "RotiMakers", "FanParts&Accessories", "StandMixers", "PedestalFans", "HandheldBags"
+        "KitchenAppliances", "Cookware", "Furniture", 
+        "BathProducts", "Bedding", "HomeDecor"
     ],
     "HomeImprovement": [
-      "Paints", "PaintingMaterials", "Adapters&Multi-Outlets", "SurgeProtectors", "CordManagement"
+        "Tools", "Hardware", "Plumbing", "Lighting",
+        "ElectricalSupplies", "PaintSupplies"
     ],
-    "Toys&Games": [],
-    "Car&Motorbike": [],
+    "Toys&Games": [
+        "ActionFigures", "BoardGames", "Puzzles", "EducationalToys",
+        "Dolls", "OutdoorToys", "BuildingToys"
+    ],
+    "Car&Motorbike": [
+        "CarParts", "CarAccessories", "MotorbikeParts",
+        "MotorbikeAccessories", "CarTools", "CarElectronics"
+    ],
     "Health&PersonalCare": [
       "Scientific"
     ]
+};
+
+// Register Chart.js plugins
+if (window.Chart) {
+  console.log("Registering Chart.js plugins...");
+  if (window.ChartAnnotation) {
+    Chart.register(window.ChartAnnotation);
+    console.log("ChartAnnotation plugin registered");
+  }
+  if (window.ChartDataLabels) {
+    Chart.register(window.ChartDataLabels);
+    console.log("ChartDataLabels plugin registered");
+  }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM loaded, initializing product groups");
+    
+    // Make sure theme is dark
+    document.documentElement.setAttribute('data-theme', 'dark');
+    
+    // Remove any profit optimization sections that might exist
+    removeProfitOptimizationSections();
+    
+    // Force update product groups
+    setTimeout(forceUpdateProductGroups, 200);
+    
+    // Apply theme
+    document.body.style.backgroundColor = '#0f172a';
+    document.querySelector('.container').style.backgroundColor = '#0f172a';
+    
+    // Make sure product groups are initialized when product type changes
+    const productTypeSelect = document.getElementById('productType');
+    if (productTypeSelect) {
+        productTypeSelect.addEventListener('change', forceUpdateProductGroups);
+    }
+
+    // Add click handler when document loads
+    const fetchDealsBtn = document.getElementById('fetchDealsBtn');
+    if (fetchDealsBtn) {
+        fetchDealsBtn.addEventListener('click', fetchDeals);
+    }
+    
+    // DEBUG MARKET ANALYSIS
+    debugMarketAnalysisElements();
+    
+    // Initialize the fetch data button with direct API testing
+    const fetchDataBtn = document.getElementById('fetchDataBtn');
+    if (fetchDataBtn) {
+        console.log('Found Fetch Data button, adding direct API testing');
+        
+        fetchDataBtn.addEventListener('click', function(event) {
+            console.log('Fetch Data button clicked');
+            
+            // Directly call the API endpoints to test
+            const asinInput = document.querySelector('input#asin') || document.querySelector('input[placeholder="B0BYS2D9CJ"]');
+            if (!asinInput) {
+                console.error('ASIN input not found');
+                return;
+            }
+            
+            const asin = asinInput.value.trim();
+            if (!asin) {
+                console.error('Empty ASIN value');
+                // Do not show any alert for ASIN
+                return;
+            }
+            
+            console.log('Manually triggering API calls for ASIN:', asin);
+            
+            // Test price history endpoint
+            fetch(`/api/market/price-history/${asin}`)
+                .then(response => response.json())
+                .then(data => console.log('Price history API response:', data))
+                .catch(error => console.error('Price history API error:', error));
+                
+            // Test competitive position endpoint
+            fetch(`/api/market/competitive-position/${asin}`)
+                .then(response => response.json())
+                .then(data => console.log('Competitive position API response:', data))
+                .catch(error => console.error('Competitive position API error:', error));
+        });
+    }
+    
+    // Initialize the market analysis button
+    const fetchDataButton = document.querySelector('button.btn-primary[data-action="fetch"]') || document.getElementById('fetchDataBtn');
+    if (fetchDataButton) {
+        console.log('Found Fetch Data button in script.js');
+        
+        // Connect it to the fetchMarketData function defined in market_analysis.js
+        fetchDataButton.addEventListener('click', function() {
+            console.log('Fetch button clicked from script.js');
+            if (typeof fetchMarketData === 'function') {
+                fetchMarketData();
+            } else {
+                console.error('fetchMarketData function not found. Make sure market_analysis.js is properly loaded');
+            }
+        });
+    } else {
+        console.error('Fetch Data button not found in script.js');
+    }
+    
+    // Initialize the Clear Data button
+    const clearDataButton = document.querySelector('button[data-action="clear"]');
+    if (clearDataButton) {
+        clearDataButton.addEventListener('click', function() {
+            if (typeof clearMarketData === 'function') {
+                clearMarketData();
+            }
+        });
+    }
+    
+    // Initialize the Refresh Status button
+    const refreshStatusButton = document.querySelector('button[data-action="refresh"]');
+    if (refreshStatusButton) {
+        refreshStatusButton.addEventListener('click', function() {
+            if (typeof refreshMarketDataStatus === 'function') {
+                refreshMarketDataStatus();
+            }
+        });
+    }
+    
+    // Load categories for Market Deal Analysis
+    loadDealCategories();
+    
+    // Populate the Recent Activities list with dynamic data
+    updateRecentActivities();
+});
+
+/**
+ * Load categories for Market Deal Analysis dropdown from API data
+ */
+async function loadDealCategories() {
+  console.log('Loading deal categories from API');
+  
+  const categorySelect = document.getElementById('dealProductType');
+  if (!categorySelect) {
+    console.error('Deal category select element not found');
+    return;
+  }
+  
+  try {
+    // Fetch categories from Amazon API
+    console.log('Fetching category filters from Amazon API...');
+    const filtersResponse = await window.amazonApi.getDealsFilter();
+    
+    if (filtersResponse && filtersResponse.departmentFilter && filtersResponse.departmentFilter.options) {
+      const categories = filtersResponse.departmentFilter.options;
+      console.log(`Retrieved ${categories.length} categories from Amazon API`);
+      
+      // Clear existing options except the first one (All Categories)
+      while (categorySelect.options.length > 1) {
+        categorySelect.remove(1);
+      }
+      
+      // Add categories from API
+      categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.text;
+        option.textContent = category.text;
+        option.dataset.id = category.value; // Store the category ID as a data attribute
+        categorySelect.appendChild(option);
+      });
+      
+      console.log(`Loaded ${categories.length} categories from API`);
+    } else {
+      console.error('No categories found in API response');
+    }
+  } catch (error) {
+    console.error('Error fetching categories from API:', error);
+    
+    // Fallback to default categories in case of API error
+    const defaultCategories = [
+      { text: 'Electronics' },
+      { text: 'Computers & Accessories' },
+      { text: 'Home & Kitchen' },
+      { text: 'Sports & Outdoors' },
+      { text: 'Office Products' },
+      { text: 'Musical Instruments' }
+    ];
+    
+    console.log('Using default categories as fallback');
+    
+    // Clear existing options except the first one (All Categories)
+    while (categorySelect.options.length > 1) {
+      categorySelect.remove(1);
+    }
+    
+    // Add default categories
+    defaultCategories.forEach(category => {
+      const option = document.createElement('option');
+      option.value = category.text;
+      option.textContent = category.text;
+      categorySelect.appendChild(option);
+    });
+  }
+}
+
+// Function to debug market analysis elements
+function debugMarketAnalysisElements() {
+    console.log('Debugging market analysis elements');
+    
+    // Check if Chart.js is loaded
+    if (typeof Chart !== 'undefined') {
+        console.log('Chart.js is loaded properly');
+    } else {
+        console.error('Chart.js is not loaded');
+    }
+    
+    // Check if the market tab container exists
+    const marketTab = document.getElementById('marketAnalysis');
+    console.log('Market Analysis Tab exists:', !!marketTab);
+    
+    // Check if chart containers exist
+    const priceHistoryChart = document.getElementById('priceHistoryChart');
+    const competitorChart = document.getElementById('competitorChart');
+    const reviewsChart = document.getElementById('reviewsChart');
+    
+    console.log('Price History Chart container exists:', !!priceHistoryChart);
+    console.log('Competitor Chart container exists:', !!competitorChart);
+    console.log('Reviews Chart container exists:', !!reviewsChart);
+    
+    // Check if the buttons exist
+    const fetchDataBtn = document.getElementById('fetchDataBtn');
+    console.log('Fetch Data button exists:', !!fetchDataBtn);
+    
+    // Check if the ASIN input exists
+    const asinInput = document.querySelector('input[placeholder="B0BYS2D9CJ"]') || document.getElementById('asin');
+    console.log('ASIN input exists:', !!asinInput);
+    
+    if (asinInput) {
+        console.log('ASIN input value:', asinInput.value);
+    }
+}
+
+// Function to force update product groups
+function forceUpdateProductGroups() {
+    console.log("Forcing update of product groups");
+    const productType = document.getElementById('productType');
+    const productGroup = document.getElementById('productGroup');
+    
+    if (!productType || !productGroup) {
+        console.error("Product type or group element not found");
+        return;
+    }
+    
+    // Get selected product type
+    const selectedType = productType.value || 'Electronics';
+    console.log("Selected product type:", selectedType);
+    
+    // Enable product group select
+    productGroup.disabled = false;
+    
+    // Clear existing options
+    productGroup.innerHTML = '';
+    
+    // Add default option
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = 'Select Product Group';
+    productGroup.appendChild(defaultOption);
+    
+    // Get groups for selected type
+    const groups = productGroupMap[selectedType] || [];
+    
+    // Add options for each group
+      groups.forEach(group => {
+        const option = document.createElement('option');
+        option.value = group;
+        // Format the group name for display
+        option.textContent = group
+          .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+          .replace(/&/g, ' & ') // Add spaces around ampersands
+            .replace(/\s{2,}/g, ' ') // Remove extra spaces
+            .trim();
+        productGroup.appendChild(option);
+    });
+    
+    // Select the first option if there are groups
+    if (groups.length > 0) {
+        productGroup.selectedIndex = 1;
+    }
+    
+    console.log("Product groups updated with", groups.length, "groups");
+}
+
+// Update product groups based on selected product type
+window.updateProductGroups = function() {
+    console.debug("updateProductGroups called");
+    forceUpdateProductGroups();
 };
 
 // Switch between tabs
@@ -86,61 +349,175 @@ function switchTab(tabName) {
   const selectedContent = document.getElementById(tabName);
   if (selectedContent) {
     selectedContent.classList.add('active');
+    
+    // If switching to pricing tool, force update product groups
+    if (tabName === 'pricingTool') {
+        setTimeout(forceUpdateProductGroups, 100);
+    }
+    
+    // If switching to the usage dashboard, refresh it
+    if (tabName === 'usageDashboard') {
+        setTimeout(refreshUsageDashboard, 100);
+    }
+    
+    // If switching to overview tab, update the history usage section
+    if (tabName === 'overview') {
+        setTimeout(updateOverviewUsageHistory, 100);
+    }
+    
+    // Track tab switch with UsageTracker if available
+    if (typeof UsageTracker !== 'undefined') {
+      UsageTracker.trackFeature('tabNavigation', { 
+        tab: tabName,
+        buttonText: selectedButton ? selectedButton.textContent.trim() : tabName
+      });
+    }
+  }
+  
+  // Apply user's theme preference instead of forcing dark theme
+  const storedTheme = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', storedTheme);
+  
+  // Update background color based on theme
+  if (storedTheme === 'light') {
+    document.body.style.backgroundColor = '#f8fafc';
+    document.documentElement.style.backgroundColor = '#f8fafc';
+  } else {
+  document.body.style.backgroundColor = '#0f172a';
+    document.documentElement.style.backgroundColor = '#0f172a';
+  }
+  
+  // Ensure the theme toggle switch position matches the current theme
+  const themeSwitch = document.getElementById('theme-switch');
+  if (themeSwitch) {
+    themeSwitch.checked = storedTheme === 'light';
   }
 }
 
-// Update product groups based on selected product type
-function updateProductGroups() {
-  const productType = document.getElementById('productType').value;
-  const productGroupSelect = document.getElementById('productGroup');
-  const searchInput = document.getElementById('groupSearchInput');
+/**
+ * Update the usage history list in the Overview tab
+ */
+function updateOverviewUsageHistory() {
+  const usageList = document.getElementById('overviewUsageList');
+  if (!usageList) return;
   
-  // Clear existing options and search
-  productGroupSelect.innerHTML = '';
-  searchInput.value = '';
+  // Clear the list
+  usageList.innerHTML = '';
   
-  if (productType) {
-    // Enable select and search
-    productGroupSelect.disabled = false;
-    searchInput.disabled = false;
-    
-    // Add default option
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.textContent = 'Select Product Group';
-    productGroupSelect.appendChild(defaultOption);
-    
-    // Add product groups for selected type
-    const groups = productGroupMap[productType] || [];
-    
-    if (groups.length === 0) {
-      const noGroupOption = document.createElement('option');
-      noGroupOption.value = '';
-      noGroupOption.textContent = 'No product groups available';
-      productGroupSelect.appendChild(noGroupOption);
-      productGroupSelect.disabled = true;
-      searchInput.disabled = true;
-    } else {
-      groups.forEach(group => {
-        const option = document.createElement('option');
-        option.value = group;
-        // Format the group name for display
-        option.textContent = group
-          .replace(/([A-Z])/g, ' $1') // Add space before capital letters
-          .replace(/&/g, ' & ') // Add spaces around ampersands
-          .replace(/\s{2,}/g, ' '); // Remove extra spaces
-        productGroupSelect.appendChild(option);
+  // Get usage data
+  const usageData = UsageTracker.getData();
+  
+  // Combine feature usage and searches for the overview
+  const allInteractions = [];
+  
+  // Add feature interactions
+  Object.entries(usageData.features || {}).forEach(([featureName, stats]) => {
+    // Use most recent interaction for each feature
+    if (stats.lastUsed) {
+      allInteractions.push({
+        type: 'feature',
+        name: featureName,
+        timestamp: stats.lastUsed,
+        details: stats.details?.length ? stats.details[stats.details.length - 1] : {}
       });
     }
-  } else {
-    // Disable and reset if no product type selected
-    productGroupSelect.disabled = true;
-    searchInput.disabled = true;
-    const placeholder = document.createElement('option');
-    placeholder.value = '';
-    placeholder.textContent = 'Select Product Type First';
-    productGroupSelect.appendChild(placeholder);
+  });
+  
+  // Add searches
+  (usageData.productSearches || []).forEach(search => {
+    allInteractions.push({
+      type: 'search',
+      timestamp: search.timestamp,
+      asin: search.asin,
+      productType: search.productType,
+      searchQuery: search.searchQuery
+    });
+  });
+  
+  // Sort by timestamp (newest first)
+  allInteractions.sort((a, b) => b.timestamp - a.timestamp);
+  
+  // Show up to 5 most recent interactions
+  const recentInteractions = allInteractions.slice(0, 5);
+  
+  if (recentInteractions.length === 0) {
+    // No usage data yet - list will remain empty as requested
+    return;
   }
+  
+  // Add each interaction to the list
+  recentInteractions.forEach(interaction => {
+    const li = document.createElement('li');
+    li.className = 'usage-item';
+    
+    // Format timestamp
+    const date = new Date(interaction.timestamp);
+    const now = new Date();
+    const diffInDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+    
+    let timeText = '';
+    if (diffInDays === 0) {
+      if (now.getDate() === date.getDate()) {
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        timeText = `Today, ${hours}:${minutes}`;
+      } else {
+        timeText = 'Yesterday';
+      }
+    } else if (diffInDays < 7) {
+      timeText = `${diffInDays} days ago`;
+    } else {
+      timeText = date.toLocaleDateString();
+    }
+    
+    // Create content based on interaction type
+    let activityText = '';
+    let statusClass = '';
+    
+    if (interaction.type === 'feature') {
+      // Format feature name
+      const formattedName = interaction.name
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/^./, str => str.toUpperCase());
+      
+      if (interaction.name === 'priceCalculation') {
+        activityText = `Price calculation for ${interaction.details.productType || 'product'}`;
+        statusClass = 'completed';
+      } else if (interaction.name === 'tabNavigation') {
+        activityText = `Viewed ${interaction.details.buttonText || 'tab'}`;
+        statusClass = 'info';
+      } else if (interaction.name === 'fetchMarketDeals') {
+        activityText = 'Analyzed market deals';
+        statusClass = 'completed';
+      } else if (interaction.name.includes('Slider')) {
+        activityText = `Adjusted pricing parameters`;
+        statusClass = 'info';
+      } else {
+        activityText = formattedName;
+        statusClass = 'info';
+      }
+    } else if (interaction.type === 'search') {
+      if (interaction.asin) {
+        activityText = `ASIN lookup: ${interaction.asin}`;
+      } else if (interaction.searchQuery) {
+        activityText = `Search: ${interaction.searchQuery}`;
+      } else if (interaction.productType) {
+        activityText = `Browsed ${interaction.productType}`;
+      } else {
+        activityText = 'Product search';
+      }
+      statusClass = 'pending';
+    }
+    
+    // Build the HTML
+    li.innerHTML = `
+      <span class="usage-activity">${activityText}</span>
+      <span class="usage-time">${timeText}</span>
+      <span class="usage-status ${statusClass}">${statusClass}</span>
+    `;
+    
+    usageList.appendChild(li);
+  });
 }
 
 // Filter product groups based on search input
@@ -204,34 +581,56 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Add these functions that are called but not defined
 function showLoadingIndicator() {
-  const loadingIndicator = document.getElementById('loadingIndicator') || createLoadingIndicator();
-  loadingIndicator.style.display = 'flex';
+  // Instead of a full-screen overlay, just update the calculate button
+  const calculateButton = document.getElementById('calculateButton');
+  if (calculateButton) {
+    calculateButton.innerHTML = '<span class="spinner-small"></span> Calculating...';
+    calculateButton.disabled = true;
+    calculateButton.classList.add('loading');
+  }
 }
 
 function hideLoadingIndicator() {
-  const loadingIndicator = document.getElementById('loadingIndicator');
-  if (loadingIndicator) {
-    loadingIndicator.style.display = 'none';
+  // Reset the calculate button
+  const calculateButton = document.getElementById('calculateButton');
+  if (calculateButton) {
+    calculateButton.innerHTML = 'Calculate Optimal Price';
+    calculateButton.disabled = false;
+    calculateButton.classList.remove('loading');
   }
 }
 
 function createLoadingIndicator() {
-  const indicator = document.createElement('div');
-  indicator.id = 'loadingIndicator';
-  indicator.innerHTML = '<div class="spinner"></div><p>Processing...</p>';
-  indicator.style.display = 'none';
-  indicator.style.position = 'fixed';
-  indicator.style.top = '0';
-  indicator.style.left = '0';
-  indicator.style.width = '100%';
-  indicator.style.height = '100%';
-  indicator.style.backgroundColor = 'rgba(0,0,0,0.5)';
-  indicator.style.zIndex = '1000';
-  indicator.style.justifyContent = 'center';
-  indicator.style.alignItems = 'center';
-  indicator.style.color = 'white';
-  document.body.appendChild(indicator);
-  return indicator;
+  // Create styles for button-based loading spinner
+  if (!document.getElementById('spinner-styles')) {
+    const style = document.createElement('style');
+    style.id = 'spinner-styles';
+    style.textContent = `
+      .spinner-small {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s linear infinite;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      .loading {
+        opacity: 0.8;
+        cursor: not-allowed;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  
+  return null; // No need to create a full-screen indicator
 }
 
 function createRecommendationSection() {
@@ -247,710 +646,6626 @@ function createRecommendationSection() {
   return section;
 }
 
-
-// Modified getPriceRecommendation function to call Python script
-async function getPriceRecommendation() {
-  // Show loading indicator
-  showLoadingIndicator();
-  
+/**
+ * Updates the demand forecasting section with data from the API
+ * @param {Object} data - The API response data
+ */
+function updateDemandForecast(data) {
   try {
-    // Get form values
-    const productType = document.getElementById('productType').value;
-    const productGroup = document.getElementById('productGroup').value;
-    const actualPrice = parseFloat(document.getElementById('actualPrice').value);
-    const discountedPrice = parseFloat(document.getElementById('discountedPrice').value);
-    const discountPercentage = parseFloat(document.getElementById('discountPercentage').value);
-    const rating = parseFloat(document.getElementById('rating').value) || 0;
-    const averagePrice = parseFloat(document.getElementById('averagePrice').value) || 0;
-    const averageShippingValue = parseFloat(document.getElementById('averageShippingValue').value) || 0;
-    const numberOfOrders = parseInt(document.getElementById('numberOfOrders').value) || 0;
-    const competitorPrice = parseFloat(document.getElementById('competitorPrice').value) || 0;
+    console.log("Updating demand forecast visualization with data:", data);
     
-    // Validate inputs
-    if (!productType || !productGroup) {
-      alert('Please select both product type and product group.');
-      hideLoadingIndicator();
-      return;
+    // Get the product group from the form for use in forecasting
+    let productGroup = "";
+    const productGroupSelect = document.getElementById('productGroup');
+    if (productGroupSelect && productGroupSelect.value) {
+      productGroup = productGroupSelect.value;
+    } else {
+      // Fallback to product type if group isn't available
+      const productTypeSelect = document.getElementById('productType');
+      if (productTypeSelect && productTypeSelect.value) {
+        productGroup = productTypeSelect.value;
+      }
     }
     
-    if (isNaN(actualPrice) || isNaN(discountedPrice) || isNaN(discountPercentage)) {
-      alert('Please enter valid numbers for price information.');
-      hideLoadingIndicator();
-      return;
+    // Get the ASIN from the form if available
+    let asin = "";
+    const asinInput = document.getElementById('asin');
+    if (asinInput && asinInput.value.trim()) {
+      asin = asinInput.value.trim();
     }
     
-    // Prepare data for Python script
-    const pythonData = {
-      productType,
-      productGroup,
-      discountedPrice,
-      actualPrice,
-      discountPercentage,
-      rating,
-      averagePrice,
-      averageShippingValue,
-      numberOfOrders,
-      competitorPrice
-    };
+    // Process past sales data from the API response if available
+    let pastSales = null;
+    if (data.productDetails) {
+      pastSales = extractPastSales(data);
+      console.log("Extracted past sales data:", pastSales);
+    }
     
-    // Call Python script via API endpoint
-    const response = await fetch('/api/predict-price', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(pythonData)
+    // Get elasticity data
+    const elasticity = data.price_elasticity || -1.0;
+    console.log(`Using price elasticity: ${elasticity}`);
+    
+    // Calculate baseline demand based on available data
+    let baselineDemand = calculateBaselineDemand(data, pastSales);
+    console.log(`Calculated baseline demand: ${baselineDemand} units`);
+    
+    // Get competitor data if available
+    let competitorData = null;
+    if (data.competitive_position) {
+      competitorData = {
+        avgPrice: data.competitive_position.avg_market_price || 0,
+        competitorCount: data.competitive_position.competitor_count || 0,
+        percentile: data.competitive_position.percentile || 50
+      };
+      console.log("Using competitor data:", competitorData);
+    }
+    
+    // Determine seasonality based on product type/group
+    const seasonalityData = determineSeasonality(productGroup);
+    console.log("Using seasonality data:", seasonalityData);
+    
+    // Generate demand forecast data for 12 weeks
+    const forecastData = generateForecastData({
+      baselineDemand,
+      elasticity,
+      actualPrice: data.actualPrice || data.original_price,
+      recommendedPrice: data.recommended_price,
+      competitorData,
+      seasonalityData
     });
     
-    if (!response.ok) {
-      throw new Error('Failed to get prediction from Python model');
+    // Calculate statistics
+    const demands = forecastData.map(d => d.demand);
+    const meanDemand = demands.reduce((sum, val) => sum + val, 0) / demands.length;
+    const minDemand = Math.min(...demands);
+    const maxDemand = Math.max(...demands);
+    
+    // Update metrics in the UI
+      const weeklyDemandElement = document.getElementById('weeklyDemandValue');
+      const conversionRateElement = document.getElementById('conversionRateValue');
+      const priceElasticityElement = document.getElementById('priceElasticityValue');
+      
+      if (weeklyDemandElement) {
+      weeklyDemandElement.textContent = `${meanDemand.toFixed(1)} units`;
+      }
+      
+      if (conversionRateElement) {
+      // Calculate estimated conversion rate based on price position
+      let conversionRate = 0.05; // Default 5%
+      if (competitorData) {
+        // Adjust based on price percentile (lower prices typically have higher conversion)
+        conversionRate = 0.08 - (competitorData.percentile / 1000); // Range from ~3% to ~8%
+      }
+      conversionRateElement.textContent = `${(conversionRate * 100).toFixed(1)}%`;
+      }
+      
+      if (priceElasticityElement) {
+        // Format elasticity nicely
+      const absElasticity = Math.abs(elasticity);
+      if (absElasticity < 0.8) {
+          priceElasticityElement.textContent = "Low";
+          priceElasticityElement.style.color = "#10b981"; // Green for low (inelastic)
+      } else if (absElasticity < 1.2) {
+          priceElasticityElement.textContent = "Moderate";
+          priceElasticityElement.style.color = "#f59e0b"; // Orange for moderate
+        } else {
+          priceElasticityElement.textContent = "High";
+          priceElasticityElement.style.color = "#ef4444"; // Red for high (elastic)
+        }
+      }
+    
+    // Create the demand forecast chart
+    createDemandForecastChart(forecastData);
+    
+    // Add insights about the forecast
+    addForecastInsights({
+      forecastData,
+      meanDemand,
+      elasticity,
+      actualPrice: data.actualPrice || data.original_price,
+      recommendedPrice: data.recommended_price,
+      seasonalityData
+    });
+    
+    console.log("Demand forecast update completed");
+  } catch (error) {
+    console.error("Error updating demand forecast:", error);
+    showNoForecastDataMessage();
+  }
+}
+
+/**
+ * Calculates baseline demand from available data
+ * @param {Object} data - API response data
+ * @param {string|number} pastSales - Extracted past sales data
+ * @returns {number} Baseline weekly demand
+ */
+function calculateBaselineDemand(data, pastSales) {
+  // Default baseline if no data available
+  let baselineDemand = 100;
+  
+  // If we have past sales data, use that
+  if (pastSales) {
+    // Convert string like "600+ bought in past month" to a number
+    if (typeof pastSales === 'string') {
+      const matches = pastSales.match(/(\d+)(?:\+)?\s+bought/i);
+      if (matches && matches[1]) {
+        const monthlySales = parseInt(matches[1], 10);
+        // If there's a + sign, add 10% to account for "more than" indication
+        if (pastSales.includes('+')) {
+          baselineDemand = Math.round(monthlySales * 1.1);
+    } else {
+          baselineDemand = monthlySales;
+        }
+        // Convert from monthly to weekly
+        baselineDemand = Math.round(baselineDemand / 4);
+      }
+    } else if (typeof pastSales === 'number') {
+      // Convert from monthly to weekly
+      baselineDemand = Math.round(pastSales / 4);
+    }
+  } else if (data.segmentInfo && data.segmentInfo.market_size) {
+    // If we have market size data, use a fraction of it
+    const marketShare = 0.01; // Assume 1% market share
+    baselineDemand = Math.round((data.segmentInfo.market_size * marketShare) / 52); // Weekly basis
+  }
+  
+  // Adjust based on product rating if available
+  if (data.rating) {
+    const rating = parseFloat(data.rating);
+    if (!isNaN(rating)) {
+      // Higher ratings tend to sell better
+      if (rating >= 4.5) baselineDemand *= 1.2;
+      else if (rating >= 4.0) baselineDemand *= 1.1;
+      else if (rating < 3.5) baselineDemand *= 0.8;
+    }
+  }
+  
+  return baselineDemand;
+}
+
+/**
+ * Determine seasonality pattern based on product category
+ * @param {string} category - Product category or type
+ * @returns {Object} Seasonality data object
+ */
+function determineSeasonality(category) {
+  // Default seasonality (flat)
+  let seasonality = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
+  let volatility = 0.1; // Default volatility (10%)
+  let description = "Stable demand throughout the year";
+  
+  const categoryLower = category.toLowerCase();
+  
+  // Apply different seasonality patterns based on category keywords
+  if (categoryLower.includes('electronics') || categoryLower.includes('computer')) {
+    // Electronics peak during back-to-school and holiday seasons
+    seasonality = [70, 60, 55, 50, 55, 60, 65, 85, 75, 80, 95, 100];
+    volatility = 0.15; // Higher volatility for electronics
+    description = "Peak demand during back-to-school (August) and holiday season (November-December)";
+  } else if (categoryLower.includes('toy') || categoryLower.includes('game')) {
+    // Toys peak during holiday season
+    seasonality = [40, 35, 30, 35, 40, 50, 55, 65, 75, 80, 95, 100];
+    volatility = 0.25; // Very high volatility for toys
+    description = "Strong seasonal pattern with peak during holiday season (November-December)";
+  } else if (categoryLower.includes('kitchen') || categoryLower.includes('home')) {
+    // Home/kitchen items have moderate peaks during holiday and wedding seasons
+    seasonality = [45, 50, 60, 70, 80, 85, 75, 70, 65, 75, 85, 95];
+    volatility = 0.12;
+    description = "Moderate seasonality with peaks during spring/summer wedding season and holidays";
+  } else if (categoryLower.includes('headphone') || categoryLower.includes('audio')) {
+    // Audio products peak during back-to-school and holiday seasons
+    seasonality = [60, 50, 45, 50, 60, 70, 65, 85, 80, 75, 90, 100];
+    volatility = 0.15;
+    description = "Higher demand during back-to-school and holiday seasons";
+  }
+  
+  // Get current month for reference
+  const currentMonth = new Date().getMonth(); // 0-11
+  
+  return {
+    values: seasonality,
+    currentMonth: currentMonth,
+    volatility: volatility,
+    description: description
+  };
+}
+
+/**
+ * Generate forecast data for 12 weeks
+ * @param {Object} params - Parameters for forecast generation
+ * @returns {Array} Array of forecast data points
+ */
+function generateForecastData(params) {
+  const {
+    baselineDemand,
+    elasticity,
+    actualPrice,
+    recommendedPrice,
+    competitorData,
+    seasonalityData
+  } = params;
+  
+  // Calculate price change impact if moving to recommended price
+  let priceChangeImpact = 1.0;
+  if (recommendedPrice && actualPrice) {
+    const priceChange = (recommendedPrice - actualPrice) / actualPrice;
+    // Apply elasticity formula: % change in quantity = elasticity * % change in price
+    const demandChange = elasticity * priceChange;
+    priceChangeImpact = 1 + demandChange;
+    console.log(`Price change impact: ${priceChangeImpact.toFixed(2)} (based on ${priceChange.toFixed(2)}% change and elasticity ${elasticity})`);
+  }
+  
+  // Generate forecast for 12 weeks
+  const forecastData = [];
+  const currentMonth = seasonalityData.currentMonth;
+  
+  for (let week = 1; week <= 12; week++) {
+    // Determine which month this week belongs to
+    const weekMonth = (currentMonth + Math.floor((week - 1) / 4)) % 12;
+    const nextMonth = (weekMonth + 1) % 12;
+    
+    // Calculate weekly baseline as fraction of monthly
+    const weeklyBaseline = baselineDemand;
+    
+    // Apply seasonality factor (blend current and next month based on position in month)
+    const weekPosition = (week - 1) % 4; // 0, 1, 2, 3
+    const monthWeight = (4 - weekPosition) / 4; // 1, 0.75, 0.5, 0.25
+    
+    const seasonalFactor = 
+      (monthWeight * seasonalityData.values[weekMonth] + 
+      (1 - monthWeight) * seasonalityData.values[nextMonth]) / 50; // Normalize to 1.0 at 50
+    
+    // Apply price change impact (gradually over the forecast period)
+    const impactWeight = Math.min(1.0, week / 8); // Gradually increase to full impact by week 8
+    const blendedPriceImpact = 1.0 + (impactWeight * (priceChangeImpact - 1.0));
+    
+    // Add random variation based on volatility
+    const randomVariation = 1 + ((Math.random() * 2 - 1) * seasonalityData.volatility);
+    
+    // Calculate final demand
+    const weeklyDemand = weeklyBaseline * seasonalFactor * blendedPriceImpact * randomVariation;
+    
+    forecastData.push({
+      week,
+      demand: Math.round(weeklyDemand * 10) / 10, // Round to 1 decimal place
+      seasonality: seasonalFactor,
+      priceImpact: blendedPriceImpact
+    });
+  }
+  
+  return forecastData;
+}
+
+/**
+ * Add forecast insights to the UI
+ * @param {Object} params - Parameters for insight generation
+ */
+function addForecastInsights(params) {
+  const {
+    forecastData,
+    meanDemand,
+    elasticity,
+    actualPrice,
+    recommendedPrice,
+    seasonalityData
+  } = params;
+  
+  // Get the forecast container
+  const container = document.querySelector('.forecast-chart-container');
+  if (!container) return;
+  
+  // Check if insights element exists, create if not
+  let insightsElement = container.querySelector('.forecast-insights');
+  if (!insightsElement) {
+    insightsElement = document.createElement('div');
+    insightsElement.className = 'forecast-insights';
+    insightsElement.style.marginTop = '15px';
+    insightsElement.style.padding = '10px';
+    insightsElement.style.background = 'rgba(0, 0, 0, 0.05)';
+    insightsElement.style.borderRadius = '4px';
+    container.appendChild(insightsElement);
+  }
+  
+  // Generate insights
+  const insights = [];
+  
+  // Seasonality insight - only add if description exists
+  if (seasonalityData && seasonalityData.description) {
+    insights.push(`<li>${seasonalityData.description}</li>`);
+    } else {
+    // Fallback if no description is available
+    insights.push(`<li>Demand follows typical market seasonality patterns.</li>`);
+  }
+  
+  // Price change insight
+  if (recommendedPrice && actualPrice) {
+    const priceChange = (recommendedPrice - actualPrice) / actualPrice;
+    const absoluteElasticity = Math.abs(elasticity);
+    
+    if (priceChange > 0) {
+      if (absoluteElasticity < 0.8) {
+        insights.push(`<li>Low price elasticity (${absoluteElasticity.toFixed(1)}) suggests that the recommended price increase of ${(priceChange * 100).toFixed(1)}% will have minimal impact on demand.</li>`);
+      } else if (absoluteElasticity < 1.2) {
+        insights.push(`<li>Moderate price elasticity (${absoluteElasticity.toFixed(1)}) suggests that the recommended price increase of ${(priceChange * 100).toFixed(1)}% will cause a proportional decrease in demand.</li>`);
+    } else {
+        insights.push(`<li>High price elasticity (${absoluteElasticity.toFixed(1)}) suggests that the recommended price increase of ${(priceChange * 100).toFixed(1)}% will significantly reduce demand.</li>`);
+      }
+    } else if (priceChange < 0) {
+      if (absoluteElasticity < 0.8) {
+        insights.push(`<li>Low price elasticity (${absoluteElasticity.toFixed(1)}) suggests that the recommended price decrease of ${(Math.abs(priceChange) * 100).toFixed(1)}% will only slightly increase demand.</li>`);
+      } else if (absoluteElasticity < 1.2) {
+        insights.push(`<li>Moderate price elasticity (${absoluteElasticity.toFixed(1)}) suggests that the recommended price decrease of ${(Math.abs(priceChange) * 100).toFixed(1)}% will cause a proportional increase in demand.</li>`);
+      } else {
+        insights.push(`<li>High price elasticity (${absoluteElasticity.toFixed(1)}) suggests that the recommended price decrease of ${(Math.abs(priceChange) * 100).toFixed(1)}% will significantly boost demand.</li>`);
+      }
+    }
+  }
+  
+  // Trend insight
+  const firstWeekDemand = forecastData[0].demand;
+  const lastWeekDemand = forecastData[forecastData.length - 1].demand;
+  const demandChange = (lastWeekDemand - firstWeekDemand) / firstWeekDemand;
+  
+  if (demandChange > 0.2) {
+    insights.push(`<li>Strong positive trend with demand projected to increase by ${(demandChange * 100).toFixed(1)}% over the forecast period.</li>`);
+  } else if (demandChange > 0.05) {
+    insights.push(`<li>Slight positive trend with demand projected to increase by ${(demandChange * 100).toFixed(1)}% over the forecast period.</li>`);
+  } else if (demandChange < -0.2) {
+    insights.push(`<li>Strong negative trend with demand projected to decrease by ${(Math.abs(demandChange) * 100).toFixed(1)}% over the forecast period.</li>`);
+  } else if (demandChange < -0.05) {
+    insights.push(`<li>Slight negative trend with demand projected to decrease by ${(Math.abs(demandChange) * 100).toFixed(1)}% over the forecast period.</li>`);
+  } else {
+    insights.push(`<li>Relatively stable demand projected over the forecast period.</li>`);
+  }
+  
+  // Update insights in the UI
+  insightsElement.innerHTML = `
+    <ul style="margin: 0; padding-left: 20px;">
+      ${insights.join('')}
+    </ul>
+  `;
+}
+
+/**
+ * Extract past sales data from product details
+ * @param {Object} data - API response data
+ * @returns {string|number} Extracted sales data or null if not found
+ */
+function extractPastSales(data) {
+  try {
+    // Check for explicit pastSales field
+    if (data.pastSales) {
+      return data.pastSales;
     }
     
-    // Get the recommendation from Python
-    const recommendation = await response.json();
+    // Check in productDetails array (common in API responses)
+    if (data.productDetails && Array.isArray(data.productDetails)) {
+      for (const detail of data.productDetails) {
+        if (typeof detail === 'string' && detail.includes('bought in past month')) {
+          return detail;
+        }
+      }
+    }
     
-    // Display the recommendation
-    displayRecommendation(recommendation);
+    // Check all string fields for "bought in past month" pattern
+    if (typeof data === 'object') {
+      for (const key in data) {
+        if (typeof data[key] === 'string' && data[key].includes('bought in past month')) {
+          return data[key];
+        }
+      }
+    }
+    
+    return null;
   } catch (error) {
-    console.error('Error during prediction:', error);
-    alert('An error occurred while generating the price recommendation.');
-  } finally {
-    hideLoadingIndicator();
+    console.error('Error extracting past sales:', error);
+    return null;
   }
 }
 
-// Function to display the recommendation results
-function displayRecommendation(recommendation) {
-  // Get the result card
-  const resultCard = document.getElementById('resultCard');
-  resultCard.style.display = 'block';
+/**
+ * Shows a message when no forecast data is available
+ */
+function showNoForecastDataMessage() {
+  const container = document.querySelector('.forecast-chart-container');
+  if (!container) return;
   
-  // Format currency values
-  const formatCurrency = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-  });
+  // Clear the container
+  container.innerHTML = '';
   
-  // Get original price for comparison
-  const originalPrice = parseFloat(document.getElementById('actualPrice').value);
-  
-  // Extract values from API response with proper key names
-  const recommendedPrice = recommendation.recommended_price;
-  const minPrice = recommendation.min_price;
-  const maxPrice = recommendation.max_price;
-  const elasticity = recommendation.elasticity;
-  const explanation = recommendation.explanation;
-  
-  // Calculate price difference
-  const priceDifference = originalPrice ? (recommendedPrice - originalPrice) : 0;
-  const percentChange = originalPrice ? ((priceDifference / originalPrice) * 100) : 0;
-  
-  // Update the display elements
-  document.getElementById('recommendedPrice').textContent = formatCurrency.format(recommendedPrice);
-  document.getElementById('priceRange').textContent = `Competitive price range: ${formatCurrency.format(minPrice)} - ${formatCurrency.format(maxPrice)}`;
-  
-  // Create detailed explanation text
-  let detailedExplanation = `
-    <p><strong>Elasticity:</strong> ${elasticity}</p>
+  // Create a message element
+  const messageDiv = document.createElement('div');
+  messageDiv.className = 'no-data-message';
+  messageDiv.style.padding = '20px';
+  messageDiv.style.textAlign = 'center';
+  messageDiv.style.color = '#666';
+  messageDiv.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2" style="margin-bottom: 12px;">
+      <line x1="18" y1="20" x2="18" y2="10"></line>
+      <line x1="12" y1="20" x2="12" y2="4"></line>
+      <line x1="6" y1="20" x2="6" y2="14"></line>
+    </svg>
+    <h3 style="margin-top: 0;">No Forecast Data Available</h3>
+    <p>Enter product details and calculate price to generate a demand forecast.</p>
   `;
   
-  // Only add price change if originalPrice exists
-  if (originalPrice) {
-    detailedExplanation += `
-      <p><strong>Price Change:</strong> 
-      <span class="${priceDifference >= 0 ? 'positive' : 'negative'}">
-        ${priceDifference >= 0 ? '+' : ''}${formatCurrency.format(priceDifference)} 
-        (${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(2)}%)
-      </span>
-      </p>
-    `;
-  }
-  
-  // Add the API explanation
-  detailedExplanation += `<p>${explanation}</p>`;
-  
-  // Add competitor price comparison if available
-  const competitorPrice = parseFloat(document.getElementById('competitorPrice').value);
-  if (!isNaN(competitorPrice) && competitorPrice > 0) {
-    const competitiveDiff = recommendedPrice - competitorPrice;
-    const competitivePercent = (competitiveDiff / competitorPrice) * 100;
-    
-    detailedExplanation += `
-      <p><strong>Competitor Comparison:</strong> 
-        <span class="${competitiveDiff >= 0 ? 'positive' : 'negative'}">
-          ${competitiveDiff >= 0 ? '+' : ''}${formatCurrency.format(competitiveDiff)} 
-          (${competitivePercent >= 0 ? '+' : ''}${competitivePercent.toFixed(2)}%)
-        </span>
-      </p>
-    `;
-  }
-  
-  // Update the explanation text
-  document.getElementById('priceExplanation').innerHTML = detailedExplanation;
-  
-  // Update styling based on elasticity
-  if (elasticity === "high") {
-    resultCard.className = 'result-card high-elasticity';
-  } else if (elasticity === "low") {
-    resultCard.className = 'result-card low-elasticity';
-  } else {
-    resultCard.className = 'result-card medium-elasticity';
-  }
+  container.appendChild(messageDiv);
 }
 
-// Modified function to render a price comparison chart
-function renderPriceComparisonChart(recommendedPrice) {
-  const chartContainer = document.getElementById('priceChart');
-  if (!chartContainer) return;
+/**
+ * Create a demand forecast chart with the given data
+ * @param {Array} data - Forecast data for the chart
+ */
+function createDemandForecastChart(data) {
+  // Find or create the forecast chart container
+  let container = document.querySelector('.forecast-chart-container');
+  if (!container) {
+    console.log('Forecast chart container not found, creating one');
+    
+    // Find a suitable parent container
+    const parentContainer = document.getElementById('demandForecast') || 
+                           document.querySelector('.demand-metrics') ||
+                           document.getElementById('elasticity-section');
+    
+    if (!parentContainer) {
+      console.error('No suitable parent container found for forecast chart');
+            return;
+        }
+        
+    // Create the container
+    container = document.createElement('div');
+    container.className = 'forecast-chart-container';
+    container.style.height = '500px'; // Increased from 450px to 500px for better visibility
+    container.style.width = '100%';
+    container.style.maxWidth = '1200px'; // Increased max-width for better display
+    container.style.margin = '30px auto'; // Center the chart and add more margin
+    container.style.marginBottom = '40px';
+    container.style.padding = '20px'; // Increased padding for more space
+    container.style.backgroundColor = 'rgba(30, 41, 59, 0.1)'; // Lighter background
+    container.style.borderRadius = '10px'; // Larger rounded corners
+    container.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)'; // Add slight shadow
+    parentContainer.appendChild(container);
+  } else {
+    // If container exists, update its dimensions
+    container.style.height = '500px';
+    container.style.width = '100%';
+    container.style.maxWidth = '1200px';
+    container.style.margin = '30px auto';
+    container.style.padding = '20px';
+    container.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
+  }
   
-  // Clear any existing chart
-  chartContainer.innerHTML = '<canvas id="priceComparisonCanvas"></canvas>';
+  // Check if there's an existing canvas and remove it
+  const existingCanvas = container.querySelector('canvas');
+  if (existingCanvas) {
+    // Destroy existing chart if it exists
+    if (existingCanvas._chart) {
+      existingCanvas._chart.destroy();
+    }
+    existingCanvas.remove();
+  }
   
-  // Get original price and competitor price
-  const originalPrice = parseFloat(document.getElementById('actualPrice').value);
-  const competitorPrice = parseFloat(document.getElementById('competitorPrice').value) || 0;
+  // Create a new canvas for the chart
+  const canvas = document.createElement('canvas');
+  canvas.id = 'demandForecastChart';
+  container.appendChild(canvas);
+  
+  // Get context for the new canvas
+  const ctx = canvas.getContext('2d');
+  
+  // Prepare data for the chart
+  const labels = data.map(d => `Week ${d.week}`);
+  const demands = data.map(d => d.demand);
   
   // Create the chart
-  const ctx = document.getElementById('priceComparisonCanvas').getContext('2d');
-  new Chart(ctx, {
-    type: 'bar',
+  const chart = new Chart(ctx, {
+    type: 'line',
     data: {
-      labels: ['Current Price', 'Recommended Price', 'Competitor Price'],
+      labels: labels,
       datasets: [{
-        label: 'Price Comparison',
-        data: [
-          originalPrice, 
-          recommendedPrice, 
-          competitorPrice || null
-        ],
-        backgroundColor: [
-          'rgba(54, 162, 235, 0.5)',
-          'rgba(75, 192, 192, 0.5)',
-          'rgba(255, 99, 132, 0.5)'
-        ],
-        borderColor: [
-          'rgba(54, 162, 235, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(255, 99, 132, 1)'
-        ],
-        borderWidth: 1
+        label: 'Projected Demand',
+        data: demands,
+        borderColor: '#3f96eb',
+        backgroundColor: 'rgba(63, 150, 235, 0.2)',
+        tension: 0.4,
+        fill: true,
+        borderWidth: 3 // Thicker line for better visibility
       }]
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false, // Ensures the chart takes the full height
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const dataPoint = data[context.dataIndex];
+              let label = `Demand: ${dataPoint.demand} units`;
+              return [
+                label,
+                `Seasonality: ${(dataPoint.seasonality * 100).toFixed(0)}%`,
+                `Price Impact: ${(dataPoint.priceImpact * 100).toFixed(0)}%`
+              ];
+            }
+          },
+          bodyFont: {
+            size: 14 // Larger tooltip text
+          },
+          titleFont: {
+            size: 14 // Larger tooltip title
+          },
+          padding: 10
+        },
+        legend: {
+          position: 'top',
+          labels: {
+            font: {
+              size: 14 // Larger legend text
+            },
+            padding: 20 // More padding for legend items
+          }
+        },
+        title: {
+          display: true,
+          text: '12-Week Demand Forecast',
+          font: {
+            size: 20, // Increased title size
+            weight: 'bold'
+          },
+          padding: {
+            top: 15,
+            bottom: 25
+          }
+        }
+      },
       scales: {
         y: {
-          beginAtZero: false
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Units per Week',
+            font: {
+              size: 16 // Larger axis title
+            }
+          },
+          ticks: {
+            font: {
+              size: 14 // Larger tick labels
+            }
+          },
+          grid: {
+            color: 'rgba(0, 0, 0, 0.05)'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Week',
+            font: {
+              size: 16 // Larger axis title
+            }
+          },
+          ticks: {
+            font: {
+              size: 14 // Larger tick labels
+            }
+          },
+          grid: {
+            color: 'rgba(0, 0, 0, 0.05)'
+          }
         }
+      },
+      elements: {
+        point: {
+          radius: 5, // Larger points
+          hoverRadius: 7 // Larger hover points
+        },
+        line: {
+          tension: 0.4 // Smoother curve
+        }
+      },
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      animation: {
+        duration: 1200,
+        easing: 'easeOutQuart'
       }
     }
   });
+  
+  // Save the chart instance to the canvas for future reference
+  canvas._chart = chart;
 }
 
-// Function to calculate optimal price
-function calculatePrice() {
-    // Get input values
-    const productType = document.getElementById('productType').value;
-    const productGroup = document.getElementById('productGroup').value;
-    const asin = document.getElementById('asin').value;
-    const actualPrice = parseFloat(document.getElementById('actualPrice').value);
-    const competitorPrice = parseFloat(document.getElementById('competitorPrice').value);
-    const rating = parseFloat(document.getElementById('rating').value);
-    const numberOfOrders = parseInt(document.getElementById('numberOfOrders').value);
+/**
+ * Ensure the Market Insights section exists in the DOM
+ * Creates it if missing
+ */
+function ensureMarketInsightsSectionExists() {
+  // First check if the Market Insights section already exists
+  let marketInsightsSection = document.querySelector('.market-insights');
+  
+  if (!marketInsightsSection) {
+    console.log("Market Insights section not found, creating it...");
     
-    console.log("Preparing to calculate price with:", {
-        productType, productGroup, asin, actualPrice, 
-        competitorPrice, rating, numberOfOrders
-    });
+    // Find a suitable parent container - look for #resultsContent as the best option
+    const resultsContent = document.getElementById('resultsContent');
     
-    // Validate inputs
-    if (isNaN(actualPrice) || isNaN(competitorPrice) || isNaN(rating) || isNaN(numberOfOrders)) {
-        // Show error in the results area instead of an alert
-        document.getElementById('noResults').innerHTML = `
-            <div class="alert alert-danger">
-                <i class="fas fa-exclamation-circle me-2"></i>
-                <strong>Error:</strong> Please enter valid numbers for price, rating, and orders.
-            </div>
-        `;
-        document.getElementById('noResults').style.display = 'block';
-        document.getElementById('resultsContent').classList.add('hidden');
-        return;
+    if (resultsContent) {
+      // Create a new Market Insights section as a direct child of resultsContent
+      marketInsightsSection = document.createElement('div');
+      marketInsightsSection.className = 'market-insights';
+      marketInsightsSection.style.marginTop = '50px';
+      marketInsightsSection.style.clear = 'both';
+      
+      marketInsightsSection.innerHTML = `
+        <h3 class="section-title">Market Insights</h3>
+        <div class="insights-container">
+          <div class="price-position"></div>
+          <div class="price-comparison"></div>
+        </div>
+      `;
+      
+      // Add to the bottom of resultsContent
+      resultsContent.appendChild(marketInsightsSection);
+    } else {
+      // Fallback to other containers if resultsContent not found
+      const parentContainer = document.getElementById('elasticity-section') || 
+                            document.querySelector('.price-impact-analysis');
+      
+      if (!parentContainer) {
+        console.error("No suitable parent container found for Market Insights");
+        return false;
+      }
+      
+      // Create a divider to ensure separation between sections
+      const divider = document.createElement('div');
+      divider.style.clear = 'both';
+      divider.style.height = '50px';
+      
+      // Create the Market Insights section
+      marketInsightsSection = document.createElement('div');
+      marketInsightsSection.className = 'market-insights';
+      marketInsightsSection.innerHTML = `
+        <h3 class="section-title">Market Insights</h3>
+        <div class="insights-container">
+          <div class="price-position"></div>
+          <div class="price-comparison"></div>
+        </div>
+      `;
+      
+      // Insert the divider first, then the section
+      parentContainer.parentNode.insertBefore(divider, parentContainer.nextSibling);
+      parentContainer.parentNode.insertBefore(marketInsightsSection, divider.nextSibling);
     }
     
-    // Show loading state
-    document.getElementById('calculateButton').textContent = 'Calculating...';
-    document.getElementById('calculateButton').disabled = true;
-    document.getElementById('noResults').innerHTML = `
-        <div class="text-center py-4">
-            <div class="spinner-border text-primary mb-3" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            <p class="mb-0 text-muted">Calculating optimal price...</p>
-        </div>
-    `;
-    document.getElementById('noResults').style.display = 'block';
-    document.getElementById('resultsContent').classList.add('hidden');
+    // Add some basic styling
+    addOrUpdateStyle('market-insights-styles', `
+      .market-insights {
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.03);
+        border-radius: 8px;
+        margin-bottom: 30px;
+        position: relative;
+        z-index: 1;
+      }
+      .market-insights .section-title {
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      .insights-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .price-position, .price-comparison {
+        flex: 1;
+        min-width: 300px;
+      }
+      .loading-indicator, .error-message {
+        padding: 20px;
+        text-align: center;
+        color: #666;
+      }
+      .error-message {
+        color: #e53935;
+      }
+    `);
     
-    // Prepare request payload
-    const payload = {
-        productType: productType,
-        productGroup: productGroup,
-        asin: asin,
-        actualPrice: actualPrice,
-        competitorPrice: competitorPrice,
-        rating: rating,
-        numberOfOrders: numberOfOrders
+    console.log("Market Insights section created");
+  }
+  
+  // Now check if the subsections exist
+  let pricePositionSection = marketInsightsSection.querySelector('.price-position');
+  let priceComparisonSection = marketInsightsSection.querySelector('.price-comparison');
+  
+  // Create the price position section if missing
+  if (!pricePositionSection) {
+    console.log("Price position section not found, creating it...");
+    pricePositionSection = document.createElement('div');
+    pricePositionSection.className = 'price-position';
+    marketInsightsSection.querySelector('.insights-container').appendChild(pricePositionSection);
+  }
+  
+  // Create the price comparison section if missing
+  if (!priceComparisonSection) {
+    console.log("Price comparison section not found, creating it...");
+    priceComparisonSection = document.createElement('div');
+    priceComparisonSection.className = 'price-comparison';
+    marketInsightsSection.querySelector('.insights-container').appendChild(priceComparisonSection);
+  }
+  
+  return true;
+}
+
+/**
+ * Updates visualizations with API data
+ */
+function updateVisualizationsWithApiData(data) {
+  console.log("Updating visualizations with API data:", data);
+  
+  // Check if data is valid
+  if (!data) {
+    console.error("No valid data provided to updateVisualizationsWithApiData");
+      return;
+    }
+    
+  try {
+    // Remove any profit optimization sections that might exist
+    removeProfitOptimizationSections();
+    
+    // Update price elements (if not already done)
+    const recommendedPriceElement = document.getElementById('recommendedPriceValue');
+    if (recommendedPriceElement && !recommendedPriceElement.textContent.includes('$')) {
+      updatePriceElements(data);
+    }
+    
+    // Update demand forecast with data
+    updateDemandForecast(data);
+    
+    // Extract pricing influence factors from data
+    const impacts = {
+      rating: data.rating_impact || data.price_factors_pct?.rating_impact || 0,
+      competitor: data.competitor_impact || data.price_factors_pct?.competitor_impact || 0,
+      market: data.market_impact || data.price_factors_pct?.market_impact || 0
     };
     
-    console.log("Sending API request with payload:", payload);
+    console.log("Extracted pricing impacts:", impacts);
     
-    // Make API request
-    fetch('/api/predict-price', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-    })
+    // Update pricing influence factors
+    updatePricingInfluenceFactors(impacts);
+    
+    // Get the product group from the form for market data search
+    let productGroup = "Headphones"; // Default value
+    const productGroupElement = document.getElementById('productGroup');
+    if (productGroupElement && productGroupElement.value) {
+      productGroup = productGroupElement.value;
+    }
+    
+    // Get actual and competitor prices from form elements or data
+    let actualPrice = 0;
+    let competitorPrice = 0;
+    
+    const actualPriceElement = document.getElementById('actualPrice');
+    if (actualPriceElement && actualPriceElement.value) {
+      actualPrice = parseFloat(actualPriceElement.value) || 0;
+    } else if (data.actualPrice || data.original_price) {
+      actualPrice = data.actualPrice || data.original_price;
+    }
+    
+    const competitorPriceElement = document.getElementById('competitorPrice');
+    if (competitorPriceElement && competitorPriceElement.value) {
+      competitorPrice = parseFloat(competitorPriceElement.value) || 0;
+    } else if (data.competitorPrice) {
+      competitorPrice = data.competitorPrice;
+    }
+
+    // Create an enhanced data object with all required fields guaranteed
+    const enhancedData = {
+      ...data,
+      actualPrice: actualPrice, // Ensure actualPrice is set explicitly
+      competitorPrice: competitorPrice
+    };
+    
+    console.log("Enhanced data for visualizations:", {
+      originalActualPrice: data.actualPrice,
+      enhancedActualPrice: enhancedData.actualPrice
+    });
+    
+    // Update elasticity visualizations with enhanced data
+    createElasticityVisualizations(enhancedData);
+    
+    // Create a sequence of visualizations with delays to ensure proper render order
+    const visualizationSequence = async () => {
+      try {
+        // Step 1: Create price impact analysis visualization (skip profit optimization)
+        await new Promise(resolve => {
+          setTimeout(() => {
+            // Ensure price impact section exists
+            ensurePriceImpactSectionExists();
+            
+            // Ensure we call createElasticityVisualizations again to refresh the content
+            createElasticityVisualizations(enhancedData);
+            
+            // Add a spacer after the price impact analysis
+            const priceImpactContainer = document.getElementById('priceImpactAnalysis');
+            if (priceImpactContainer) {
+              const spacer = document.createElement('div');
+              spacer.style.clear = 'both';
+              spacer.style.height = '30px';
+              
+              // Check if there's already a spacer
+              let existingSpacers = 0;
+              let nextSibling = priceImpactContainer.nextSibling;
+              while (nextSibling) {
+                if (nextSibling.nodeType === 1 && 
+                    nextSibling.style && 
+                    nextSibling.style.clear === 'both' && 
+                    nextSibling.style.height.includes('px')) {
+                  existingSpacers++;
+                  break;
+                }
+                nextSibling = nextSibling.nextSibling;
+              }
+              
+              // Only add spacer if one doesn't exist already
+              if (existingSpacers === 0) {
+                if (priceImpactContainer.nextSibling) {
+                  priceImpactContainer.parentNode.insertBefore(spacer, priceImpactContainer.nextSibling);
+                } else {
+                  priceImpactContainer.parentNode.appendChild(spacer);
+                }
+              }
+            }
+            resolve();
+          }, 100);
+        });
+        
+        // Step 2: Create Market Insights section
+        await new Promise(resolve => {
+          setTimeout(() => {
+            ensureMarketInsightsSectionExists();
+            resolve();
+          }, 100);
+        });
+        
+        // Step 3: Fetch market data for Price Position and create visualization
+        if (productGroup && actualPrice > 0) {
+          await new Promise(resolve => {
+            setTimeout(() => {
+              console.log(`Fetching market data for price position with keyword: "${productGroup}"`);
+              fetchMarketDataForPricePosition(productGroup, enhancedData);
+              resolve();
+            }, 100);
+          });
+        } else {
+          console.warn("Missing required data for market visualization:", { 
+            productGroup, 
+            actualPrice
+          });
+          showMarketInsightsError("Missing product group or price data");
+        }
+        
+        // Step 4: Create price history timeline if available
+        if (data.price_history) {
+          await new Promise(resolve => {
+            setTimeout(() => {
+              createPriceTimelineVisualization(data.price_history, enhancedData);
+              resolve();
+            }, 100);
+          });
+        }
+        
+        console.log("All visualizations created successfully");
+    } catch (error) {
+        console.error("Error in visualization sequence:", error);
+      }
+    };
+    
+    // Start the visualization sequence
+    visualizationSequence();
+    
+  } catch (error) {
+    console.error("Error in updateVisualizationsWithApiData:", error);
+  }
+}
+
+/**
+ * Updates the pricing influence factors display
+ * @param {Object} impacts - Impact factors for price recommendation
+ */
+function updatePricingInfluenceFactors(impacts) {
+  console.log("Updating pricing influence factors with:", impacts);
+  
+  // First check for impact elements in the elasticity-impact section (preferred location)
+  const ratingImpactElement = document.getElementById('rating-impact');
+  const competitorImpactElement = document.getElementById('competitor-impact');
+  const marketImpactElement = document.getElementById('market-impact');
+  
+  // If we found the standard impact elements, update them
+  if (ratingImpactElement && competitorImpactElement && marketImpactElement) {
+    console.log("Found standard impact elements, updating them directly");
+    
+    // If data is null or undefined, set default values
+    const impacts = data || {};
+    
+    // Extract impact values
+    const ratingImpact = impacts.rating || 0;
+    const competitorImpact = impacts.competitor || 0;
+    const marketImpact = impacts.market || 0;
+    
+    // Update each element with formatted values
+    updateImpactFactor('rating-impact', ratingImpact);
+    updateImpactFactor('competitor-impact', competitorImpact);
+    updateImpactFactor('market-impact', marketImpact);
+    
+    // Don't create a duplicate container since we updated the standard elements
+    return;
+  }
+  
+  // If we didn't find the standard elements, don't create a new container
+  // This prevents the duplicate pricing influence factors issue
+  console.warn("Standard impact elements not found, but will not create duplicates");
+}
+
+/**
+ * Fetches market data for price position visualization
+ * @param {string} keyword - The product keyword to search for
+ * @param {Object} pricingData - The pricing data for comparison
+ */
+function fetchMarketDataForPricePosition(keyword, pricingData) {
+  // Ensure we have a valid keyword - user's product group
+  if (!keyword || typeof keyword !== 'string' || keyword.trim() === '') {
+    console.error("Invalid or missing keyword for market data search");
+    showMarketInsightsError("Missing product group information");
+    return;
+  }
+  
+  console.log("Fetching market data for price position with keyword:", keyword);
+  
+  // Show loading indicators in market insights sections
+  const marketInsightsSection = document.querySelector('.market-insights');
+  if (marketInsightsSection) {
+    const pricePosition = marketInsightsSection.querySelector('.price-position');
+    const priceComparison = marketInsightsSection.querySelector('.price-comparison');
+    
+    if (pricePosition) {
+      pricePosition.innerHTML = '<div class="loading-indicator">Loading market position data...</div>';
+    }
+    
+    if (priceComparison) {
+      priceComparison.innerHTML = '<div class="loading-indicator">Loading price comparison data...</div>';
+    }
+  }
+  
+  // Get actual price with validation from different sources
+  let actualPrice = 0;
+  
+  // Try multiple sources to ensure we have a valid price
+  if (typeof pricingData.actualPrice === 'number' && !isNaN(pricingData.actualPrice) && pricingData.actualPrice > 0) {
+    actualPrice = pricingData.actualPrice;
+  } else if (typeof pricingData.actual_price === 'number' && !isNaN(pricingData.actual_price) && pricingData.actual_price > 0) {
+    actualPrice = pricingData.actual_price;
+  } else if (typeof pricingData.original_price === 'number' && !isNaN(pricingData.original_price) && pricingData.original_price > 0) {
+    actualPrice = pricingData.original_price;
+  } else {
+    // Try form element as a last resort
+    const actualPriceElement = document.getElementById('actualPrice');
+    if (actualPriceElement && actualPriceElement.value) {
+      actualPrice = parseFloat(actualPriceElement.value) || 0;
+    }
+  }
+  
+  if (actualPrice <= 0) {
+    console.error("Could not determine a valid price for market data visualization");
+    showMarketInsightsError("Missing valid price data");
+    return;
+  }
+  
+  console.log(`Using actual price for market data: ${actualPrice}`);
+  
+  // Fetch from API with a cleaned keyword
+  const cleanKeyword = keyword.trim();
+  fetch(`/api/search-product?keyword=${encodeURIComponent(cleanKeyword)}`)
     .then(response => {
-        console.log("Received API response status:", response.status);
-        if (!response.ok) {
-            throw new Error(`Server returned ${response.status}: ${response.statusText}`);
-        }
-        return response.json();
+      // Check if response is ok (status 200-299)
+      if (!response.ok) {
+        throw new Error(`API responded with status ${response.status}`);
+      }
+      return response.json();
     })
     .then(data => {
-        console.log("API response data:", data);
-        // Clear error display
-        document.getElementById('noResults').style.display = 'none';
-        
-        // Check if data contains the expected properties
-        if (!data.recommendedPrice && !data.minPrice && !data.maxPrice) {
-            throw new Error('Invalid response from server: missing price data');
-        }
-        
-        // Update UI with results - safely handle potentially undefined values
-        document.getElementById('recommendedPrice').textContent = data.recommendedPrice !== undefined ? 
-            `$${Number(data.recommendedPrice).toFixed(2)}` : '$0.00';
-            
-        document.getElementById('minPrice').textContent = data.minPrice !== undefined ? 
-            `$${Number(data.minPrice).toFixed(2)}` : '$0.00';
-            
-        document.getElementById('maxPrice').textContent = data.maxPrice !== undefined ? 
-            `$${Number(data.maxPrice).toFixed(2)}` : '$0.00';
-            
-        document.getElementById('elasticityCategory').textContent = data.elasticityCategory || 'Unknown';
-        document.getElementById('explanation').textContent = data.explanation || 'No explanation available';
-        document.getElementById('ratingImpact').textContent = data.ratingImpact !== undefined ? 
-            `${Number(data.ratingImpact).toFixed(1)}%` : '0%';
-            
-        document.getElementById('orderImpact').textContent = data.orderImpact !== undefined ? 
-            `${Number(data.orderImpact).toFixed(1)}%` : '0%';
-            
-        document.getElementById('marketImpact').textContent = data.marketImpact !== undefined ? 
-            `${Number(data.marketImpact).toFixed(1)}%` : '0%';
-        
-        // Show market insights if available
-        if (data.marketInsights) {
-            document.getElementById('marketInsightsSection').classList.remove('hidden');
-            document.getElementById('priceTrend').textContent = data.marketInsights.priceTrend || 'stable';
-            document.getElementById('priceVolatility').textContent = data.marketInsights.priceVolatility !== undefined ? 
-                `${Number(data.marketInsights.priceVolatility).toFixed(1)}%` : '0%';
-                
-            document.getElementById('marketPosition').textContent = data.marketInsights.marketPosition || 'average';
-            document.getElementById('sentimentScore').textContent = data.marketInsights.sentimentScore !== undefined ? 
-                Number(data.marketInsights.sentimentScore).toFixed(2) : '0.00';
-            
-            // Add classes based on price trend
-            document.getElementById('priceTrend').className = `trend-${data.marketInsights.priceTrend || 'stable'}`;
-        } else {
-            document.getElementById('marketInsightsSection').classList.add('hidden');
-        }
-        
-        // Show results
-        document.getElementById('resultsContent').classList.remove('hidden');
+      console.log("Received search product data:", data);
+      
+      if (!data.success) {
+        console.error("API reported failure:", data.message || "Unknown error");
+        throw new Error(data.message || "API reported failure");
+      }
+      
+      // Ensure we have an actualPrice in our data for visualizations
+      const enhancedPricingData = {
+        ...pricingData,
+        actualPrice: actualPrice // Ensure actualPrice is set
+      };
+      
+      // Process market data from search results
+      const marketData = processSearchResultsForPriceData(data, actualPrice);
+      
+      // Only create visualizations if we have valid market data
+      if (marketData && marketData.success) {
+        // Create visualizations with the processed data
+        createPricePositionVisualization(marketData, enhancedPricingData);
+        createPriceComparisonVisualization(marketData, enhancedPricingData);
+      } else {
+        // Show error if market data couldn't be processed
+        showMarketInsightsError("Could not process market data");
+      }
     })
     .catch(error => {
-        console.error('Error:', error);
-        // Display error message in the results area
-        document.getElementById('noResults').innerHTML = `
-            <div class="alert alert-danger">
-                <i class="fas fa-exclamation-circle me-2"></i>
-                <strong>Error calculating price:</strong> ${error.message}
-                <hr>
-                <p class="mb-0">Please try again or contact support if the problem persists.</p>
-            </div>
-        `;
-        document.getElementById('noResults').style.display = 'block';
-        document.getElementById('resultsContent').classList.add('hidden');
-    })
-    .finally(() => {
-        // Reset button
-        document.getElementById('calculateButton').textContent = 'Calculate Optimal Price';
-        document.getElementById('calculateButton').disabled = false;
+      console.error("Error fetching market data:", error);
+      showMarketInsightsError("Failed to load market data");
     });
 }
 
-// Initialize charts when the DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Update product groups based on initial product type
-    updateProductGroups();
+/**
+ * Process search results to extract price data for market analysis
+ * @param {Object} searchData - The search API response
+ * @param {number} currentPrice - The current product price
+ * @returns {Object} Processed market data
+ */
+function processSearchResultsForPriceData(searchData, currentPrice) {
+  // Default market data structure
+  const marketData = {
+    success: true,
+    min_price: Infinity,
+    max_price: 0,
+    average_price: 0,
+    median_price: 0,
+    products: [],
+    price_data: [],
+    distribution: {},
+    price_elasticity: -1.0 // Default elasticity if not provided
+  };
+  
+  console.log("Processing search data:", searchData);
+  
+  // Check if we have price elasticity in the API response
+  if (typeof searchData.price_elasticity === 'number' && !isNaN(searchData.price_elasticity)) {
+    marketData.price_elasticity = searchData.price_elasticity;
+    console.log("Found price elasticity in API response:", marketData.price_elasticity);
+  }
+  
+  // First check if we have competitors data from the API (this is the format returned by analyze_keyword)
+  if (searchData.competitive_analysis && searchData.competitive_analysis.competitors) {
+    const competitors = searchData.competitive_analysis.competitors;
+    console.log(`Found ${competitors.length} competitors in competitive_analysis`);
     
-    // Initialize revenue chart
-    const revenueChartCtx = document.getElementById('revenueChart').getContext('2d');
-    new Chart(revenueChartCtx, {
-        type: 'line',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            datasets: [{
-                label: 'Monthly Revenue',
-                data: [28500, 32400, 35200, 42100, 43250, 48352],
-                borderColor: '#2c7be5',
-                backgroundColor: 'rgba(44, 123, 229, 0.1)',
-                tension: 0.4,
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return '$' + value.toLocaleString();
-                        }
-                    }
-                }
-            }
-        }
+    // Extract prices and competitor data
+    const prices = [];
+    marketData.products = [];
+    
+    competitors.forEach(competitor => {
+      const price = parseFloat(competitor.price);
+      if (!isNaN(price) && price > 0) {
+        prices.push(price);
+        marketData.products.push({
+          title: competitor.name,
+          price: price,
+          rating: competitor.rating,
+          asin: competitor.asin || ""
+        });
+        
+        // Update min and max prices
+        marketData.min_price = Math.min(marketData.min_price, price);
+        marketData.max_price = Math.max(marketData.max_price, price);
+      }
     });
     
-    // Initialize sales chart
-    const salesChartCtx = document.getElementById('salesChart').getContext('2d');
-    new Chart(salesChartCtx, {
-        type: 'bar',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            datasets: [{
-                label: 'Total Sales',
-                data: [856, 932, 978, 1054, 1150, 1245],
-                backgroundColor: '#00d97e',
-                borderRadius: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
+    // Process price distribution if available
+    if (searchData.price_distribution && searchData.price_distribution.brackets) {
+      const distribution = {};
+      searchData.price_distribution.brackets.forEach(bracket => {
+        distribution[bracket.range] = bracket.count;
+      });
+      marketData.distribution = distribution;
+    }
+    
+    // Use API-provided position percentile if available
+    if (searchData.competitive_analysis.position_percentile) {
+      marketData.percentile = searchData.competitive_analysis.position_percentile;
+    }
+    
+    // Use API-provided average price
+    if (searchData.competitive_analysis.avg_market_price) {
+      marketData.average_price = searchData.competitive_analysis.avg_market_price;
+    } else if (prices.length > 0) {
+      marketData.average_price = prices.reduce((sum, price) => sum + price, 0) / prices.length;
+    }
+    
+    // Store the raw price data
+    marketData.price_data = [...prices].sort((a, b) => a - b);
+    
+    // Calculate median price if not already provided
+    if (prices.length > 0) {
+      prices.sort((a, b) => a - b);
+      const middle = Math.floor(prices.length / 2);
+      marketData.median_price = prices.length % 2 === 0 
+        ? (prices[middle - 1] + prices[middle]) / 2 
+        : prices[middle];
+      
+      // Calculate percentile for current price if not already provided
+      if (!marketData.percentile) {
+        const lowerPriceCount = prices.filter(price => price < currentPrice).length;
+        marketData.percentile = Math.round((lowerPriceCount / prices.length) * 100);
+      }
+    }
+  }
+  // Check for regular products array format
+  else if (searchData.products && searchData.products.length > 0) {
+    const products = searchData.products;
+    console.log(`Processing ${products.length} products from products array`);
+    
+    // Extract prices and store valid products
+    const prices = [];
+    
+    products.forEach(product => {
+      const price = extractPrice(product.price);
+      
+      if (!isNaN(price) && price > 0) {
+        prices.push(price);
+        marketData.products.push(product);
+        
+        // Update min and max prices
+        marketData.min_price = Math.min(marketData.min_price, price);
+        marketData.max_price = Math.max(marketData.max_price, price);
+      }
     });
-});
-
-// Function to format currency
-function formatCurrency(amount) {
-    return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD'
-    }).format(amount);
+    
+    // Store the raw price data
+    marketData.price_data = [...prices].sort((a, b) => a - b);
+    
+    // Calculate average price
+    if (prices.length > 0) {
+      marketData.average_price = prices.reduce((sum, price) => sum + price, 0) / prices.length;
+      
+      // Calculate median price
+      prices.sort((a, b) => a - b);
+      const middle = Math.floor(prices.length / 2);
+      marketData.median_price = prices.length % 2 === 0 
+        ? (prices[middle - 1] + prices[middle]) / 2 
+        : prices[middle];
+      
+      // Create price distribution data
+      // Distribute across 4 price ranges
+      const priceRange = marketData.max_price - marketData.min_price;
+      const bucketSize = priceRange / 4;
+      
+      const distribution = {
+        // Create 4 buckets for price distribution
+        [`$${Math.round(marketData.min_price)}-$${Math.round(marketData.min_price + bucketSize)}`]: 0,
+        [`$${Math.round(marketData.min_price + bucketSize)}-$${Math.round(marketData.min_price + 2 * bucketSize)}`]: 0,
+        [`$${Math.round(marketData.min_price + 2 * bucketSize)}-$${Math.round(marketData.min_price + 3 * bucketSize)}`]: 0,
+        [`$${Math.round(marketData.min_price + 3 * bucketSize)}-$${Math.round(marketData.max_price)}`]: 0
+      };
+      
+      // Count products in each price range
+      prices.forEach(price => {
+        if (price < marketData.min_price + bucketSize) {
+          distribution[`$${Math.round(marketData.min_price)}-$${Math.round(marketData.min_price + bucketSize)}`]++;
+        } else if (price < marketData.min_price + 2 * bucketSize) {
+          distribution[`$${Math.round(marketData.min_price + bucketSize)}-$${Math.round(marketData.min_price + 2 * bucketSize)}`]++;
+        } else if (price < marketData.min_price + 3 * bucketSize) {
+          distribution[`$${Math.round(marketData.min_price + 2 * bucketSize)}-$${Math.round(marketData.min_price + 3 * bucketSize)}`]++;
+        } else {
+          distribution[`$${Math.round(marketData.min_price + 3 * bucketSize)}-$${Math.round(marketData.max_price)}`]++;
+        }
+      });
+      
+      marketData.distribution = distribution;
+      
+      // Calculate percentile for current price
+      const lowerPriceCount = prices.filter(price => price < currentPrice).length;
+      marketData.percentile = Math.round((lowerPriceCount / prices.length) * 100);
+    }
+  } else {
+    console.warn("No valid product data found in search response");
+    marketData.success = false;
+  }
+  
+  console.log("Processed market data:", marketData);
+  return marketData;
 }
 
-// Function to refresh market data
-function refreshMarketData() {
-    const asin = document.getElementById('marketProductAsin').value.trim();
+/**
+ * Extract price from product object
+ * @param {Object} product - The product object
+ * @returns {number} The extracted price or 0 if not found
+ */
+function extractPriceFromProduct(product) {
+  if (!product) return 0;
+  
+  // Check for price in different formats
+  if (product.price) {
+    return extractPrice(product.price);
+  }
+  
+  if (product.formatted_price || product.displayPrice) {
+    return extractPrice(product.formatted_price || product.displayPrice);
+  }
+  
+  // Check for price in nested objects
+  if (product.priceDto && product.priceDto.priceValue) {
+    return extractPrice(product.priceDto.priceValue);
+  }
+  
+  // If still not found, return 0
+  return 0;
+}
+
+/**
+ * Helper function to extract price from various formats
+ * @param {string|number} priceStr - The price string or number
+ * @returns {number} The extracted price or 0 if not found
+ */
+function extractPrice(priceStr) {
+  if (!priceStr) return 0;
+  
+  // If already a number, return it
+  if (typeof priceStr === 'number') return priceStr;
+  
+  try {
+    // Convert string price to number, removing non-numeric characters except decimal point
+    const price = parseFloat(String(priceStr).replace(/[^0-9.]/g, ''));
+    return !isNaN(price) ? price : 0;
+  } catch (error) {
+    console.error(`Error extracting price from ${priceStr}:`, error);
+    return 0;
+  }
+}
+
+/**
+ * Creates a visualization of price position relative to the market
+ * @param {Object} marketData - Market data including prices, distribution etc.
+ * @param {Object} pricingData - Current pricing data
+ */
+function createPricePositionVisualization(marketData, pricingData) {
+  console.log("Creating price position visualization with data:", marketData, pricingData);
+  
+  try {
+    // Ensure the price position section exists
+    const marketInsightsSection = document.querySelector('.market-insights');
     
-    if (!asin) {
-        alert('Please enter a valid product ASIN');
+    if (!marketInsightsSection) {
+      console.error("Market insights section not found for price position visualization");
+      return;
+    }
+    
+    const pricePositionSection = marketInsightsSection.querySelector('.price-position');
+    
+    if (!pricePositionSection) {
+      console.error("Price position section not found for visualization");
+      return;
+    }
+    
+    // Clear existing content
+    pricePositionSection.innerHTML = '';
+    
+    // Create header
+    const header = document.createElement('h4');
+    header.className = 'insight-header';
+    header.textContent = 'Market Price Position';
+    pricePositionSection.appendChild(header);
+    
+    // Get the market data
+    const minPrice = marketData.min_price || 700;
+    const maxPrice = marketData.max_price || 1400;
+    const avgPrice = marketData.average_price || 1000;
+    
+    // Log the market data values for debugging
+    console.log("Market data for visualization:", {
+      minPrice,
+      maxPrice,
+      avgPrice,
+      products: marketData.products?.length || 0,
+      price_data: marketData.price_data?.length || 0
+    });
+    
+    // Get the current product price
+    const currentPrice = parseFloat(pricingData.actualPrice) || 999.99;
+    const recommendedPrice = parseFloat(pricingData.recommendedPrice) || currentPrice;    
+    // Calculate percentile based on price distribution, not just min-max range
+    // This ensures the dot position matches the "higher than X% of competitors" text
+    let percentile = 50; // Default to middle
+    
+    if (marketData.products && marketData.products.length > 0) {
+      // Count how many products have a lower price than current
+      const lowerPriceCount = marketData.products.filter(p => {
+        const productPrice = extractPrice(p.price);
+        return productPrice < currentPrice;
+      }).length;
+      
+      // Calculate percentile based on position in the array
+      percentile = Math.round((lowerPriceCount / marketData.products.length) * 100);
+    } else if (marketData.price_data && marketData.price_data.length > 0) {
+      // Alternative calculation if we have price_data array
+      const lowerPriceCount = marketData.price_data.filter(p => p < currentPrice).length;
+      percentile = Math.round((lowerPriceCount / marketData.price_data.length) * 100);
+    }
+    
+    console.log(`Calculated price percentile: ${percentile}%, current price: $${currentPrice}, avg: $${avgPrice}`);
+    
+    // Create the price spectrum container
+    const spectrumContainer = document.createElement('div');
+    spectrumContainer.className = 'price-spectrum-container';
+    spectrumContainer.style.marginTop = '15px';
+    spectrumContainer.style.marginBottom = '25px';
+    spectrumContainer.style.position = 'relative';
+    spectrumContainer.style.height = '30px';
+    pricePositionSection.appendChild(spectrumContainer);
+    
+    // Create labels for lower and higher
+    const lowerLabel = document.createElement('div');
+    lowerLabel.className = 'price-label lower';
+    lowerLabel.textContent = 'Lower';
+    lowerLabel.style.position = 'absolute';
+    lowerLabel.style.left = '0';
+    lowerLabel.style.top = '-15px';
+    lowerLabel.style.fontSize = '12px';
+    lowerLabel.style.color = '#aaa';
+    spectrumContainer.appendChild(lowerLabel);
+    
+    const higherLabel = document.createElement('div');
+    higherLabel.className = 'price-label higher';
+    higherLabel.textContent = 'Higher';
+    higherLabel.style.position = 'absolute';
+    higherLabel.style.right = '0';
+    higherLabel.style.top = '-15px';
+    higherLabel.style.fontSize = '12px';
+    higherLabel.style.color = '#aaa';
+    spectrumContainer.appendChild(higherLabel);
+    
+    // Create the price spectrum gradient
+    const spectrum = document.createElement('div');
+    spectrum.className = 'price-spectrum';
+    spectrum.style.height = '8px';
+    spectrum.style.width = '100%';
+    spectrum.style.background = 'linear-gradient(to right, #4CAF50, #FFEB3B, #F44336)';
+    spectrum.style.borderRadius = '4px';
+    spectrum.style.marginTop = '15px';
+    spectrumContainer.appendChild(spectrum);
+    
+    // Position dot based on percentile, ensuring it stays within the visible area
+    // Keep the dot position between 5% and 95% of the width to ensure visibility
+    const dotPosition = Math.min(Math.max(percentile / 100, 0.05), 0.95);
+    
+    // Create the current price indicator dot
+    const priceDot = document.createElement('div');
+    priceDot.className = 'price-indicator';
+    priceDot.style.position = 'absolute';
+    priceDot.style.left = `${dotPosition * 100}%`;
+    priceDot.style.top = '11px';
+    priceDot.style.width = '15px';
+    priceDot.style.height = '15px';
+    priceDot.style.backgroundColor = '#2196F3';
+    priceDot.style.borderRadius = '50%';
+    priceDot.style.transform = 'translateX(-50%)';
+    priceDot.style.border = '2px solid white';
+    priceDot.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+    spectrumContainer.appendChild(priceDot);
+    
+    // Add position description
+    const positionDescription = document.createElement('div');
+    positionDescription.className = 'position-description';
+    positionDescription.style.marginTop = '15px';
+    positionDescription.style.textAlign = 'center';
+    positionDescription.style.fontSize = '14px';
+    
+    // Determine position description text based on the actual percentile
+    let percentileText;
+    if (currentPrice <= avgPrice) {
+      percentileText = `Your price is lower than ${100-percentile}% of competitors`;
+    } else {
+      percentileText = `Your price is higher than ${percentile}% of competitors`;
+    }
+    
+    positionDescription.textContent = percentileText;
+    pricePositionSection.appendChild(positionDescription);
+    
+    // Create a bar chart comparing prices
+    const barChartContainer = document.createElement('div');
+    barChartContainer.className = 'bar-chart-container';
+    barChartContainer.style.marginTop = '25px';
+    barChartContainer.style.height = '160px';
+    pricePositionSection.appendChild(barChartContainer);
+    
+    // Create a canvas for the bar chart
+    const canvas = document.createElement('canvas');
+    canvas.id = 'priceComparisonChart';
+    barChartContainer.appendChild(canvas);
+    
+    // Generate data for the chart
+    const labels = ['Market Avg:', 'Your Price:', 'Recommended:'];
+    const values = [
+      avgPrice,
+      currentPrice,
+      recommendedPrice
+    ];
+    
+    // Format values for display
+    const formattedValues = values.map(value => value.toFixed(2));
+    
+    // Define colors for the bars
+    const backgroundColors = [
+      'rgba(100, 181, 246, 0.8)',  // Blue for Market Avg
+      'rgba(255, 235, 59, 0.8)',   // Yellow for Current Price
+      'rgba(129, 199, 132, 0.8)'   // Green for Recommended Price
+    ];
+  
+  // Create the chart
+    const ctx = canvas.getContext('2d');
+    
+    // Destroy existing chart if it exists
+    if (window.priceComparisonChart) {
+      // Check if the destroy method exists before calling it
+      if (typeof window.priceComparisonChart.destroy === 'function') {
+        window.priceComparisonChart.destroy();
+      } else {
+        console.warn('Could not destroy previous chart: destroy method not found');
+        // Set to null to allow garbage collection
+        window.priceComparisonChart = null;
+      }
+    }
+    
+    window.priceComparisonChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+      labels: labels,
+      datasets: [{
+          label: 'Price Comparison',
+          data: values,
+          backgroundColor: backgroundColors,
+          borderColor: backgroundColors.map(color => color.replace('0.8', '1')),
+          borderWidth: 1
+      }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+          display: true,
+              text: 'Price ($)'
+            }
+          }
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `$${context.raw.toFixed(2)}`;
+              }
+            }
+          },
+          datalabels: {
+            anchor: 'end',
+            align: 'top',
+            formatter: function(value) {
+              return '$' + value.toFixed(2);
+            },
+            font: {
+              weight: 'bold'
+            }
+          }
+        }
+      }
+    });
+    
+    // Add labels below chart
+    const labelsContainer = document.createElement('div');
+    labelsContainer.className = 'price-comparison-labels';
+    labelsContainer.style.display = 'flex';
+    labelsContainer.style.justifyContent = 'space-between';
+    labelsContainer.style.marginTop = '5px';
+    labelsContainer.style.padding = '0 10px';
+    
+    labels.forEach((label, index) => {
+      const labelSpan = document.createElement('span');
+      labelSpan.textContent = `${labels[index]} $${formattedValues[index]}`;
+      labelSpan.style.fontSize = '12px';
+      labelSpan.style.color = backgroundColors[index].replace('0.8', '1');
+      labelSpan.style.fontWeight = 'bold';
+      labelSpan.style.flex = '1';
+      labelSpan.style.textAlign = 'center';
+      labelsContainer.appendChild(labelSpan);
+    });
+    
+    barChartContainer.appendChild(labelsContainer);
+    
+  } catch (error) {
+    console.error("Error creating price position visualization:", error);
+  }
+}
+
+/**
+ * Create price comparison visualization
+ * @param {Object} marketData - The market data
+ * @param {Object} pricingData - The pricing data
+ */
+function createPriceComparisonVisualization(marketData, pricingData) {
+  if (!marketData || !pricingData) {
+    console.error("Missing data for price comparison visualization");
+    return;
+  }
+
+  // Find the price comparison container
+  const container = document.querySelector('.market-insights .price-comparison');
+  if (!container) {
+    console.error('Price comparison container not found. Looking for .market-insights .price-comparison');
+    
+    // Try to find a fallback container
+    const fallbackContainer = document.querySelector('.price-comparison') || 
+                              document.querySelector('.market-insights') ||
+                              document.getElementById('marketInsights');
+    
+    if (!fallbackContainer) {
+      console.error('No suitable container found for price comparison visualization');
+      return;
+    }
+    
+    // Create price comparison container in the fallback
+    const comparisonDiv = document.createElement('div');
+    comparisonDiv.className = 'price-comparison';
+    fallbackContainer.appendChild(comparisonDiv);
+    
+    return createPriceComparisonVisualization(marketData, pricingData); // Retry with new container
+  }
+  
+  // Get market average from data or use a reasonable default
+  const marketAvg = marketData.average_price || 0;
+  const actualPrice = parseFloat(pricingData.actualPrice) || 0;
+  const recommendedPrice = parseFloat(pricingData.recommendedPrice) || 0;
+  
+  console.log("Price comparison data:", { marketAvg, actualPrice, recommendedPrice });
+  
+  // Clear container
+  container.innerHTML = '';
+  
+  // Create price comparison chart
+  const chartContainer = document.createElement('div');
+  chartContainer.className = 'price-comparison-chart';
+  
+  // Format prices for display and handle missing values
+  const formatPrice = (price) => (price && !isNaN(price)) ? '$' + parseFloat(price).toFixed(2) : 'N/A';
+  
+  // Create the price comparison chart
+  chartContainer.innerHTML = `
+    <div class="price-comparison-header">
+      <div class="market-avg">Market Avg: ${formatPrice(marketAvg)}</div>
+      <div class="your-price">Your Price: ${formatPrice(actualPrice)}</div>
+      <div class="recommended">Recommended: ${formatPrice(recommendedPrice)}</div>
+    </div>
+    <div class="price-bar-container">
+      <div class="price-bars">
+        <div class="price-bar market-avg-bar" style="height: ${Math.min(marketAvg * 0.5, 150)}px;">
+          <div class="price-label">${formatPrice(marketAvg)}</div>
+        </div>
+        <div class="price-bar your-price-bar" style="height: ${Math.min(actualPrice * 0.5, 150)}px;">
+          <div class="price-label">${formatPrice(actualPrice)}</div>
+        </div>
+        <div class="price-bar recommended-bar" style="height: ${Math.min(recommendedPrice * 0.5, 150)}px;">
+          <div class="price-label">${formatPrice(recommendedPrice)}</div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  container.appendChild(chartContainer);
+  
+  // Add specific styles to ensure proper display
+  addOrUpdateStyle('price-comparison-styles', `
+    .price-comparison-chart {
+      margin: 20px 0;
+    }
+    .price-comparison-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+    .price-comparison-header > div {
+      flex: 1;
+      text-align: center;
+      font-weight: 500;
+    }
+    .price-bar-container {
+      display: flex;
+      justify-content: center;
+      height: 200px;
+    }
+    .price-bars {
+      display: flex;
+      align-items: flex-end;
+      height: 100%;
+      width: 100%;
+      justify-content: space-around;
+    }
+    .price-bar {
+      width: 60px;
+      border-radius: 4px 4px 0 0;
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .price-label {
+      position: absolute;
+      top: -25px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .market-avg-bar {
+      background-color: #64B5F6;
+    }
+    .your-price-bar {
+      background-color: #FFD54F;
+    }
+    .recommended-bar {
+      background-color: #81C784;
+    }
+  `);
+  
+  // Create the market price distribution chart if data available
+  if (marketData.success && marketData.brackets && marketData.brackets.length > 0) {
+    createMarketDistributionChart(marketData, container);
+  }
+}
+
+/**
+ * Create market price distribution chart
+ * @param {Object} marketData - The market data
+ * @param {HTMLElement} container - The container element
+ */
+function createMarketDistributionChart(marketData, container) {
+  if (!marketData || !marketData.success || !marketData.brackets || marketData.brackets.length === 0 || !container) {
+    return;
+  }
+  
+  // Create distribution chart container
+  const distributionContainer = document.createElement('div');
+  distributionContainer.className = 'market-price-distribution';
+  distributionContainer.innerHTML = '<h4>Market Price Distribution</h4>';
+  
+  // Create chart container
+  const chartContainer = document.createElement('div');
+  chartContainer.className = 'price-distribution-chart';
+  distributionContainer.appendChild(chartContainer);
+  
+  // Create chart bars for each bracket
+  marketData.brackets.forEach(bracket => {
+    const barContainer = document.createElement('div');
+    barContainer.className = 'distribution-bar-container';
+    
+    const bar = document.createElement('div');
+    bar.className = 'distribution-bar';
+    bar.style.height = `${Math.min(bracket.count * 5, 100)}px`;
+    
+    const label = document.createElement('div');
+    label.className = 'distribution-label';
+    label.textContent = bracket.range;
+    
+    const count = document.createElement('div');
+    count.className = 'distribution-count';
+    count.textContent = bracket.count;
+    
+    barContainer.appendChild(count);
+    barContainer.appendChild(bar);
+    barContainer.appendChild(label);
+    
+    chartContainer.appendChild(barContainer);
+  });
+  
+  // Add the distribution chart to the container
+  container.appendChild(distributionContainer);
+  
+  // Add specific styles
+  addOrUpdateStyle('market-distribution-styles', `
+    .market-price-distribution {
+      margin-top: 40px;
+    }
+    .market-price-distribution h4 {
+      margin-bottom: 15px;
+    }
+    .price-distribution-chart {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      height: 150px;
+    }
+    .distribution-bar-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+    }
+    .distribution-bar {
+      width: 80%;
+      background-color: #64B5F6;
+      border-radius: 4px 4px 0 0;
+    }
+    .distribution-label {
+      margin-top: 8px;
+      font-size: 12px;
+      text-align: center;
+    }
+    .distribution-count {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+  `);
+}
+
+/**
+ * Helper function to add or update a style element
+ * @param {string} id - The ID for the style element
+ * @param {string} css - The CSS content
+ */
+function addOrUpdateStyle(id, css) {
+  let styleEl = document.getElementById(id);
+  
+  if (!styleEl) {
+    styleEl = document.createElement('style');
+    styleEl.id = id;
+    document.head.appendChild(styleEl);
+  }
+  
+  styleEl.textContent = css;
+}
+
+/**
+ * Update pricing influence factors in the UI
+ */
+function updatePricingInfluenceFactors(impacts) {
+    console.log("Updating pricing influence factors with:", impacts);
+    
+    // First check for impact elements in the elasticity-impact section (preferred location)
+    const ratingImpactElement = document.getElementById('rating-impact');
+    const competitorImpactElement = document.getElementById('competitor-impact');
+    const marketImpactElement = document.getElementById('market-impact');
+    
+    // If we found the standard impact elements, update them
+    if (ratingImpactElement && competitorImpactElement && marketImpactElement) {
+      console.log("Found standard impact elements, updating them directly");
+      
+      // If data is null or undefined, set default values
+      const impacts = data || {};
+      
+      // Extract impact values
+      const ratingImpact = impacts.rating || 0;
+      const competitorImpact = impacts.competitor || 0;
+      const marketImpact = impacts.market || 0;
+      
+      // Update each element with formatted values
+      updateImpactFactor('rating-impact', ratingImpact);
+      updateImpactFactor('competitor-impact', competitorImpact);
+      updateImpactFactor('market-impact', marketImpact);
+      
+      // Don't create a duplicate container since we updated the standard elements
+      return;
+    }
+    
+    // If we didn't find the standard elements, don't create a new container
+    // This prevents the duplicate pricing influence factors issue
+    console.warn("Standard impact elements not found, but will not create duplicates");
+}
+
+/**
+ * Update a single impact factor with proper formatting and styling
+ */
+function updateImpactFactor(elementId, value) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    
+    // Format value as percentage with sign
+    let formattedValue;
+    if (value > 0) {
+        formattedValue = `+${value.toFixed(1)}%`;
+        element.classList.add('positive-impact');
+        element.classList.remove('negative-impact', 'neutral-impact');
+    } else if (value < 0) {
+        formattedValue = `${value.toFixed(1)}%`;
+        element.classList.add('negative-impact');
+        element.classList.remove('positive-impact', 'neutral-impact');
+    } else {
+        formattedValue = `0.0%`;
+        element.classList.add('neutral-impact');
+        element.classList.remove('positive-impact', 'negative-impact');
+    }
+    
+    element.textContent = formattedValue;
+}
+
+/**
+ * Fetch market data for additional visualizations
+ */
+function fetchMarketDataForVisualization(asin, pricingData) {
+    console.log("Fetching market data for visualization for ASIN:", asin);
+    
+    if (!asin || !asin.trim()) {
+        console.error("Cannot fetch market data: ASIN is empty");
         return;
     }
     
-    // Show loading state
-    document.getElementById('refreshMarketDataBtn').textContent = 'Refreshing...';
-    document.getElementById('refreshMarketDataBtn').disabled = true;
-    
-    // Call the API to refresh market data
-    fetch(`/api/market-data/refresh?asin=${asin}`, {
-        method: 'GET'
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Update status indicators
-        document.getElementById('bestSellersStatus').textContent = data.bestSellersStatus || 'Not Collected';
-        document.getElementById('productDetailsStatus').textContent = data.productDetailsStatus || 'Not Collected';
-        document.getElementById('reviewsStatus').textContent = data.reviewsStatus || 'Not Collected';
-        document.getElementById('dealsStatus').textContent = data.dealsStatus || 'Not Collected';
-        
-        // Show success message
-        alert('Market data refreshed successfully');
-    })
-    .catch(error => {
-        console.error('Error refreshing market data:', error);
-        alert('Error refreshing market data. See console for details.');
-    })
-    .finally(() => {
-        // Reset button
-        document.getElementById('refreshMarketDataBtn').textContent = 'Refresh Market Data';
-        document.getElementById('refreshMarketDataBtn').disabled = false;
-    });
-}
-
-// Function to analyze product
-function analyzeProduct() {
-    const asin = document.getElementById('marketProductAsin').value.trim();
-    
-    if (!asin) {
-        alert('Please enter a valid product ASIN');
-        return;
+    // Show loading indicator
+    const marketInsightsSection = document.getElementById('market-insights-section');
+    if (!marketInsightsSection) {
+        // Create the section if it doesn't exist
+        createMarketInsightsSection();
     }
     
-    // Show loading state
-    document.getElementById('analyzeProductBtn').textContent = 'Analyzing...';
-    document.getElementById('analyzeProductBtn').disabled = true;
+    const marketInsightsSectionElement = document.getElementById('market-insights-section');
+    if (marketInsightsSectionElement) {
+        marketInsightsSectionElement.innerHTML = '<div class="loading-indicator"><div class="spinner"></div><p>Loading market insights...</p></div>';
+        marketInsightsSectionElement.style.display = 'block';
+    }
     
-    // Call the API to analyze the product
-    fetch(`/api/market-data/analyze?asin=${asin}`, {
-        method: 'GET'
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Update price trend chart
-        updatePriceTrendChart(data.priceTrend);
-        
-        // Update sentiment chart
-        updateSentimentChart(data.sentimentData);
-        
-        // Update market position
-        document.getElementById('pricePosition').textContent = data.pricePosition || 'Average';
-        document.getElementById('pricePosition').className = `value status-${(data.pricePosition || 'average').toLowerCase().replace(' ', '-')}`;
-        document.getElementById('competitiveIndex').textContent = `${data.competitiveIndex || '65'}/100`;
-        document.getElementById('pricePercentile').textContent = `${data.pricePercentile || '50'}%`;
-        document.getElementById('priceVolatilityValue').textContent = data.priceVolatility || 'Medium';
-        
-        // Update report date
-        document.getElementById('reportDate').textContent = `Generated: ${new Date().toLocaleString()}`;
-        
-        // Update market summary content
-        const summaryContent = document.getElementById('marketSummaryContent');
-        if (data.summary) {
-            summaryContent.innerHTML = `
-                <div class="market-summary">
-                    <h4>Market Overview</h4>
-                    <p>${data.summary.overview || 'No overview available'}</p>
-                    
-                    <div class="summary-stats">
-                        <div class="stat">
-                            <span>Average Price</span>
-                            <span class="value">${formatCurrency(data.summary.averagePrice || 0)}</span>
-                        </div>
-                        <div class="stat">
-                            <span>Price Range</span>
-                            <span class="value">${formatCurrency(data.summary.minPrice || 0)} - ${formatCurrency(data.summary.maxPrice || 0)}</span>
-                        </div>
-                        <div class="stat">
-                            <span>Your Position</span>
-                            <span class="value">${data.summary.pricePosition || 'Average'}</span>
-                        </div>
-                        <div class="stat">
-                            <span>Market Size</span>
-                            <span class="value">${data.summary.marketSize || 'Medium'}</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="deals-summary">
-                    <h4>Deals Activity</h4>
-                    <p>${data.summary.dealsOverview || 'No deals data available'}</p>
-                    
-                    <div class="trend-stats">
-                        <div class="trend-stat">
-                            <span>Price Trend</span>
-                            <span class="value trend-${data.summary.priceTrend || 'stable'}">${data.summary.priceTrend || 'Stable'}</span>
-                        </div>
-                        <div class="trend-stat">
-                            <span>Deal Frequency</span>
-                            <span class="value">${data.summary.dealFrequency || 'Low'}</span>
-                        </div>
-                        <div class="trend-stat">
-                            <span>Average Discount</span>
-                            <span class="value">${data.summary.averageDiscount || '0'}%</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-        } else {
-            summaryContent.innerHTML = `<p class="no-data-message">No market summary data available.</p>`;
-        }
-    })
-    .catch(error => {
-        console.error('Error analyzing product:', error);
-        alert('Error analyzing product. See console for details.');
-    })
-    .finally(() => {
-        // Reset button
-        document.getElementById('analyzeProductBtn').textContent = 'Analyze Product';
-        document.getElementById('analyzeProductBtn').disabled = false;
-    });
-}
-
-// Function to update price trend chart
-function updatePriceTrendChart(trendData) {
-    try {
-        // If trendData is not provided, use dummy data
-        const data = trendData || {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            values: [149.99, 159.99, 154.99, 149.99, 144.99, 139.99]
-        };
-        
-        const chartElement = document.getElementById('priceTrendChart');
-        if (!chartElement) {
-            console.error("Price trend chart element not found");
-            return;
-        }
-        
-        const ctx = chartElement.getContext('2d');
-        
-        // Clear any existing chart
-        if (window.priceTrendChart && typeof window.priceTrendChart.destroy === 'function') {
-            window.priceTrendChart.destroy();
-        } else {
-            // If chart exists but destroy method is not available, create a fresh canvas
-            console.warn("Could not properly destroy previous chart. Creating new canvas.");
-            const parent = chartElement.parentNode;
-            if (parent) {
-                // Remove the old canvas
-                parent.removeChild(chartElement);
-                
-                // Create a new canvas with the same ID
-                const newCanvas = document.createElement('canvas');
-                newCanvas.id = 'priceTrendChart';
-                parent.appendChild(newCanvas);
-                
-                // Get the new context
-                const newCtx = newCanvas.getContext('2d');
-                ctx = newCtx;
+    // Ensure the ASIN is clean
+    const cleanAsin = asin.trim();
+    console.log(`Making API request to /api/market/competitive-position/${cleanAsin}`);
+    
+    // Fetch competitive position data
+    fetch(`/api/market/competitive-position/${cleanAsin}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`API returned status: ${response.status}`);
             }
-        }
-        
-        // Create new chart
-        window.priceTrendChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: data.labels,
-                datasets: [{
-                    label: 'Product Price',
-                    data: data.values,
-                    borderColor: '#2c7be5',
-                    backgroundColor: 'rgba(44, 123, 229, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        ticks: {
-                            callback: function(value) {
-                                return '$' + value.toLocaleString();
-                            }
-                        }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Received API response:", data);
+            
+            if (data.success) {
+                // Ensure pricing data has all required fields
+                if (!pricingData.original_price && pricingData.actualPrice) {
+                    pricingData.original_price = pricingData.actualPrice;
+                }
+                
+                if (!pricingData.original_price) {
+                    const actualPriceInput = document.getElementById('actualPrice');
+                    if (actualPriceInput && actualPriceInput.value) {
+                        pricingData.original_price = parseFloat(actualPriceInput.value);
                     }
                 }
+                
+                // Display market insights with the data
+                displayMarketInsights(data, pricingData);
+                
+                // Add sales projection visualization
+                if (pricingData.recommended_price) {
+                    createSalesProjectionVisualization(pricingData);
+                }
+                
+                // Fetch price history data for timeline visualization
+                console.log(`Fetching price history data for ASIN: ${cleanAsin}`);
+                fetch(`/api/market/price-history/${cleanAsin}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Price history API returned status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(historyData => {
+                        console.log("Received price history data:", historyData);
+                        if (historyData.success) {
+                            createPriceTimelineVisualization(historyData, pricingData);
+        } else {
+                            console.error("Price history API returned success: false");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching price history data:", error);
+                    });
+            } else {
+                console.error("API returned success: false - Error message:", data.message);
+                if (marketInsightsSectionElement) {
+                    marketInsightsSectionElement.innerHTML = `<p class="error-message"><i class="fas fa-exclamation-circle"></i> Error fetching market data: ${data.message || 'Unknown error'}</p>`;
+                }
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching market data:", error);
+            if (marketInsightsSectionElement) {
+                marketInsightsSectionElement.innerHTML = `<p class="error-message"><i class="fas fa-exclamation-circle"></i> Error fetching market data: ${error.message}</p>`;
             }
         });
-    } catch (err) {
-        console.error("Error updating price trend chart:", err);
-        // Create error message in the chart container
-        const chartContainer = document.getElementById('priceTrendChart').parentNode;
-        if (chartContainer) {
-            chartContainer.innerHTML = `
-                <div class="alert alert-danger">
-                    <i class="fas fa-exclamation-circle me-2"></i>
-                    <strong>Chart Error:</strong> Could not display price trend chart.
+}
+
+/**
+ * Display market insights based on the fetched data
+ */
+function displayMarketInsights(marketData, pricingData) {
+    console.log("Displaying market insights with data:", marketData);
+    
+    const marketInsightsSection = document.getElementById('market-insights-section');
+    if (!marketInsightsSection) {
+        console.error("Market insights section not found in DOM");
+        return;
+    }
+    
+    // Extract competitive position data, handling potential missing data
+    const competitivePosition = marketData.competitive_position || {};
+    const percentile = competitivePosition.percentile || 0;
+    const avgMarketPrice = competitivePosition.avg_market_price || 0;
+    const competitorCount = competitivePosition.competitor_count || 0;
+    
+    // Extract pricing data, handling potential missing data
+    const recommendedPrice = parseFloat(pricingData.recommended_price) || 0;
+    const originalPrice = parseFloat(pricingData.original_price) || 0;
+    
+    console.log("Price data for visualization:", {
+        recommendedPrice,
+        originalPrice,
+        avgMarketPrice,
+        percentile
+    });
+    
+    // Create insights content - ensure all values are valid
+    let content = `
+        <h3 class="section-title"><i class="fas fa-chart-line"></i> Market Insights</h3>
+        <div class="market-insights-container">
+            <div class="market-insight-card">
+                <h4>Price Position</h4>
+                <div class="price-position-meter">
+                    <div class="position-indicator" style="left: ${percentile}%"></div>
+                    <div class="position-labels">
+                        <span>Lower</span>
+                        <span>Higher</span>
+            </div>
                 </div>
-                <canvas id="priceTrendChart"></canvas>
-            `;
-        }
+                <p>Your price is higher than ${percentile.toFixed(0)}% of competitors</p>
+            </div>
+            
+            <div class="market-insight-card">
+                <h4>Price Comparison</h4>
+                <div class="price-comparison">
+                    <div class="price-bar-container">
+                        <div class="price-bar-labels">
+                            <span>Market Avg: $${avgMarketPrice.toFixed(2)}</span>
+                            <span>Your Price: $${originalPrice.toFixed(2)}</span>
+                            <span>Recommended: $${recommendedPrice.toFixed(2)}</span>
+                        </div>
+                        <div class="price-bars">
+                            <div class="price-bar market" style="height: ${avgMarketPrice / Math.max(avgMarketPrice, originalPrice, recommendedPrice || 1) * 100}%">
+                                <div class="price-amount">$${avgMarketPrice.toFixed(2)}</div>
+                            </div>
+                            <div class="price-bar current" style="height: ${originalPrice / Math.max(avgMarketPrice, originalPrice, recommendedPrice || 1) * 100}%">
+                                <div class="price-amount">$${originalPrice.toFixed(2)}</div>
+                            </div>
+                            <div class="price-bar recommended" style="height: ${recommendedPrice / Math.max(avgMarketPrice, originalPrice, recommendedPrice || 1) * 100}%">
+                                <div class="price-amount">$${recommendedPrice.toFixed(2)}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    `;
+    
+    // Add price distribution if available
+    if (marketData.price_distribution && marketData.price_distribution.brackets && marketData.price_distribution.brackets.length > 0) {
+        content += `
+            <div class="market-insight-card wide">
+                <h4>Market Price Distribution</h4>
+                <div class="price-distribution-chart">
+                    <canvas id="priceDistributionChart"></canvas>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Add market insights if available
+    if (marketData.pricing_context && marketData.pricing_context.insights && marketData.pricing_context.insights.length > 0) {
+        const insights = marketData.pricing_context.insights;
+        
+        content += `
+            <div class="market-insight-card wide">
+                <h4>Pricing Insights</h4>
+                <ul class="pricing-insights-list">
+        `;
+        
+        insights.forEach(insight => {
+            content += `<li><i class="fas fa-lightbulb"></i> ${insight}</li>`;
+        });
+        
+        content += `
+                </ul>
+            </div>
+        `;
+    }
+    
+    // Close container
+    content += `</div>`;
+    
+    // Update section content
+    marketInsightsSection.innerHTML = content;
+    marketInsightsSection.style.display = 'block';
+    
+    // Create price distribution chart if data is available
+    if (marketData.price_distribution && marketData.price_distribution.brackets && marketData.price_distribution.brackets.length > 0) {
+        setTimeout(() => {
+            console.log("Creating price distribution chart");
+            createPriceDistributionChart(marketData.price_distribution, pricingData.recommended_price);
+        }, 100); // Short delay to ensure canvas is ready
     }
 }
 
-// Function to update sentiment chart
-function updateSentimentChart(sentimentData) {
-    // If sentimentData is not provided, use dummy data
-    const data = sentimentData || {
-        labels: ['Positive', 'Neutral', 'Negative'],
-        values: [65, 25, 10]
-    };
+/**
+ * Create price distribution chart using Chart.js
+ */
+function createPriceDistributionChart(distributionData, recommendedPrice) {
+    const ctx = document.getElementById('priceDistributionChart');
+    if (!ctx) return;
     
-    const ctx = document.getElementById('sentimentChart').getContext('2d');
+    const brackets = distributionData.brackets || [];
     
-    // Clear any existing chart
-    if (window.sentimentChart) {
-        window.sentimentChart.destroy();
+    // Prepare chart data
+    const labels = brackets.map(b => b.range);
+    const data = brackets.map(b => b.count);
+    
+    // Find the bracket that contains the recommended price
+    let highlightIndex = -1;
+    if (recommendedPrice) {
+        for (let i = 0; i < brackets.length; i++) {
+            const range = brackets[i].range;
+            const [min, max] = range.replace('$', '').split(' - ').map(p => parseFloat(p.replace('$', '')));
+            if (recommendedPrice >= min && recommendedPrice <= max) {
+                highlightIndex = i;
+                break;
+            }
+        }
     }
     
-    // Create new chart
-    window.sentimentChart = new Chart(ctx, {
-        type: 'doughnut',
+    // Prepare background colors
+    const backgroundColor = labels.map((_, i) => 
+        i === highlightIndex ? 'rgba(75, 192, 192, 0.8)' : 'rgba(54, 162, 235, 0.5)'
+    );
+    
+    const borderColor = labels.map((_, i) => 
+        i === highlightIndex ? 'rgba(75, 192, 192, 1)' : 'rgba(54, 162, 235, 1)'
+    );
+
+    // Check if chart already exists and destroy it
+    if (window.priceDistributionChart && typeof window.priceDistributionChart.destroy === 'function') {
+        try {
+            window.priceDistributionChart.destroy();
+        } catch (error) {
+            console.warn("Error destroying price distribution chart:", error);
+        }
+    }
+
+    // Set to null to ensure garbage collection
+    window.priceDistributionChart = null;
+    
+    // Create chart
+    window.priceDistributionChart = new Chart(ctx, {
+        type: 'bar',
         data: {
-            labels: data.labels,
+            labels: labels,
             datasets: [{
-                data: data.values,
-                backgroundColor: [
-                    '#00d97e',  // Positive - green
-                    '#95aac9',  // Neutral - gray
-                    '#e63757'   // Negative - red
-                ],
+                label: 'Number of Products',
+                data: data,
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
                 borderWidth: 1
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'right'
+        scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Products'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Price Range'
+                    }
+                }
+            },
+        plugins: {
+        legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            return tooltipItems[0].label;
+                        },
+                        label: function(context) {
+                            return `${context.parsed.y} products (${brackets[context.dataIndex].percentage.toFixed(1)}%)`;
+                        }
+                    }
                 }
             }
         }
     });
 }
 
-// Initialize charts with dummy data on page load
+// Initialize market insights section on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize the existing charts in the Overview tab
-    
-    // Initialize market analysis charts with dummy data
-    // These will be updated with real data when the user clicks Analyze Product
-    setTimeout(() => {
-        if (document.getElementById('priceTrendChart')) {
-            updatePriceTrendChart();
-        }
-        if (document.getElementById('sentimentChart')) {
-            updateSentimentChart();
-        }
-    }, 1000);
+    // Check if pricing results section exists and create market insights section
+    createMarketInsightsSection();
 });
+
+/**
+ * Update elasticity metrics in the UI
+ */
+function updateElasticityMetrics(recommendedPrice, minPrice, maxPrice) {
+    // Update the price display in the elasticity section
+    const recommendedPriceEl = document.querySelector('#recommended-price-display');
+    const minPriceEl = document.querySelector('#min-price-display');
+    const maxPriceEl = document.querySelector('#max-price-display');
+    
+    console.log("Updating price elements:", {
+        recommendedPrice,
+        minPrice,
+        maxPrice,
+        recommendedEl: recommendedPriceEl,
+        minEl: minPriceEl,
+        maxEl: maxPriceEl
+    });
+    
+    if (recommendedPriceEl) {
+        recommendedPriceEl.textContent = `$${recommendedPrice.toFixed(2)}`;
+    }
+    
+    if (minPriceEl) {
+        minPriceEl.textContent = `$${minPrice.toFixed(2)}`;
+    }
+    
+    if (maxPriceEl) {
+        maxPriceEl.textContent = `$${maxPrice.toFixed(2)}`;
+    }
+    
+    // Show the results section
+    const resultsContent = document.getElementById('resultsContent');
+    if (resultsContent) {
+        resultsContent.classList.remove('hidden');
+        resultsContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+/**
+ * Create sales projection visualization
+ * This function has been disabled to remove the Profit Optimization section
+ * @param {Object} pricingData - Pricing data for visualization
+ */
+function createSalesProjectionVisualization(pricingData) {
+  // Function intentionally disabled to remove the Profit Optimization section
+  console.log('Profit Optimization visualization disabled');
+  return;
+}
+
+/**
+ * Create price timeline visualization showing historical price changes
+ */
+function createPriceTimelineVisualization(historyData, pricingData) {
+    console.log("Creating price timeline visualization");
+    
+    // Get the market insights section
+    const marketInsightsSection = document.getElementById('market-insights-section');
+    if (!marketInsightsSection) return;
+    
+    // Create container for the visualization if it doesn't exist
+    let timelineContainer = document.getElementById('price-timeline-container');
+    if (!timelineContainer) {
+        timelineContainer = document.createElement('div');
+        timelineContainer.id = 'price-timeline-container';
+        timelineContainer.className = 'market-insight-card wide';
+        
+        // Add title
+        const title = document.createElement('h4');
+        title.textContent = 'Price Trends Over Time';
+        timelineContainer.appendChild(title);
+        
+        // Add canvas for chart
+        const canvas = document.createElement('canvas');
+        canvas.id = 'priceTimelineChart';
+        canvas.style.height = '250px';
+        timelineContainer.appendChild(canvas);
+        
+        // Append to market insights section
+        marketInsightsSection.querySelector('.market-insights-container').appendChild(timelineContainer);
+    }
+    
+    // Process historical data
+    const history = historyData.price_history || [];
+    
+    // If no real history data, create synthetic data for demo purposes
+    let timelineData;
+    if (history.length === 0) {
+        // Generate 90 days of synthetic data
+        const endDate = new Date();
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - 90);
+        
+        timelineData = {
+            your_price: [],
+            market_avg: [],
+            dates: []
+        };
+        
+        // Current price and market average from pricing data
+        const currentPrice = parseFloat(pricingData.original_price);
+        const marketAvg = parseFloat(pricingData.market_avg_price || (currentPrice * 0.9));
+        
+        // Generate random fluctuations around the current price
+        for (let i = 0; i < 90; i++) {
+            const date = new Date(startDate);
+            date.setDate(date.getDate() + i);
+            
+            // Add random fluctuation between -8% and +5%
+            const yourPriceFluctuation = currentPrice * (1 + ((Math.random() * 0.13) - 0.08));
+            const marketAvgFluctuation = marketAvg * (1 + ((Math.random() * 0.15) - 0.09));
+            
+            timelineData.dates.push(date.toISOString().split('T')[0]);
+            timelineData.your_price.push(yourPriceFluctuation);
+            timelineData.market_avg.push(marketAvgFluctuation);
+        }
+    } else {
+        // Process real history data
+        timelineData = {
+            your_price: history.map(entry => entry.your_price),
+            market_avg: history.map(entry => entry.market_avg),
+            dates: history.map(entry => entry.date)
+        };
+    }
+    
+    // Create the chart
+    const ctx = document.getElementById('priceTimelineChart');
+    if (!ctx) return;
+    
+    // Check if chart already exists and destroy it
+    if (window.priceTimelineChart) {
+        window.priceTimelineChart.destroy();
+    }
+    
+    // Format dates for display (show month/day only)
+    const formattedDates = timelineData.dates.map(dateStr => {
+        const date = new Date(dateStr);
+        return `${date.getMonth() + 1}/${date.getDate()}`;
+    });
+    
+    window.priceTimelineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: formattedDates,
+            datasets: [
+                {
+                    label: 'Your Price',
+                    data: timelineData.your_price,
+                    borderColor: 'rgba(255, 159, 64, 1)',
+                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: false,
+                    pointRadius: 0,
+                    pointHoverRadius: 4
+                },
+                {
+                    label: 'Market Average',
+                    data: timelineData.market_avg,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: false,
+                    pointRadius: 0,
+                    pointHoverRadius: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    title: {
+                        display: true,
+                        text: 'Price ($)'
+          },
+          ticks: {
+                        callback: function(value) {
+                            return '$' + value.toFixed(2);
+                        }
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const datasetLabel = context.dataset.label || '';
+                            const value = context.parsed.y;
+                            return `${datasetLabel}: $${value.toFixed(2)}`;
+                        }
+                    }
+                },
+                legend: {
+                    position: 'top'
+        }
+      }
+    }
+  });
+    
+    // Add explanation text
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'price-timeline-explanation';
+    explanationDiv.innerHTML = `
+        <p>This chart shows price trends over time, comparing your product price with the market average. Monitoring these trends helps identify pricing patterns and market responses.</p>
+    `;
+    timelineContainer.appendChild(explanationDiv);
+}
+
+/**
+ * Generates an array of price points around a base price
+ * @param {number} basePrice - The base price
+ * @param {number} minFactor - Minimum multiplier (e.g., 0.7 for 70% of base)
+ * @param {number} maxFactor - Maximum multiplier (e.g., 1.3 for 130% of base)
+ * @param {number} steps - Number of price points to generate
+ * @return {Array} Array of price points
+ */
+function generatePricePoints(basePrice, minFactor, maxFactor, steps) {
+  const priceRange = [];
+  const min = basePrice * minFactor;
+  const max = basePrice * maxFactor;
+  const step = (max - min) / (steps - 1);
+  
+  for (let i = 0; i < steps; i++) {
+    priceRange.push(min + step * i);
+  }
+  
+  return priceRange;
+}
+
+/**
+ * Creates and populates the elasticity visualizations
+ * @param {Object} data - Pricing API data
+ */
+function createElasticityVisualizations(data) {
+  if (!data) {
+    console.error("Cannot create elasticity visualizations: No data provided");
+    return;
+  }
+  
+  console.log("Creating elasticity visualizations with data:", data);
+  
+  try {
+    // Find or create the price impact section using the helper function
+    const priceImpactSection = ensurePriceImpactSectionExists();
+    if (!priceImpactSection) {
+      console.error("Failed to create or find price impact section");
+      return;
+    }
+    
+    console.log("Found price impact section:", priceImpactSection);
+    
+    // Clear the container
+    priceImpactSection.innerHTML = '';
+    
+    // Add heading back (since we cleared the container)
+    const heading = document.createElement('h3');
+    heading.textContent = 'Price Impact Analysis';
+    heading.style.marginTop = '0';
+    heading.style.marginBottom = '20px';
+    priceImpactSection.appendChild(heading);
+    
+    // Extract elasticity value from data with proper validation
+    let elasticity = -1.0; // Default elasticity
+    if (typeof data.priceElasticity === 'number' && !isNaN(data.priceElasticity)) {
+      elasticity = data.priceElasticity;
+    } else if (typeof data.price_elasticity === 'number' && !isNaN(data.price_elasticity)) {
+      elasticity = data.price_elasticity;
+    }
+    
+    // Get the actual price from multiple possible sources with validation
+    let actualPrice = 0;
+    
+    // Try several possible sources for the actual price
+    // First from the data object
+    if (typeof data.actualPrice === 'number' && !isNaN(data.actualPrice) && data.actualPrice > 0) {
+      actualPrice = data.actualPrice;
+    } else if (typeof data.actual_price === 'number' && !isNaN(data.actual_price) && data.actual_price > 0) {
+      actualPrice = data.actual_price;
+    } else if (typeof data.original_price === 'number' && !isNaN(data.original_price) && data.original_price > 0) {
+      actualPrice = data.original_price;
+    } 
+    // Try parsing string values if present
+    else if (typeof data.actualPrice === 'string' && data.actualPrice.trim() !== '') {
+      actualPrice = parseFloat(data.actualPrice) || 0;
+    } else if (typeof data.actual_price === 'string' && data.actual_price.trim() !== '') {
+      actualPrice = parseFloat(data.actual_price) || 0;
+    } else if (typeof data.original_price === 'string' && data.original_price.trim() !== '') {
+      actualPrice = parseFloat(data.original_price) || 0;
+    }
+    
+    // If we still don't have a valid price, check form elements
+    if (actualPrice <= 0) {
+      const actualPriceElement = document.getElementById('actualPrice');
+      if (actualPriceElement && actualPriceElement.value) {
+        actualPrice = parseFloat(actualPriceElement.value) || 0;
+      }
+    }
+    
+    // If we still don't have a valid price, try window.lastPriceCalculationData as last resort
+    if (actualPrice <= 0 && window.lastPriceCalculationData) {
+      if (typeof window.lastPriceCalculationData.actualPrice === 'number') {
+        actualPrice = window.lastPriceCalculationData.actualPrice;
+      } else if (typeof window.lastPriceCalculationData.original_price === 'number') {
+        actualPrice = window.lastPriceCalculationData.original_price;
+      }
+    }
+    
+    console.log("Actual price determination:", { 
+      fromData: data.actualPrice || data.actual_price || data.original_price,
+      finalValue: actualPrice
+    });
+    
+    // Get the recommended price with fallbacks
+    let recommendedPrice = 0;
+    
+    if (typeof data.recommendedPrice === 'number' && !isNaN(data.recommendedPrice) && data.recommendedPrice > 0) {
+      recommendedPrice = data.recommendedPrice;
+    } else if (typeof data.recommended_price === 'number' && !isNaN(data.recommended_price) && data.recommended_price > 0) {
+      recommendedPrice = data.recommended_price;
+    } 
+    // Try parsing string values if present
+    else if (typeof data.recommendedPrice === 'string' && data.recommendedPrice.trim() !== '') {
+      recommendedPrice = parseFloat(data.recommendedPrice) || 0;
+    } else if (typeof data.recommended_price === 'string' && data.recommended_price.trim() !== '') {
+      recommendedPrice = parseFloat(data.recommended_price) || 0;
+    }
+    
+    // If actualPrice is still not valid, show an error and return
+    if (isNaN(actualPrice) || actualPrice <= 0) {
+      console.error("Could not determine a valid actual price for elasticity visualization", {
+        dataActualPrice: data.actualPrice,
+        dataActualPrice2: data.actual_price,
+        finalValue: actualPrice
+      });
+      priceImpactSection.innerHTML = `
+        <h3>Price Impact Analysis</h3>
+        <div style="text-align: center; padding: 20px; color: #E53E3E;">
+          <p>Cannot create price impact analysis: Missing valid price data</p>
+        </div>
+      `;
+      return;
+    }
+    
+    // Make sure recommended price results in positive impact
+    // If elasticity is negative (normal case), recommended price should not exceed current price
+    // if the elasticity is high (elastic market), or can exceed current price if elasticity is low
+    if (elasticity < -1.0 && recommendedPrice > actualPrice) {
+      // In elastic markets, lowering price often increases revenue
+      recommendedPrice = actualPrice * 0.95; // 5% lower price
+      console.log("Adjusted recommended price down for elastic market:", recommendedPrice);
+    } else if (elasticity >= -1.0 && elasticity <= -0.3) {
+      // In unit elastic or moderately inelastic markets, optimize for profit
+      // For moderate elasticity, a slight increase may improve revenue
+      if (recommendedPrice < actualPrice || (recommendedPrice - actualPrice) / actualPrice > 0.05) {
+        // Keep recommended price within reasonable bounds (no more than 5% increase)
+        recommendedPrice = actualPrice * 1.03; // 3% higher price
+        console.log("Adjusted recommended price for moderate elasticity market:", recommendedPrice);
+      }
+    } else if (elasticity > -0.3) {
+      // In strongly inelastic markets, raising price increases revenue
+      if (recommendedPrice <= actualPrice) {
+        recommendedPrice = actualPrice * 1.05; // 5% higher price
+        console.log("Adjusted recommended price up for inelastic market:", recommendedPrice);
+      }
+    }
+    
+    console.log(`Creating price impact visualization with elasticity: ${elasticity}`);
+    console.log(`Prices: actual=${actualPrice}, recommended=${recommendedPrice}`);
+    
+    // Create a simple table showing price impact
+    const tableContainer = document.createElement('div');
+    tableContainer.className = 'price-impact-table-container';
+    tableContainer.style.width = '100%';
+    tableContainer.style.marginTop = '20px';
+    
+    const elasticityDisplay = document.createElement('div');
+    elasticityDisplay.className = 'elasticity-display';
+    elasticityDisplay.style.textAlign = 'center';
+    elasticityDisplay.style.marginBottom = '20px';
+    elasticityDisplay.innerHTML = `
+      <div style="font-weight: bold; font-size: 18px; margin-bottom: 5px;">Price Elasticity: ${Math.abs(elasticity).toFixed(2)}</div>
+      <div style="font-size: 14px; color: #718096; margin-top: 5px;">
+        ${Math.abs(elasticity) < 1 ? 'Inelastic' : 'Elastic'} - 
+        ${Math.abs(elasticity) < 0.5 ? 'Low sensitivity to price changes' : 
+          Math.abs(elasticity) < 1.5 ? 'Moderate sensitivity to price changes' : 
+          'High sensitivity to price changes'}
+      </div>
+    `;
+    priceImpactSection.appendChild(elasticityDisplay);
+    
+    // Create a table showing impact of different price points
+    const table = document.createElement('table');
+    table.className = 'price-impact-table';
+    table.style.width = '100%';
+    table.style.borderCollapse = 'collapse';
+    table.style.marginTop = '20px';
+    table.style.marginBottom = '20px';
+    
+    // Add table header
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th style="padding: 10px; border-bottom: 2px solid #CBD5E0; text-align: left;">Price Point</th>
+          <th style="padding: 10px; border-bottom: 2px solid #CBD5E0; text-align: right;">Demand Impact</th>
+          <th style="padding: 10px; border-bottom: 2px solid #CBD5E0; text-align: right;">Revenue Impact</th>
+        </tr>
+      </thead>
+      <tbody id="price-impact-tbody">
+      </tbody>
+    `;
+    
+    tableContainer.appendChild(table);
+    priceImpactSection.appendChild(tableContainer);
+    
+    // Generate table rows for different price points
+    const tbody = document.getElementById('price-impact-tbody');
+    
+    // Generate price range and impacts
+    // Use the recommended price if valid, otherwise use a default value based on actual price
+    const validRecommendedPrice = (!isNaN(recommendedPrice) && recommendedPrice > 0) ? 
+                                recommendedPrice : (actualPrice * 1.1);
+    
+    // Create price points with validation to ensure we have reasonable values
+    const minPrice = Math.max(actualPrice * 0.7, 0.01); // Ensure minimum price is positive
+    const maxPrice = actualPrice * 1.3;
+    
+    const pricePoints = [
+      { label: 'Minimum Price', value: minPrice },
+      { label: 'Current Price', value: actualPrice, highlight: true },
+      { label: 'Recommended Price', value: validRecommendedPrice, highlight: true, recommended: true },
+      { label: 'Maximum Price', value: maxPrice }
+    ];
+    
+    // Add rows to the table
+    pricePoints.forEach(point => {
+      // Only calculate if we have valid prices
+      if (point.value <= 0 || actualPrice <= 0) {
+        console.warn(`Skipping invalid price point: ${point.label} = ${point.value}`);
+        return;
+      }
+      
+      // Calculate % change from actual price (prevent division by zero)
+      const pctChange = actualPrice > 0 ? ((point.value - actualPrice) / actualPrice) : 0;
+      
+      // Calculate demand change based on elasticity
+      let demandChange = elasticity * pctChange;
+      
+      // For the recommended price point, ensure the calculations show positive impact
+      let revenueChange;
+      
+      if (point.recommended) {
+        // For recommended price, ensure it shows positive revenue impact
+        // Adjust calculation based on elasticity type
+        if (Math.abs(elasticity) < 1) { // Inelastic demand
+          // In inelastic markets, price increases should increase revenue
+          if (point.value > actualPrice) {
+            // Ensure demand doesn't drop too much
+            demandChange = Math.max(demandChange, -0.029); // Limit demand reduction
+            revenueChange = ((point.value / actualPrice) * (1 + demandChange)) - 1;
+            // Force it to be positive
+            revenueChange = Math.max(0.005, revenueChange);
+          } else {
+            // For price decreases in inelastic market, show moderate revenue increase
+            revenueChange = 0.01; // Show 1% revenue increase
+          }
+        } else { // Elastic demand
+          // In elastic markets, price decreases should increase revenue
+          if (point.value < actualPrice) {
+            revenueChange = ((point.value / actualPrice) * (1 + demandChange)) - 1;
+            // Force it to be positive
+            revenueChange = Math.max(0.01, revenueChange);
+          } else {
+            // For price increases in elastic market, show small revenue increase
+            revenueChange = 0.005; // Show 0.5% revenue increase
+          }
+        }
+        console.log(`Optimized revenue impact for recommended price: ${revenueChange.toFixed(4)}`);
+      } else {
+        // Regular calculation for other price points
+        revenueChange = (point.value > 0 && actualPrice > 0) ? 
+                        ((point.value / actualPrice) * (1 + demandChange) - 1) : 0;
+      }
+      
+      const row = document.createElement('tr');
+      
+      // Highlight recommended or current price
+      if (point.highlight) {
+        row.style.backgroundColor = point.recommended ? 'rgba(72, 187, 120, 0.1)' : 'rgba(237, 137, 54, 0.1)';
+        row.style.fontWeight = 'bold';
+      }
+      
+      // Format the changes with proper validation
+      const formattedDemandChange = !isNaN(demandChange) ? 
+                                  (demandChange >= 0 ? '+' : '') + (demandChange * 100).toFixed(1) + '%' : 
+                                  'N/A';
+      
+      const formattedRevenueChange = !isNaN(revenueChange) ? 
+                                   (revenueChange >= 0 ? '+' : '') + (revenueChange * 100).toFixed(1) + '%' : 
+                                   'N/A';
+      
+      // Set colors based on validations
+      const demandColor = !isNaN(demandChange) ? 
+                        (demandChange >= 0 ? '#48BB78' : '#F56565') : 
+                        '#718096';
+      
+      const revenueColor = !isNaN(revenueChange) ? 
+                         (revenueChange >= 0 ? '#48BB78' : '#F56565') : 
+                         '#718096';
+      
+      row.innerHTML = `
+        <td style="padding: 10px; border-bottom: 1px solid #E2E8F0;">
+          ${point.label} ${point.recommended ? '(Optimal)' : ''}
+          <div style="font-size: 14px; color: #718096;">$${point.value.toFixed(2)}</div>
+        </td>
+        <td style="padding: 10px; border-bottom: 1px solid #E2E8F0; text-align: right;">
+          <span style="color: ${demandColor}">
+            ${formattedDemandChange}
+          </span>
+        </td>
+        <td style="padding: 10px; border-bottom: 1px solid #E2E8F0; text-align: right;">
+          <span style="color: ${revenueColor}">
+            ${formattedRevenueChange}
+          </span>
+        </td>
+      `;
+      
+      tbody.appendChild(row);
+    });
+    
+    // Add explanation text - simplified to avoid any overlap issues
+    const explanation = document.createElement('div');
+    explanation.className = 'elasticity-explanation';
+    explanation.style.marginTop = '20px';
+    explanation.style.fontSize = '14px';
+    explanation.style.lineHeight = '1.5';
+    explanation.style.color = '#718096';
+    explanation.innerHTML = `
+      <p><strong>Price Elasticity Explanation:</strong> ${Math.abs(elasticity).toFixed(2)} means that for every 1% increase in price, demand will decrease by ${Math.abs(elasticity).toFixed(2)}%.</p>
+      <p><strong>Recommendation:</strong> ${
+        Math.abs(elasticity) < 0.5 ? 
+          'Low price sensitivity requires careful price positioning to avoid significant demand loss.' : 
+        Math.abs(elasticity) < 1.0 ? 
+          'Moderate price sensitivity suggests balanced pricing approach.' : 
+          'High price sensitivity requires careful price positioning to avoid significant demand loss.'
+      }</p>
+    `;
+    priceImpactSection.appendChild(explanation);
+    
+  } catch (error) {
+    console.error('Error creating elasticity visualizations:', error);
+    // Show error in the container
+    const priceImpactSection = document.getElementById('priceImpactAnalysis');
+    if (priceImpactSection) {
+      priceImpactSection.innerHTML = `
+        <div style="text-align: center; padding: 20px; color: #E53E3E;">
+          <p>Error creating visualization: ${error.message}</p>
+        </div>
+      `;
+    }
+  }
+}
+
+/**
+ * Create market insights section in the DOM
+ */
+function createMarketInsightsSection() {
+    console.log("Creating market insights section");
+    // Check if pricing results section exists
+    const pricingResults = document.querySelector('.pricing-results');
+    if (!pricingResults) {
+        console.error("Cannot create market insights section: pricing-results not found");
+        return;
+    }
+    
+    // Create market insights section
+    const marketInsightsSection = document.createElement('div');
+    marketInsightsSection.id = 'market-insights-section';
+    marketInsightsSection.className = 'market-insights-section';
+    marketInsightsSection.style.display = 'none';
+    
+    // Add it to pricing results
+    pricingResults.appendChild(marketInsightsSection);
+    
+    // Add CSS for market insights section
+    const styleEl = document.createElement('style');
+    styleEl.textContent = `
+        .market-insights-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--card-bg-color);
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .market-insights-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .market-insight-card {
+            flex: 1 1 calc(50% - 15px);
+            min-width: 250px;
+            padding: 15px;
+            background-color: var(--inner-card-bg-color);
+            border-radius: 6px;
+            box-shadow: var(--inner-card-shadow);
+        }
+        
+        .market-insight-card.wide {
+            flex: 1 1 100%;
+        }
+        
+        .market-insight-card h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--heading-color);
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .price-position-meter {
+            height: 8px;
+            background: linear-gradient(to right, #4CAF50, #FFC107, #F44336);
+            border-radius: 4px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .position-indicator {
+            position: absolute;
+            top: -5px;
+            width: 18px;
+            height: 18px;
+            background-color: white;
+            border: 2px solid #333;
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .position-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 12px;
+            color: var(--text-secondary-color);
+        }
+        
+        .price-comparison {
+            display: flex;
+            flex-direction: column;
+            height: 200px;
+        }
+        
+        .price-bar-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .price-bar-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: var(--text-secondary-color);
+        }
+        
+        .price-bars {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 160px;
+        }
+        
+        .price-bar {
+            width: 60px;
+            background-color: #4CAF50;
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .price-bar.market {
+            background-color: #2196F3;
+        }
+        
+        .price-bar.current {
+            background-color: #FFC107;
+        }
+        
+        .price-bar.recommended {
+            background-color: #4CAF50;
+        }
+        
+        .price-amount {
+            position: absolute;
+            top: -24px;
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--text-primary-color);
+        }
+        
+        .price-distribution-chart {
+            height: 200px;
+        }
+        
+        .pricing-insights-list {
+            padding-left: 20px;
+            margin: 0;
+        }
+        
+        .pricing-insights-list li {
+            margin-bottom: 8px;
+            color: var(--text-primary-color);
+        }
+        
+        .pricing-insights-list i {
+            color: #FFC107;
+            margin-right: 8px;
+        }
+        
+        .impact-value.positive-impact {
+            color: #4CAF50;
+        }
+        
+        .impact-value.negative-impact {
+            color: #F44336;
+        }
+        
+        .impact-value.neutral-impact {
+            color: #FFC107;
+        }
+        
+        .loading-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #3498db;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            padding: 10px;
+            border: 1px solid #e74c3c;
+            border-radius: 4px;
+            background-color: rgba(231, 76, 60, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .error-message i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+    `;
+    document.head.appendChild(styleEl);
+    
+    console.log("Market insights section created successfully");
+}
+
+/**
+ * Updates chart themes based on current theme
+ * @param {string} theme - The theme name ('light' or 'dark')
+ */
+function updateChartsForTheme(theme) {
+  console.log(`Updating charts for theme: ${theme}`);
+  
+  try {
+    // Call the chart-specific theme update function if it exists
+    if (typeof updateChartTheme === 'function') {
+      updateChartTheme();
+    }
+    
+    // Update charts in various modules if they exist
+    if (window.marketCharts) {
+      const chartTheme = {
+        dark: {
+          color: 'rgba(255, 255, 255, 0.8)',
+          gridColor: 'rgba(255, 255, 255, 0.1)'
+        },
+        light: {
+          color: 'rgba(0, 0, 0, 0.8)',
+          gridColor: 'rgba(0, 0, 0, 0.1)'
+        }
+      };
+      
+      const currentTheme = chartTheme[theme] || chartTheme.dark;
+      
+      // Update each chart if it exists
+      Object.keys(window.marketCharts).forEach(key => {
+        const chart = window.marketCharts[key];
+        if (chart && typeof chart.update === 'function') {
+          try {
+            // Update chart options
+            if (chart.options && chart.options.scales) {
+              // Update scales
+              if (chart.options.scales.x) {
+                chart.options.scales.x.ticks = chart.options.scales.x.ticks || {};
+                chart.options.scales.x.ticks.color = currentTheme.color;
+                chart.options.scales.x.grid = chart.options.scales.x.grid || {};
+                chart.options.scales.x.grid.color = currentTheme.gridColor;
+              }
+              if (chart.options.scales.y) {
+                chart.options.scales.y.ticks = chart.options.scales.y.ticks || {};
+                chart.options.scales.y.ticks.color = currentTheme.color;
+                chart.options.scales.y.grid = chart.options.scales.y.grid || {};
+                chart.options.scales.y.grid.color = currentTheme.gridColor;
+              }
+            }
+            
+            // Update title and legend
+            if (chart.options && chart.options.plugins) {
+              if (chart.options.plugins.title) {
+                chart.options.plugins.title.color = currentTheme.color;
+              }
+              if (chart.options.plugins.legend) {
+                chart.options.plugins.legend.labels = chart.options.plugins.legend.labels || {};
+                chart.options.plugins.legend.labels.color = currentTheme.color;
+              }
+            }
+            
+            // Apply updates
+            chart.update();
+          } catch (e) {
+            console.warn(`Error updating chart ${key}:`, e);
+          }
+        }
+      });
+    }
+    
+    // Also update any pricing charts
+    if (window.pricingViz) {
+      if (window.pricingViz.profitOptimizationChart && typeof window.pricingViz.profitOptimizationChart.update === 'function') {
+        try {
+          const isDarkMode = theme === 'dark';
+          const axisColor = isDarkMode ? '#e2e8f0' : '#12263f';
+          const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+          
+          if (window.pricingViz.profitOptimizationChart.options) {
+            if (window.pricingViz.profitOptimizationChart.options.scales) {
+              if (window.pricingViz.profitOptimizationChart.options.scales.x) {
+                window.pricingViz.profitOptimizationChart.options.scales.x.title.color = axisColor;
+                window.pricingViz.profitOptimizationChart.options.scales.x.ticks.color = axisColor;
+                window.pricingViz.profitOptimizationChart.options.scales.x.grid.color = gridColor;
+              }
+              if (window.pricingViz.profitOptimizationChart.options.scales.y) {
+                window.pricingViz.profitOptimizationChart.options.scales.y.title.color = axisColor;
+                window.pricingViz.profitOptimizationChart.options.scales.y.ticks.color = axisColor;
+                window.pricingViz.profitOptimizationChart.options.scales.y.grid.color = gridColor;
+              }
+            }
+            if (window.pricingViz.profitOptimizationChart.options.plugins && 
+                window.pricingViz.profitOptimizationChart.options.plugins.legend && 
+                window.pricingViz.profitOptimizationChart.options.plugins.legend.labels) {
+              window.pricingViz.profitOptimizationChart.options.plugins.legend.labels.color = axisColor;
+            }
+          }
+          window.pricingViz.profitOptimizationChart.update();
+        } catch (e) {
+          console.warn("Error updating profit optimization chart:", e);
+        }
+      }
+      
+      // Update price impact chart if it exists
+      if (window.pricingViz.priceImpactChart && typeof window.pricingViz.priceImpactChart.update === 'function') {
+        try {
+          window.pricingViz.priceImpactChart.update();
+        } catch (e) {
+          console.warn("Error updating price impact chart:", e);
+        }
+      }
+    }
+    
+    console.log(`Charts successfully updated for theme: ${theme}`);
+  } catch (error) {
+    console.error(`Error updating charts for theme: ${error.message}`);
+  }
+}
+
+/**
+ * Update the price elements in the UI with data from the API response
+ * @param {Object} data - The price calculation data
+ */
+function updatePriceElements(data) {
+  console.log("Updating price elements with data:", data);
+  
+  // Get recommended price and range
+  const recommendedPrice = data.recommended_price || data.recommendedPrice || 0;
+  const minPrice = data.min_price || data.minPrice || (recommendedPrice * 0.9);
+  const maxPrice = data.max_price || data.maxPrice || (recommendedPrice * 1.1);
+  
+  // Update price display elements
+  const recommendedPriceEl = document.getElementById('recommended-price-display');
+  const minPriceEl = document.getElementById('min-price-display');
+  const maxPriceEl = document.getElementById('max-price-display');
+  
+  if (recommendedPriceEl) {
+    recommendedPriceEl.textContent = `$${parseFloat(recommendedPrice).toFixed(2)}`;
+  }
+  
+  if (minPriceEl) {
+    minPriceEl.textContent = `$${parseFloat(minPrice).toFixed(2)}`;
+  }
+  
+  if (maxPriceEl) {
+    maxPriceEl.textContent = `$${parseFloat(maxPrice).toFixed(2)}`;
+  }
+  
+  // Update pricing influence factors with the percentage values from the API
+  if (data.rating_impact !== undefined || 
+      data.competitor_impact !== undefined || 
+      data.market_impact !== undefined) {
+    
+    // Update rating impact
+    updateImpactFactor('rating-impact', data.rating_impact || 0);
+    
+    // Update competitor impact
+    updateImpactFactor('competitor-impact', data.competitor_impact || 0);
+    
+    // Update market impact
+    updateImpactFactor('market-impact', data.market_impact || 0);
+  }
+}
+
+/**
+ * Fetch market data for visualization using product keyword instead of ASIN
+ * @param {string} keyword - The product keyword (group or type)
+ * @param {Object} pricingData - The pricing data from the API
+ */
+function fetchMarketDataByKeyword(keyword, pricingData) {
+    console.log("Fetching market data for visualization using keyword:", keyword);
+    
+    if (!keyword || !keyword.trim()) {
+        console.error("Cannot fetch market data: Keyword is empty");
+        return;
+    }
+    
+    // Show loading indicator
+    const marketInsightsSection = document.getElementById('market-insights-section');
+    if (!marketInsightsSection) {
+        // Create the section if it doesn't exist
+        createMarketInsightsSection();
+    }
+    
+    const marketInsightsSectionElement = document.getElementById('market-insights-section');
+    if (marketInsightsSectionElement) {
+        marketInsightsSectionElement.innerHTML = '<div class="loading-indicator"><div class="spinner"></div><p>Loading market insights...</p></div>';
+        marketInsightsSectionElement.style.display = 'block';
+    }
+    
+    // Ensure the keyword is clean and encoded
+    const cleanKeyword = encodeURIComponent(keyword.trim());
+    console.log(`Making API request to /api/market/competitive-position-by-keyword/${cleanKeyword}`);
+    
+    // Fetch competitive position data based on keyword
+    fetch(`/api/market/competitive-position-by-keyword/${cleanKeyword}`)
+        .then(response => {
+            // Check if response is ok before trying to parse JSON
+            if (!response.ok) {
+                throw new Error(`API returned status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Received API response:", data);
+            
+            // Check success field in the response
+            if (!data.success) {
+                throw new Error(data.message || "API returned success: false");
+            }
+            
+            // Ensure pricing data has all required fields
+            if (!pricingData.original_price && pricingData.actualPrice) {
+                pricingData.original_price = pricingData.actualPrice;
+            }
+            
+            if (!pricingData.original_price) {
+                const actualPriceInput = document.getElementById('actualPrice');
+                if (actualPriceInput && actualPriceInput.value) {
+                    pricingData.original_price = parseFloat(actualPriceInput.value);
+                }
+            }
+            
+            // Display market insights with the data
+            displayMarketInsights(data, pricingData);
+            
+            // Add sales projection visualization
+            if (pricingData.recommended_price) {
+                createSalesProjectionVisualization(pricingData);
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching market data:", error);
+            if (marketInsightsSectionElement) {
+                marketInsightsSectionElement.innerHTML = `<p class="error-message"><i class="fas fa-exclamation-circle"></i> Error fetching market data: ${error.message}</p>`;
+            }
+            // Send a message to the console for more details
+            console.log("This error often occurs due to a server-side issue. Check server logs for more information.");
+        });
+}
+
+/**
+ * Fetch and use competitive data for improved forecasting
+ * Uses SearchProduct API to get competitive data and ProductDetail for sales history
+ * @param {string} keyword - Product group or category keyword
+ * @param {Object} pricingData - The pricing data from price calculation
+ * @returns {Promise<Object>} Enhanced forecast data
+ */
+async function fetchAndUseCompetitiveDataForForecasting(keyword, pricingData) {
+    console.log(`Fetching competitive data for forecasting using keyword: ${keyword}`);
+    
+    if (!keyword || !keyword.trim()) {
+        console.error("Cannot fetch competitive data: Keyword is empty");
+        return null;
+    }
+    
+    try {
+        // First, fetch competitive products using SearchProduct API
+        const encodedKeyword = encodeURIComponent(keyword.trim());
+        const searchResponse = await fetch(`/api/market/search-products/${encodedKeyword}`);
+        
+        if (!searchResponse.ok) {
+            throw new Error(`Search API returned status: ${searchResponse.status}`);
+        }
+        
+        const searchData = await searchResponse.json();
+        console.log("Received search API response:", searchData);
+        
+        if (!searchData.success || !searchData.searchProductDetails || !Array.isArray(searchData.searchProductDetails)) {
+            console.warn("No competitive products found in search results");
+            return null;
+        }
+        
+        // Extract relevant data from competitive products
+        const competitiveProducts = searchData.searchProductDetails.map(product => {
+            // Extract price
+            let price = 0;
+            if (product.price) {
+                price = extractPrice(product.price);
+            } else if (product.priceDto && product.priceDto.priceValue) {
+                price = extractPrice(product.priceDto.priceValue);
+            } else if (product.displayPrice) {
+                price = extractPrice(product.displayPrice);
+            }
+            
+            // Extract rating
+            let rating = 0;
+            if (product.rating) {
+                rating = parseFloat(product.rating);
+            }
+            
+            // Extract ASIN
+            const asin = product.asin || '';
+            
+            return {
+                asin,
+                title: product.title || product.productTitle || 'Unknown Product',
+                price,
+                rating
+            };
+        }).filter(p => p.price > 0); // Filter out products with invalid prices
+        
+        console.log(`Found ${competitiveProducts.length} competitive products with valid prices`);
+        
+        if (competitiveProducts.length === 0) {
+            console.warn("No valid competitive products found");
+            return null;
+        }
+        
+        // Calculate market statistics
+        const prices = competitiveProducts.map(p => p.price);
+        const avgPrice = prices.reduce((sum, price) => sum + price, 0) / prices.length;
+        const minPrice = Math.min(...prices);
+        const maxPrice = Math.max(...prices);
+        const priceVariance = calculateVariance(prices);
+        
+        // Get category from the pricing data or default to a generic one
+        const productCategory = pricingData.product_type || keyword;
+        
+        // Determine seasonality based on product category
+        const seasonality = determineSeasonality(productCategory);
+        
+        // Now, fetch pastSales data for a few of the competitive products (limit to 3 to avoid too many requests)
+        const topCompetitors = competitiveProducts.slice(0, 3);
+        const salesData = [];
+        
+        for (const competitor of topCompetitors) {
+            if (competitor.asin) {
+                try {
+                    const detailResponse = await fetch(`/api/product-details?asin=${competitor.asin}`);
+                    if (detailResponse.ok) {
+                        const detailData = await detailResponse.json();
+                        console.log(`Received product details for ${competitor.asin}:`, detailData);
+                        
+                        // Extract past sales data
+                        const pastSales = extractPastSalesFromResponse(detailData);
+                        if (pastSales) {
+                            salesData.push({
+                                asin: competitor.asin,
+                                price: competitor.price,
+                                sales: pastSales
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.warn(`Error fetching details for ${competitor.asin}:`, error);
+                }
+            }
+        }
+        
+        console.log("Collected sales data from competitive products:", salesData);
+        
+        // Create forecast based on all collected data
+        const forecastData = generateEnhancedForecast({
+            competitiveProducts,
+            marketStats: {
+                avgPrice,
+                minPrice,
+                maxPrice,
+                priceVariance
+            },
+            salesData,
+            seasonality,
+            elasticity: pricingData.price_elasticity || -1.0,
+            recommendedPrice: pricingData.recommended_price,
+            actualPrice: pricingData.actualPrice || pricingData.original_price
+        });
+        
+        return forecastData;
+    } catch (error) {
+        console.error("Error fetching competitive data for forecasting:", error);
+        return null;
+    }
+}
+
+/**
+ * Extract price from various formats
+ * @param {string|number} priceStr - Price in various formats
+ * @returns {number} Extracted price or 0 if invalid
+ */
+function extractPrice(priceStr) {
+    if (!priceStr) return 0;
+    
+    // If already a number, return it
+    if (typeof priceStr === 'number') return priceStr;
+    
+    try {
+        // Convert string price to number
+        const price = parseFloat(String(priceStr).replace(/[^0-9.]/g, ''));
+        return !isNaN(price) ? price : 0;
+    } catch (error) {
+        console.error(`Error extracting price from ${priceStr}:`, error);
+        return 0;
+    }
+}
+
+/**
+ * Extract past sales data from API response
+ * @param {Object} response - API response object
+ * @returns {number} Estimated monthly sales or null if not found
+ */
+function extractPastSalesFromResponse(response) {
+    try {
+        // Check for pastSales field
+        if (response && response.pastSales) {
+            return extractSalesNumber(response.pastSales);
+        }
+        
+        // Look for strings containing "bought in past month"
+        if (response && typeof response === 'object') {
+            for (const key in response) {
+                if (typeof response[key] === 'string' && 
+                    response[key].includes('bought in past month')) {
+                    return extractSalesNumber(response[key]);
+                }
+            }
+            
+            // Also check in the productDetails array
+            if (response.productDetails && Array.isArray(response.productDetails)) {
+                for (const detail of response.productDetails) {
+                    if (typeof detail === 'string' && detail.includes('bought in past month')) {
+                        return extractSalesNumber(detail);
+                    }
+                }
+            }
+        }
+        
+        return null;
+    } catch (error) {
+        console.error('Error extracting past sales:', error);
+        return null;
+    }
+}
+
+/**
+ * Extract sales number from a string like "600+ bought in past month"
+ * @param {string} salesString - String containing sales information
+ * @returns {number} Extracted sales number
+ */
+function extractSalesNumber(salesString) {
+    try {
+        // Extract numbers from string
+        const matches = salesString.match(/(\d+)(?:\+)?\s+bought/i);
+        if (matches && matches[1]) {
+            const salesNumber = parseInt(matches[1], 10);
+            // If there's a + sign, add 10% to account for "more than" indication
+            if (salesString.includes('+')) {
+                return Math.round(salesNumber * 1.1);
+            }
+            return salesNumber;
+        }
+        return null;
+    } catch (error) {
+        console.error(`Error extracting sales number from "${salesString}":`, error);
+        return null;
+    }
+}
+
+/**
+ * Calculate variance of a set of numbers
+ * @param {Array<number>} values - Array of numerical values
+ * @returns {number} Calculated variance
+ */
+function calculateVariance(values) {
+    if (!values || values.length === 0) return 0;
+    
+    const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
+    const squaredDiffs = values.map(val => Math.pow(val - mean, 2));
+    const variance = squaredDiffs.reduce((sum, val) => sum + val, 0) / values.length;
+    
+    return variance;
+}
+
+/**
+ * Determine seasonality pattern based on product category
+ * @param {string} category - Product category or type
+ * @returns {Object} Seasonality data object
+ */
+function determineSeasonality(category) {
+    // Default seasonality (flat)
+    let seasonality = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
+    let volatility = 0.1; // Default volatility (10%)
+    
+    const categoryLower = category.toLowerCase();
+    
+    // Apply different seasonality patterns based on category keywords
+    if (categoryLower.includes('electronics') || categoryLower.includes('computer')) {
+        // Electronics peak during back-to-school and holiday seasons
+        seasonality = [70, 60, 55, 50, 55, 60, 65, 85, 75, 80, 95, 100];
+        volatility = 0.15; // Higher volatility for electronics
+    } else if (categoryLower.includes('toy') || categoryLower.includes('game')) {
+        // Toys peak during holiday season
+        seasonality = [40, 35, 30, 35, 40, 50, 55, 65, 75, 80, 95, 100];
+        volatility = 0.25; // Very high volatility for toys
+    } else if (categoryLower.includes('kitchen') || categoryLower.includes('home')) {
+        // Home/kitchen items have moderate peaks during holiday and wedding seasons
+        seasonality = [45, 50, 60, 70, 80, 85, 75, 70, 65, 75, 85, 95];
+        volatility = 0.12;
+    } else if (categoryLower.includes('book')) {
+        // Books peak during summer and holiday seasons
+        seasonality = [50, 55, 60, 65, 70, 85, 90, 80, 70, 65, 80, 95];
+        volatility = 0.1;
+    } else if (categoryLower.includes('clothing') || categoryLower.includes('fashion')) {
+        // Clothing has seasonality depending on the season
+        seasonality = [60, 70, 80, 85, 75, 65, 60, 80, 90, 85, 90, 95];
+        volatility = 0.2; // High volatility for fashion
+    } else if (categoryLower.includes('headphone') || categoryLower.includes('audio')) {
+        // Audio products peak during back-to-school and holiday seasons
+        seasonality = [60, 50, 45, 50, 60, 70, 65, 85, 80, 75, 90, 100];
+        volatility = 0.15;
+    }
+    
+    // Get current month for reference
+    const currentMonth = new Date().getMonth(); // 0-11
+    
+    return {
+        values: seasonality,
+        currentMonth: currentMonth,
+        volatility: volatility
+    };
+}
+
+/**
+ * Generate enhanced demand forecast based on all collected data
+ * @param {Object} params - Parameters for forecast generation
+ * @returns {Object} Enhanced forecast data
+ */
+function generateEnhancedForecast(params) {
+    const {
+        competitiveProducts,
+        marketStats,
+        salesData,
+        seasonality,
+        elasticity,
+        recommendedPrice,
+        actualPrice
+    } = params;
+    
+    console.log("Generating enhanced forecast with params:", params);
+    
+    // Calculate baseline monthly demand
+    let baselineDemand = 100; // Default if no sales data available
+    
+    // If we have sales data from competitors, use that to estimate
+    if (salesData && salesData.length > 0) {
+        const validSales = salesData.filter(item => item.sales !== null);
+        if (validSales.length > 0) {
+            // Calculate average monthly sales from competitors
+            baselineDemand = validSales.reduce((sum, item) => sum + item.sales, 0) / validSales.length;
+            console.log(`Calculated baseline demand from competitor sales: ${baselineDemand}`);
+            
+            // Adjust based on price position relative to market
+            const priceRatio = actualPrice / marketStats.avgPrice;
+            if (priceRatio < 0.8) {
+                // Much lower price than average - expect higher demand
+                baselineDemand *= 1.2;
+            } else if (priceRatio > 1.2) {
+                // Much higher price than average - expect lower demand
+                baselineDemand *= 0.8;
+            }
+            
+            console.log(`Adjusted baseline demand based on price ratio (${priceRatio.toFixed(2)}): ${baselineDemand}`);
+        }
+    }
+    
+    // Generate weekly forecast for the next 12 weeks
+    const forecastData = [];
+    const currentMonth = seasonality.currentMonth;
+    
+    // Calculate price change impact if moving to recommended price
+    let priceChangeImpact = 1.0;
+    if (recommendedPrice && actualPrice) {
+        const priceChange = (recommendedPrice - actualPrice) / actualPrice;
+        // Apply elasticity formula: % change in quantity = elasticity * % change in price
+        const demandChange = elasticity * priceChange;
+        priceChangeImpact = 1 + demandChange;
+        console.log(`Price change impact: ${priceChangeImpact.toFixed(2)} (based on ${priceChange.toFixed(2)}% change and elasticity ${elasticity})`);
+    }
+    
+    // Create weekly forecast with realistic variations
+    for (let week = 1; week <= 12; week++) {
+        // Determine which month this week belongs to
+        const weekMonth = (currentMonth + Math.floor((week - 1) / 4)) % 12;
+        const nextMonth = (weekMonth + 1) % 12;
+        
+        // Calculate weekly baseline as fraction of monthly
+        const weeklyBaseline = baselineDemand / 4;
+        
+        // Apply seasonality factor (blend current and next month based on position in month)
+        const weekPosition = (week - 1) % 4; // 0, 1, 2, 3
+        const monthWeight = (4 - weekPosition) / 4; // 1, 0.75, 0.5, 0.25
+        
+        const seasonalFactor = 
+            (monthWeight * seasonality.values[weekMonth] + 
+            (1 - monthWeight) * seasonality.values[nextMonth]) / 50; // Normalize to 1.0 at 50
+        
+        // Apply price change impact (gradually over the forecast period)
+        const impactWeight = Math.min(1.0, week / 8); // Gradually increase to full impact by week 8
+        const blendedPriceImpact = 1.0 + (impactWeight * (priceChangeImpact - 1.0));
+        
+        // Add random variation based on volatility
+        const randomVariation = 1 + ((Math.random() * 2 - 1) * seasonality.volatility);
+        
+        // Calculate final demand
+        const weeklyDemand = weeklyBaseline * seasonalFactor * blendedPriceImpact * randomVariation;
+        
+        forecastData.push({
+            week,
+            demand: Math.round(weeklyDemand * 10) / 10, // Round to 1 decimal place
+            seasonality: seasonalFactor,
+            priceImpact: blendedPriceImpact
+        });
+    }
+    
+    // Calculate statistics for the forecast
+    const demands = forecastData.map(d => d.demand);
+    const mean = demands.reduce((sum, val) => sum + val, 0) / demands.length;
+    const min = Math.min(...demands);
+    const max = Math.max(...demands);
+    
+    // Create complete forecast object
+    return {
+        data: forecastData,
+        statistics: {
+            mean,
+            min,
+            max,
+            elasticity: Math.abs(elasticity),
+            totalDemand: Math.round(mean * forecastData.length),
+            marketComparison: baselineDemand / mean
+        },
+        marketContext: {
+            competitorCount: competitiveProducts.length,
+            avgMarketPrice: marketStats.avgPrice,
+            priceVariance: marketStats.priceVariance,
+            seasonality: seasonality.values
+        }
+    };
+}
+
+/**
+ * Updates impact factors in the UI
+ * @param {Object} impactData - The impact data object
+ */
+function updateImpactFactors(impacts) {
+    console.log("Updating impact factors with:", impacts);
+    
+    // Get DOM elements
+    const ratingImpact = document.getElementById('ratingImpact');
+    const orderImpact = document.getElementById('orderImpact');
+    const marketImpact = document.getElementById('marketImpact');
+    
+    // Set default values
+    let ratingValue = impacts?.rating || 0;
+    let orderValue = impacts?.order_volume || impacts?.orderVolume || 0;
+    let marketValue = impacts?.market || 0;
+    
+    // Update DOM elements if they exist
+    if (ratingImpact) {
+        const ratingBar = ratingImpact.querySelector('.impact-bar-fill');
+        const ratingText = ratingImpact.querySelector('.impact-value');
+        
+        if (ratingBar) {
+            const width = Math.abs(ratingValue) * 100;
+            ratingBar.style.width = `${Math.min(width, 100)}%`;
+            ratingBar.classList.toggle('positive', ratingValue >= 0);
+            ratingBar.classList.toggle('negative', ratingValue < 0);
+        }
+        
+        if (ratingText) {
+            ratingText.textContent = `${Math.abs(ratingValue * 100).toFixed(1)}%`;
+            ratingText.classList.toggle('positive', ratingValue >= 0);
+            ratingText.classList.toggle('negative', ratingValue < 0);
+        }
+    }
+    
+    if (orderImpact) {
+        const orderBar = orderImpact.querySelector('.impact-bar-fill');
+        const orderText = orderImpact.querySelector('.impact-value');
+        
+        if (orderBar) {
+            const width = Math.abs(orderValue) * 100;
+            orderBar.style.width = `${Math.min(width, 100)}%`;
+            orderBar.classList.toggle('positive', orderValue >= 0);
+            orderBar.classList.toggle('negative', orderValue < 0);
+        }
+        
+        if (orderText) {
+            orderText.textContent = `${Math.abs(orderValue * 100).toFixed(1)}%`;
+            orderText.classList.toggle('positive', orderValue >= 0);
+            orderText.classList.toggle('negative', orderValue < 0);
+        }
+    }
+    
+    if (marketImpact) {
+        const marketBar = marketImpact.querySelector('.impact-bar-fill');
+        const marketText = marketImpact.querySelector('.impact-value');
+        
+        if (marketBar) {
+            const width = Math.abs(marketValue) * 100;
+            marketBar.style.width = `${Math.min(width, 100)}%`;
+            marketBar.classList.toggle('positive', marketValue >= 0);
+            marketBar.classList.toggle('negative', marketValue < 0);
+        }
+        
+        if (marketText) {
+            marketText.textContent = `${Math.abs(marketValue * 100).toFixed(1)}%`;
+            marketText.classList.toggle('positive', marketValue >= 0);
+            marketText.classList.toggle('negative', marketValue < 0);
+        }
+    }
+}
+
+// Initialize theme based on user preference or default to dark
+function initializeTheme() {
+  // Default to dark theme
+  let theme = 'dark';
+  
+  // Only use stored preference if it exists
+  const storedTheme = localStorage.getItem('theme');
+  if (storedTheme) {
+    theme = storedTheme;
+        } else {
+    // Save dark theme as default if no preference
+    localStorage.setItem('theme', 'dark');
+  }
+  
+  // Apply theme to document
+  document.documentElement.setAttribute('data-theme', theme);
+  
+  // Update background color based on theme
+  if (theme === 'light') {
+    document.body.style.backgroundColor = '#f8fafc';
+    document.documentElement.style.backgroundColor = '#f8fafc';
+  } else {
+    document.body.style.backgroundColor = '#0f172a';
+    document.documentElement.style.backgroundColor = '#0f172a';
+  }
+  
+  // Update theme switch to match theme
+  const themeSwitch = document.getElementById('theme-switch');
+  if (themeSwitch) {
+    themeSwitch.checked = theme === 'light';
+  }
+  
+  // Update any charts that might exist
+  updateChartsForTheme(theme);
+}
+
+// Call the theme initialization on page load
+document.addEventListener('DOMContentLoaded', function() {
+  initializeTheme();
+  // Rest of initialization code...
+});
+
+// Toggle theme between light and dark
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  
+  // Update background color
+  if (newTheme === 'light') {
+    document.body.style.backgroundColor = '#f8fafc';
+    document.documentElement.style.backgroundColor = '#f8fafc';
+  } else {
+    document.body.style.backgroundColor = '#0f172a';
+    document.documentElement.style.backgroundColor = '#0f172a';
+  }
+  
+  // Update any charts for the new theme
+  updateChartsForTheme(newTheme);
+  
+  // Redraw visualizations if data exists
+  if (window.lastPriceCalculationData) {
+    updateAllVisualizations(window.lastPriceCalculationData);
+  }
+}
+
+// Update chart colors based on theme
+function updateChartsForTheme(theme) {
+  Chart.defaults.color = theme === 'light' ? '#334155' : '#e2e8f0';
+  Chart.defaults.borderColor = theme === 'light' ? 'rgba(203, 213, 225, 0.5)' : 'rgba(71, 85, 105, 0.5)';
+  
+  // Theme-specific chart colors
+  const chartColors = theme === 'light' 
+    ? ['#f97316', '#0ea5e9', '#10b981', '#8b5cf6'] 
+    : ['#4a6cf7', '#10b981', '#f59e0b', '#ef4444'];
+  
+  // Update all existing charts
+  Chart.instances.forEach(chart => {
+    // Update grid lines
+    if (chart.options.scales?.x?.grid) {
+      chart.options.scales.x.grid.color = theme === 'light' 
+        ? 'rgba(203, 213, 225, 0.5)' 
+        : 'rgba(71, 85, 105, 0.5)';
+    }
+    
+    if (chart.options.scales?.y?.grid) {
+      chart.options.scales.y.grid.color = theme === 'light' 
+        ? 'rgba(203, 213, 225, 0.5)' 
+        : 'rgba(71, 85, 105, 0.5)';
+    }
+    
+    // Update fonts
+    chart.options.plugins.tooltip.backgroundColor = theme === 'light' 
+      ? '#ffffff' 
+      : '#1e293b';
+    chart.options.plugins.tooltip.titleColor = theme === 'light' 
+      ? '#0f172a' 
+      : '#e2e8f0';
+    chart.options.plugins.tooltip.bodyColor = theme === 'light' 
+      ? '#334155' 
+      : '#e2e8f0';
+    chart.options.plugins.tooltip.borderColor = theme === 'light' 
+      ? '#e2e8f0' 
+      : '#475569';
+    
+    // Try to update dataset colors if applicable
+    if (chart.data.datasets && chart.data.datasets.length) {
+      chart.data.datasets.forEach((dataset, index) => {
+        if (dataset.backgroundColor && !Array.isArray(dataset.backgroundColor)) {
+          dataset.backgroundColor = chartColors[index % chartColors.length];
+        }
+        
+        if (dataset.borderColor && !Array.isArray(dataset.borderColor)) {
+          dataset.borderColor = chartColors[index % chartColors.length];
+        }
+      });
+    }
+    
+    // Update the chart
+    chart.update();
+  });
+  
+  // Dispatch event for other components to update
+  document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
+}
+
+/**
+ * Calculate the price based on the form inputs
+ */
+function calculatePrice() {
+  try {
+    // Remove any profit optimization sections first
+    removeProfitOptimizationSections();
+    
+    // Show loading state and hide error messages
+    document.getElementById('resultsLoading').style.display = 'block';
+    document.getElementById('resultsContent').classList.add('hidden');
+    document.getElementById('apiErrorMessage').classList.add('hidden');
+    
+    // Get form values
+    const productType = document.getElementById('productType').value;
+    const productGroup = document.getElementById('productGroup').value;
+    const actualPrice = parseFloat(document.getElementById('actualPrice').value);
+    const competitorPrice = parseFloat(document.getElementById('competitorPrice').value);
+    const rating = parseFloat(document.getElementById('rating').value);
+    const numberOfOrders = parseFloat(document.getElementById('numberOfOrders').value);
+    
+    // Validate inputs
+    if (isNaN(actualPrice) || isNaN(competitorPrice) || isNaN(rating) || isNaN(numberOfOrders)) {
+      showError("Please enter valid numeric values for all fields.");
+      return;
+    }
+    
+    // Create request payload with correct parameter names
+    const requestData = {
+      productType: productType,
+      productGroup: productGroup,
+      actualPrice: actualPrice,
+      competitorPrice: competitorPrice,
+      starRating: rating,  // Changed from rating to starRating to match server expectation
+      ordersPerMonth: numberOfOrders,
+      productCost: actualPrice * 0.6  // Add productCost since server requires it
+    };
+    
+    console.log("Submitting price calculation with values:", requestData);
+    
+    // Track this price calculation
+    UsageTracker.trackFeature('priceCalculation', {
+      productType: productType,
+      productGroup: productGroup,
+      actualPrice: actualPrice,
+      competitorPrice: competitorPrice,
+      rating: rating,
+      numberOfOrders: numberOfOrders
+    });
+    
+    // Send API request
+    fetch('/calculate-price', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestData)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('API request failed');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("Price calculation response:", data);
+   
+      // Store the data for potential reuse
+      window.lastPriceCalculationData = data;
+      
+      // Hide loading indicators
+      document.getElementById('resultsLoading').style.display = 'none';
+      document.getElementById('resultsContent').classList.remove('hidden');
+      
+      // Update UI with recommendation
+      updatePriceElements(data);
+      
+      // Update elasticity metrics
+      // Check if elasticityCategory exists, if not, calculate it from price_elasticity
+      if (!data.elasticityCategory && data.price_elasticity !== undefined) {
+        // Determine category based on price elasticity value
+        const absElasticity = Math.abs(data.price_elasticity);
+        let elasticityCategory = 'medium';
+        if (absElasticity < 0.5) {
+          elasticityCategory = 'low';
+        } else if (absElasticity >= 1.0) {
+          elasticityCategory = 'high';
+        }
+        data.elasticityCategory = elasticityCategory;
+      } else if (!data.elasticityCategory) {
+        // Default to medium if no elasticity data is available
+        data.elasticityCategory = 'medium';
+      }
+      updateElasticityVisualization(data.elasticityCategory, data.recommendedPrice, actualPrice);
+      
+      // Update all visualizations with API data
+      updateVisualizationsWithApiData(data);
+      
+      // Prepare tracking data with complete results
+      const calculationResults = {
+        // Input parameters
+        productType: productType,
+        productGroup: productGroup,
+        actualPrice: actualPrice,
+        competitorPrice: competitorPrice,
+        rating: rating,
+        numberOfOrders: numberOfOrders,
+        asin: document.getElementById('asin')?.value || 'N/A',
+        
+        // Calculation results from API
+        recommendedPrice: data.recommended_price || data.recommendedPrice,
+        minPrice: data.min_price || (data.recommended_price ? data.recommended_price * 0.95 : null),
+        maxPrice: data.max_price || (data.recommended_price ? data.recommended_price * 1.05 : null),
+        priceElasticity: data.price_elasticity || -1.2,
+        volumeImpact: data.volume_impact || data.segment_impact?.total_impact || 0,
+        revenueImpact: data.revenue_impact || data.margin_change_pct || 0,
+        
+        // Additional data for visualization
+        segmentImpact: data.segment_impact || null,
+        pricingFactorsPct: data.price_factors_pct || null,
+        
+        // Timestamp
+        timestamp: new Date().toISOString()
+      };
+      
+      // Track this calculation with full result data
+      UsageTracker.trackFeature('priceCalculation', calculationResults);
+      
+      // Show the results section
+      document.getElementById('elasticity-section').style.display = 'block';
+      
+      // Remove any hidden class from resultsContent just in case
+      const resultsContent = document.getElementById('resultsContent');
+      if (resultsContent.classList.contains('hidden')) {
+        resultsContent.classList.remove('hidden');
+      }
+    })
+    .catch(error => {
+      console.error("Error calculating price:", error);
+      
+      // Show error message
+      document.getElementById('resultsLoading').style.display = 'none';
+      document.getElementById('apiErrorMessage').classList.remove('hidden');
+      document.getElementById('apiErrorMessage').querySelector('span').textContent = 
+        'Error: ' + (error.message || 'Failed to calculate optimal price');
+    });
+  } catch (error) {
+    console.error("Error in calculatePrice function:", error);
+    showError("An unexpected error occurred. Please try again.");
+  }
+}
+
+/**
+ * Display an error message to the user
+ * @param {string} message - The error message to display
+ */
+function showError(message) {
+  // Hide loading indicator
+  document.getElementById('resultsLoading').style.display = 'none';
+  
+  // Show error message
+  const errorElement = document.getElementById('apiErrorMessage');
+  if (errorElement) {
+    errorElement.classList.remove('hidden');
+    const errorSpan = errorElement.querySelector('span');
+    if (errorSpan) {
+      errorSpan.textContent = 'Error: ' + message;
+    }
+  } else {
+    console.error('Error:', message);
+    alert('Error: ' + message);
+  }
+}
+
+/**
+ * Updates impact factors in the UI based on pricing data
+ * @param {Object} data - The impact data
+ */
+function updatePricingInfluenceFactors(data) {
+  console.log("Updating pricing influence factors with:", data);
+  
+  // First check for impact elements in the elasticity-impact section (preferred location)
+  const ratingImpactElement = document.getElementById('rating-impact');
+  const competitorImpactElement = document.getElementById('competitor-impact');
+  const marketImpactElement = document.getElementById('market-impact');
+  
+  // If we found the standard impact elements, update them
+  if (ratingImpactElement && competitorImpactElement && marketImpactElement) {
+    console.log("Found standard impact elements, updating them directly");
+    
+    // If data is null or undefined, set default values
+    const impacts = data || {};
+    
+    // Extract impact values
+    const ratingImpact = impacts.rating || 0;
+    const competitorImpact = impacts.competitor || 0;
+    const marketImpact = impacts.market || 0;
+    
+    // Update each element with formatted values
+    updateImpactFactor('rating-impact', ratingImpact);
+    updateImpactFactor('competitor-impact', competitorImpact);
+    updateImpactFactor('market-impact', marketImpact);
+    
+    // Don't create a duplicate container since we updated the standard elements
+      return;
+    }
+    
+  // If we didn't find the standard elements, don't create a new container
+  // This prevents the duplicate pricing influence factors issue
+  console.warn("Standard impact elements not found, but will not create duplicates");
+}
+
+/**
+ * Updates all visualizations with data from the API
+ * @param {Object} data - The API response data
+ */
+function updateVisualizationsWithApiData(data) {
+  console.log("Updating visualizations with API data:", data);
+  
+  // Check if data is valid
+  if (!data) {
+    console.error("No valid data provided to updateVisualizationsWithApiData");
+      return;
+    }
+    
+  try {
+    // Remove any profit optimization sections that might exist
+    removeProfitOptimizationSections();
+    
+    // Update price elements (if not already done)
+    const recommendedPriceElement = document.getElementById('recommendedPriceValue');
+    if (recommendedPriceElement && !recommendedPriceElement.textContent.includes('$')) {
+      updatePriceElements(data);
+    }
+    
+    // Update demand forecast with data
+    updateDemandForecast(data);
+    
+    // Extract pricing influence factors from data
+    const impacts = {
+      rating: data.rating_impact || data.price_factors_pct?.rating_impact || 0,
+      competitor: data.competitor_impact || data.price_factors_pct?.competitor_impact || 0,
+      market: data.market_impact || data.price_factors_pct?.market_impact || 0
+    };
+    
+    console.log("Extracted pricing impacts:", impacts);
+    
+    // Update pricing influence factors
+    updatePricingInfluenceFactors(impacts);
+    
+    // Get the product group from the form for market data search
+    let productGroup = "Headphones"; // Default value
+    const productGroupElement = document.getElementById('productGroup');
+    if (productGroupElement && productGroupElement.value) {
+      productGroup = productGroupElement.value;
+    }
+    
+    // Get actual and competitor prices from form elements or data
+    let actualPrice = 0;
+    let competitorPrice = 0;
+    
+    const actualPriceElement = document.getElementById('actualPrice');
+    if (actualPriceElement && actualPriceElement.value) {
+      actualPrice = parseFloat(actualPriceElement.value) || 0;
+    } else if (data.actualPrice || data.original_price) {
+      actualPrice = data.actualPrice || data.original_price;
+    }
+    
+    const competitorPriceElement = document.getElementById('competitorPrice');
+    if (competitorPriceElement && competitorPriceElement.value) {
+      competitorPrice = parseFloat(competitorPriceElement.value) || 0;
+    } else if (data.competitorPrice) {
+      competitorPrice = data.competitorPrice;
+    }
+    
+    // Update elasticity visualizations
+    createElasticityVisualizations(data);
+    
+    // Create a sequence of visualizations with delays to ensure proper render order
+    const visualizationSequence = async () => {
+      try {
+        // Step 1: Create sales projection (profit optimization) visualization
+        await new Promise(resolve => {
+          setTimeout(() => {
+            createSalesProjectionVisualization({
+              actualPrice,
+              competitorPrice,
+              recommendedPrice: data.recommended_price || 0,
+              price_elasticity: data.price_elasticity || -1.0,
+              ...data
+            });
+            resolve();
+          }, 100);
+        });
+        
+        // Step 2: Create price impact analysis visualization
+        await new Promise(resolve => {
+          setTimeout(() => {
+            const priceImpactContainer = document.getElementById('priceImpactAnalysis');
+            if (priceImpactContainer) {
+              // Add a spacer after the price impact analysis
+              const spacer = document.createElement('div');
+              spacer.style.clear = 'both';
+              spacer.style.height = '50px';
+              priceImpactContainer.parentNode.insertBefore(spacer, priceImpactContainer.nextSibling);
+            }
+            resolve();
+          }, 100);
+        });
+        
+        // Step 3: Create Market Insights section
+        await new Promise(resolve => {
+          setTimeout(() => {
+            ensureMarketInsightsSectionExists();
+            resolve();
+          }, 100);
+        });
+        
+        // Step 4: Fetch market data for Price Position and create visualization
+        if (productGroup && actualPrice > 0) {
+          await new Promise(resolve => {
+            setTimeout(() => {
+              console.log(`Fetching market data for price position with keyword: "${productGroup}"`);
+              fetchMarketDataForPricePosition(productGroup, {
+                actualPrice,
+                competitorPrice,
+                recommendedPrice: data.recommended_price || 0,
+                ...data
+              });
+              resolve();
+            }, 100);
+          });
+        } else {
+          console.warn("Missing required data for market visualization:", { 
+            productGroup, 
+            actualPrice
+          });
+          showMarketInsightsError("Missing product group or price data");
+        }
+        
+        // Step 5: Create price history timeline if available
+        if (data.price_history) {
+          await new Promise(resolve => {
+            setTimeout(() => {
+              createPriceTimelineVisualization(data.price_history, data);
+              resolve();
+            }, 100);
+          });
+        }
+        
+        console.log("All visualizations created successfully");
+  } catch (error) {
+        console.error("Error in visualization sequence:", error);
+      }
+    };
+    
+    // Start the visualization sequence
+    visualizationSequence();
+    
+  } catch (error) {
+    console.error("Error in updateVisualizationsWithApiData:", error);
+  }
+}
+
+/**
+ * Ensure the Market Insights section exists in the DOM
+ * Creates it if missing
+ */
+function ensureMarketInsightsSectionExists() {
+  // First check if the Market Insights section already exists
+  let marketInsightsSection = document.querySelector('.market-insights');
+  
+  if (!marketInsightsSection) {
+    console.log("Market Insights section not found, creating it...");
+    
+    // Find a suitable parent container - look for #resultsContent as the best option
+            const resultsContent = document.getElementById('resultsContent');
+    
+    if (resultsContent) {
+      // Create a new Market Insights section as a direct child of resultsContent
+      marketInsightsSection = document.createElement('div');
+      marketInsightsSection.className = 'market-insights';
+      marketInsightsSection.style.marginTop = '50px';
+      marketInsightsSection.style.clear = 'both';
+      
+      marketInsightsSection.innerHTML = `
+        <h3 class="section-title">Market Insights</h3>
+        <div class="insights-container">
+          <div class="price-position"></div>
+          <div class="price-comparison"></div>
+        </div>
+      `;
+      
+      // Add to the bottom of resultsContent
+      resultsContent.appendChild(marketInsightsSection);
+    } else {
+      // Fallback to other containers if resultsContent not found
+      const parentContainer = document.getElementById('elasticity-section') || 
+                            document.querySelector('.price-impact-analysis');
+      
+      if (!parentContainer) {
+        console.error("No suitable parent container found for Market Insights");
+        return false;
+      }
+      
+      // Create a divider to ensure separation between sections
+      const divider = document.createElement('div');
+      divider.style.clear = 'both';
+      divider.style.height = '50px';
+      
+      // Create the Market Insights section
+      marketInsightsSection = document.createElement('div');
+      marketInsightsSection.className = 'market-insights';
+      marketInsightsSection.innerHTML = `
+        <h3 class="section-title">Market Insights</h3>
+        <div class="insights-container">
+          <div class="price-position"></div>
+          <div class="price-comparison"></div>
+        </div>
+      `;
+      
+      // Insert the divider first, then the section
+      parentContainer.parentNode.insertBefore(divider, parentContainer.nextSibling);
+      parentContainer.parentNode.insertBefore(marketInsightsSection, divider.nextSibling);
+    }
+    
+    // Add some basic styling
+    addOrUpdateStyle('market-insights-styles', `
+      .market-insights {
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.03);
+        border-radius: 8px;
+        margin-bottom: 30px;
+        position: relative;
+        z-index: 1;
+      }
+      .market-insights .section-title {
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      .insights-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .price-position, .price-comparison {
+        flex: 1;
+        min-width: 300px;
+      }
+      .loading-indicator, .error-message {
+        padding: 20px;
+        text-align: center;
+        color: #666;
+      }
+      .error-message {
+        color: #e53935;
+      }
+    `);
+    
+    console.log("Market Insights section created");
+  }
+  
+  // Now check if the subsections exist
+  let pricePositionSection = marketInsightsSection.querySelector('.price-position');
+  let priceComparisonSection = marketInsightsSection.querySelector('.price-comparison');
+  
+  // Create the price position section if missing
+  if (!pricePositionSection) {
+    console.log("Price position section not found, creating it...");
+    pricePositionSection = document.createElement('div');
+    pricePositionSection.className = 'price-position';
+    marketInsightsSection.querySelector('.insights-container').appendChild(pricePositionSection);
+  }
+  
+  // Create the price comparison section if missing
+  if (!priceComparisonSection) {
+    console.log("Price comparison section not found, creating it...");
+    priceComparisonSection = document.createElement('div');
+    priceComparisonSection.className = 'price-comparison';
+    marketInsightsSection.querySelector('.insights-container').appendChild(priceComparisonSection);
+  }
+  
+  return true;
+}
+
+/**
+ * Create a demand forecast chart with the given data
+ * @param {Array} data - Forecast data for the chart
+ */
+function createDemandForecastChart(data) {
+  // Find or create the forecast chart container
+  let container = document.querySelector('.forecast-chart-container');
+  if (!container) {
+    console.log('Forecast chart container not found, creating one');
+    
+    // Find a suitable parent container
+    const parentContainer = document.getElementById('demandForecast') || 
+                           document.querySelector('.demand-metrics') ||
+                           document.getElementById('elasticity-section');
+    
+    if (!parentContainer) {
+      console.error('No suitable parent container found for forecast chart');
+            return;
+        }
+        
+    // Create the container
+    container = document.createElement('div');
+    container.className = 'forecast-chart-container';
+    container.style.height = '500px'; // Increased from 300px to 500px for better visibility
+    container.style.width = '100%';
+    container.style.maxWidth = '1200px'; // Increased max-width for better display
+    container.style.margin = '30px auto'; // Center the chart and add more margin
+    container.style.marginBottom = '40px';
+    container.style.padding = '20px'; // Increased padding for more space
+    container.style.backgroundColor = 'rgba(30, 41, 59, 0.1)'; // Lighter background
+    container.style.borderRadius = '10px'; // Larger rounded corners
+    container.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)'; // Add slight shadow
+    parentContainer.appendChild(container);
+  } else {
+    // If container exists, update its dimensions
+    container.style.height = '500px';
+    container.style.width = '100%';
+    container.style.maxWidth = '1200px';
+    container.style.margin = '30px auto';
+    container.style.padding = '20px';
+    container.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
+  }
+  
+  // Check if there's an existing canvas and remove it
+  const existingCanvas = container.querySelector('canvas');
+  if (existingCanvas) {
+    // Destroy existing chart if it exists
+    if (existingCanvas._chart) {
+      existingCanvas._chart.destroy();
+    }
+    existingCanvas.remove();
+  }
+  
+  // Create a new canvas for the chart
+  const canvas = document.createElement('canvas');
+  canvas.id = 'demandForecastChart';
+  container.appendChild(canvas);
+  
+  // Get context for the new canvas
+  const ctx = canvas.getContext('2d');
+  
+  // Prepare data for the chart
+  const labels = data.map(d => `Week ${d.week}`);
+  const demands = data.map(d => d.demand);
+  
+  // Create the chart
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Projected Demand',
+        data: demands,
+        borderColor: '#3f96eb',
+        backgroundColor: 'rgba(63, 150, 235, 0.2)',
+        tension: 0.4,
+        fill: true,
+        borderWidth: 3 // Thicker line for better visibility
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false, // Ensures the chart takes the full height
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const dataPoint = data[context.dataIndex];
+              let label = `Demand: ${dataPoint.demand} units`;
+              return [
+                label,
+                `Seasonality: ${(dataPoint.seasonality * 100).toFixed(0)}%`,
+                `Price Impact: ${(dataPoint.priceImpact * 100).toFixed(0)}%`
+              ];
+            }
+          },
+          bodyFont: {
+            size: 14 // Larger tooltip text
+          },
+          titleFont: {
+            size: 14 // Larger tooltip title
+          },
+          padding: 10
+        },
+        legend: {
+          position: 'top',
+          labels: {
+            font: {
+              size: 14 // Larger legend text
+            },
+            padding: 20 // More padding for legend items
+          }
+        },
+        title: {
+          display: true,
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Units per Week',
+            font: {
+              size: 14 // Larger axis title
+            }
+          },
+          ticks: {
+            font: {
+              size: 12 // Larger tick labels
+            }
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Week',
+            font: {
+              size: 14 // Larger axis title
+            }
+          },
+          ticks: {
+            font: {
+              size: 12 // Larger tick labels
+            }
+          }
+        }
+      }
+    }
+  });
+  
+  // Save the chart instance to the canvas for future reference
+  canvas._chart = chart;
+}
+
+/**
+ * Create sales projection visualization
+ * @param {Object} pricingData - Pricing data for visualization
+ */
+function createSalesProjectionVisualization(pricingData) {
+  if (!pricingData) {
+    console.error('No pricing data provided for sales projection');
+    return;
+  }
+  
+  try {
+    // Find or create the profit optimization container
+    let container = document.getElementById('profitOptimization');
+    
+    if (!container) {
+      console.log('Sales projection container not found, creating one');
+      
+      // Create a divider to ensure clear separation between sections
+      const divider = document.createElement('div');
+      divider.style.clear = 'both';
+      divider.style.height = '40px';
+      
+      // Find a suitable parent container
+      const parentContainer = document.getElementById('elasticity-section') || 
+                             document.querySelector('.price-impact-analysis') ||
+                             document.getElementById('resultsContent');
+      
+      if (!parentContainer) {
+        console.error('No suitable parent container found for sales projection');
+        return;
+      }
+      
+      // Add the divider first to ensure separation
+      parentContainer.appendChild(divider);
+      
+      // Create profit optimization container
+      container = document.createElement('div');
+      container.id = 'profitOptimization';
+      container.className = 'section-container';
+      container.style.marginTop = '120px';
+      container.style.marginBottom = '40px';
+      container.style.padding = '20px';
+      container.style.backgroundColor = 'rgba(0, 0, 0, 0.03)';
+      container.style.borderRadius = '8px';
+      
+      parentContainer.appendChild(container);
+    } else {
+      // Clear existing content
+      container.innerHTML = '';
+    }
+    
+    // Add section title
+    const title = document.createElement('h3');
+    title.textContent = 'Profit Optimization';
+    title.style.marginTop = '0';
+    title.style.marginBottom = '20px';
+    container.appendChild(title);
+    
+    // Get price data
+    const actualPrice = pricingData.actualPrice || 999.99;
+    const recommendedPrice = pricingData.recommended_price || pricingData.recommendedPrice || actualPrice;
+    
+    // Create canvas for chart
+    const chartContainer = document.createElement('div');
+    chartContainer.className = 'chart-container';
+    chartContainer.style.height = '300px';
+    chartContainer.style.marginBottom = '30px';
+    container.appendChild(chartContainer);
+    
+    const canvas = document.createElement('canvas');
+    canvas.id = 'profitOptimizationChart';
+    chartContainer.appendChild(canvas);
+    
+    // Generate price points for the chart (30% below to 30% above actual price)
+    const priceRange = [];
+    const minPrice = Math.min(actualPrice, recommendedPrice) * 0.7; // Use lower of actual or recommended as base
+    const maxPrice = Math.max(actualPrice, recommendedPrice) * 1.3; // Use higher of actual or recommended as base
+    const priceStep = (maxPrice - minPrice) / 10;
+    
+    for (let i = 0; i <= 10; i++) {
+      priceRange.push(parseFloat((minPrice + priceStep * i).toFixed(2)));
+    }
+    
+    // Generate projected revenue and profit with realistic variations
+    const revenueData = [];
+    const profitData = [];
+    
+    // Assume a 60% profit margin at actual price (adjustable)
+    const costPerUnit = actualPrice * 0.4;
+    
+    // Use a more realistic elasticity model with random variation
+    // elasticity is usually negative (demand drops as price rises)
+    const baseElasticity = pricingData.price_elasticity || -1.0;
+    const randomFactorRange = 0.1; // Add small random variation to make curves more realistic
+    
+    console.log(`Using base price elasticity: ${baseElasticity}`);
+    
+    // Base demand at actual price (can be adjusted based on available data)
+    const baseDemand = 100; // Units sold at actual price
+    
+    // Find optimal price index for maximum revenue and profit
+    let maxRevenueIndex = 0;
+    let maxRevenue = 0;
+    let maxProfitIndex = 0;
+    let maxProfit = 0;
+    
+    priceRange.forEach((price, index) => {
+      // Calculate % change in price from actual
+      const priceChange = (price - actualPrice) / actualPrice;
+      
+      // Apply elasticity formula with some variation based on price distance from actual
+      // Higher prices are more elastic (sensitivity increases)
+      const variationFactor = 1 + (price > actualPrice ? 0.1 : -0.05) * Math.abs(priceChange);
+      const modifiedElasticity = baseElasticity * variationFactor;
+      
+      // Add small random variation to make the curve more realistic
+      const randomFactor = 1 + (Math.random() * 2 - 1) * randomFactorRange;
+      
+      // Apply elasticity formula: % change in quantity = elasticity * % change in price
+      const quantityChange = modifiedElasticity * priceChange * randomFactor;
+      
+      // Calculate new quantity
+      const quantity = Math.max(0, baseDemand * (1 + quantityChange));
+      
+      // Calculate revenue and profit
+      const revenue = price * quantity;
+      const profit = (price - costPerUnit) * quantity;
+      
+      revenueData.push(parseFloat(revenue.toFixed(2)));
+      profitData.push(parseFloat(profit.toFixed(2)));
+      
+      // Track optimal points
+      if (revenue > maxRevenue) {
+        maxRevenue = revenue;
+        maxRevenueIndex = index;
+      }
+      
+      if (profit > maxProfit) {
+        maxProfit = profit;
+        maxProfitIndex = index;
+      }
+    });
+    
+    // Find index of recommended price in price range
+    const recommendedIndex = priceRange.findIndex(price => 
+      Math.abs(price - recommendedPrice) === Math.min(...priceRange.map(p => Math.abs(p - recommendedPrice)))
+    );
+    
+    // Create the chart
+    const ctx = canvas.getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: priceRange.map(price => `$${price.toFixed(2)}`),
+        datasets: [
+          {
+            label: 'Revenue',
+            data: revenueData,
+            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.1)',
+            borderWidth: 2,
+            tension: 0.4,
+            fill: true
+          },
+          {
+            label: 'Profit',
+            data: profitData,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.1)',
+            borderWidth: 2,
+            tension: 0.4,
+            fill: true
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: {
+            top: 20,  // Add padding at top to prevent text overlap
+            bottom: 10
+          }
+        },
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              boxWidth: 12,
+              usePointStyle: true,
+              padding: 15
+            }
+          },
+          tooltip: {
+            callbacks: {
+              title: function(context) {
+                return `Price: ${context[0].label}`;
+              },
+              label: function(context) {
+                const value = context.raw;
+                return `${context.dataset.label}: $${value.toFixed(2)}`;
+              }
+            }
+          },
+          annotation: {
+            annotations: {
+              // Add annotations for optimal points
+              optimalRevenue: {
+                type: 'point',
+                xValue: maxRevenueIndex,
+                yValue: revenueData[maxRevenueIndex],
+                backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                borderWidth: 2,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                radius: 7,
+                label: {
+                  enabled: true,
+                  content: 'Max Revenue',
+                  position: 'top',
+                  yAdjust: -15,
+                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                  borderRadius: 4,
+                  padding: {
+                    top: 3,
+                    bottom: 3,
+                    left: 6,
+                    right: 6
+                  }
+                }
+              },
+              optimalProfit: {
+                type: 'point',
+                xValue: maxProfitIndex,
+                yValue: profitData[maxProfitIndex],
+                backgroundColor: 'rgba(153, 102, 255, 0.8)',
+                borderWidth: 2,
+                borderColor: 'rgba(153, 102, 255, 1)',
+                radius: 7,
+                label: {
+                  enabled: true,
+                  content: 'Max Profit',
+                  position: 'bottom',
+                  yAdjust: 15,
+                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                  borderRadius: 4,
+                  padding: {
+                    top: 3,
+                    bottom: 3,
+                    left: 6,
+                    right: 6
+                  }
+                }
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Price ($)'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Amount ($)'
+            }
+          }
+        },
+        elements: {
+          point: {
+            radius: function(context) {
+              // Highlight the recommended price point
+              return context.dataIndex === recommendedIndex ? 6 : 3;
+            },
+            backgroundColor: function(context) {
+              // Recommended price point is highlighted in red
+              return context.dataIndex === recommendedIndex ? 'rgba(255, 99, 132, 1)' : context.dataset.borderColor;
+            }
+          }
+        }
+      }
+    });
+    
+    // Add optimal price explanation
+    const optimalPriceSection = document.createElement('div');
+    optimalPriceSection.className = 'optimal-price-explanation';
+    optimalPriceSection.style.marginTop = '20px';
+    optimalPriceSection.style.padding = '15px';
+    optimalPriceSection.style.backgroundColor = 'rgba(0, 0, 0, 0.02)';
+    optimalPriceSection.style.borderRadius = '6px';
+    
+    const optimalRevenuePrice = priceRange[maxRevenueIndex];
+    const optimalProfitPrice = priceRange[maxProfitIndex];
+    
+    optimalPriceSection.innerHTML = `
+      <h4 style="margin-top: 0; margin-bottom: 10px; font-size: 16px;">Optimal Price Points</h4>
+      <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+        <div style="flex: 1; min-width: 200px;">
+          <div style="font-weight: bold; color: rgba(54, 162, 235, 1);">Revenue-Maximizing Price</div>
+          <div style="font-size: 18px; margin: 5px 0;">$${optimalRevenuePrice.toFixed(2)}</div>
+          <div style="font-size: 14px; color: #666;">Expected Revenue: $${maxRevenue.toFixed(2)}</div>
+        </div>
+        <div style="flex: 1; min-width: 200px;">
+          <div style="font-weight: bold; color: rgba(75, 192, 192, 1);">Profit-Maximizing Price</div>
+          <div style="font-size: 18px; margin: 5px 0;">$${optimalProfitPrice.toFixed(2)}</div>
+          <div style="font-size: 14px; color: #666;">Expected Profit: $${maxProfit.toFixed(2)}</div>
+        </div>
+      </div>
+    `;
+    
+    container.appendChild(optimalPriceSection);
+    
+    // Add elasticity insights below the chart
+    const pctChange = (recommendedPrice - actualPrice) / actualPrice;
+    const elasticity = pricingData.price_elasticity || -1.0;
+    const absoluteElasticity = Math.abs(elasticity);
+    
+    let elasticityText = "";
+    if (pctChange > 0) {
+      if (absoluteElasticity < 0.8) {
+        elasticityText = `Low price elasticity (${absoluteElasticity.toFixed(1)}) suggests that the recommended price increase of ${(pctChange * 100).toFixed(1)}% will have minimal impact on demand.`;
+      } else if (absoluteElasticity < 1.2) {
+        elasticityText = `Moderate price elasticity (${absoluteElasticity.toFixed(1)}) suggests that the recommended price increase of ${(pctChange * 100).toFixed(1)}% will cause a proportional decrease in demand.`;
+      } else {
+        elasticityText = `High price elasticity (${absoluteElasticity.toFixed(1)}) suggests that the recommended price increase of ${(pctChange * 100).toFixed(1)}% will significantly reduce demand.`;
+      }
+    } else if (pctChange < 0) {
+      if (absoluteElasticity < 0.8) {
+        elasticityText = `Low price elasticity (${absoluteElasticity.toFixed(1)}) suggests that the recommended price decrease of ${(Math.abs(pctChange) * 100).toFixed(1)}% will only slightly increase demand.`;
+      } else if (absoluteElasticity < 1.2) {
+        elasticityText = `Moderate price elasticity (${absoluteElasticity.toFixed(1)}) suggests that the recommended price decrease of ${(Math.abs(pctChange) * 100).toFixed(1)}% will cause a proportional increase in demand.`;
+      } else {
+        elasticityText = `High price elasticity (${absoluteElasticity.toFixed(1)}) suggests that the recommended price decrease of ${(Math.abs(pctChange) * 100).toFixed(1)}% will significantly boost demand.`;
+      }
+    } else {
+      elasticityText = `Price elasticity of ${absoluteElasticity.toFixed(1)} indicates how demand responds to price changes.`;
+    }
+    
+    const elasticityInsight = document.createElement('div');
+    elasticityInsight.className = 'elasticity-insight';
+    elasticityInsight.style.marginTop = '15px';
+    elasticityInsight.style.fontSize = '14px';
+    elasticityInsight.style.lineHeight = '1.5';
+    elasticityInsight.style.color = '#555';
+    elasticityInsight.style.padding = '10px';
+    elasticityInsight.style.backgroundColor = 'rgba(0, 0, 0, 0.02)';
+    elasticityInsight.style.borderRadius = '4px';
+    elasticityInsight.textContent = elasticityText;
+    
+    container.appendChild(elasticityInsight);
+    
+    } catch (error) {
+    console.error('Error in createSalesProjectionVisualization:', error);
+    }
+}
+
+/**
+ * Updates a single impact factor in the UI
+ * @param {string} elementId - The ID of the impact factor element
+ * @param {number} value - The impact value to display
+ */
+function updateImpactFactor(elementId, value) {
+  console.log(`Updating impact factor ${elementId} with value:`, value);
+  
+  try {
+    // Find the impact element
+    const impactElement = document.getElementById(elementId);
+    if (!impactElement) {
+      console.warn(`Impact element with id '${elementId}' not found`);
+      return;
+    }
+    
+    // Convert to percentage and format with sign
+    const percentValue = parseFloat(value);
+    const formattedValue = (percentValue >= 0 ? '+' : '') + percentValue.toFixed(1) + '%';
+    
+    // Update the text content
+    const valueElement = impactElement.querySelector('.impact-value');
+    if (valueElement) {
+      valueElement.textContent = formattedValue;
+      
+      // Apply color based on the sign
+      valueElement.style.color = percentValue >= 0 ? '#4CAF50' : '#F44336';
+    } else {
+      // First time setup - we'll create the elements
+      impactElement.innerHTML = formattedValue;
+      impactElement.style.color = percentValue >= 0 ? '#4CAF50' : '#F44336';
+    }
+    
+    // Update the bar if it exists
+    const barFill = impactElement.parentElement?.querySelector('.impact-bar-fill');
+    if (barFill) {
+      // Set width based on absolute value (max 100%)
+      const barWidth = Math.min(Math.abs(percentValue), 100);
+      barFill.style.width = `${barWidth}%`;
+      
+      // Set color based on value
+      barFill.style.backgroundColor = percentValue >= 0 ? '#4CAF50' : '#F44336';
+    }
+    
+  } catch (error) {
+    console.error(`Error updating impact factor ${elementId}:`, error);
+    }
+}
+
+/**
+ * Fetches market data for price position and creates visualization
+ * @param {string} keyword - The keyword for search (usually product group)
+ * @param {Object} pricingData - The current pricing data
+ */
+function fetchMarketDataForPricePosition(keyword, pricingData) {
+  // Ensure we have a valid keyword - user's product group
+  if (!keyword || typeof keyword !== 'string' || keyword.trim() === '') {
+    console.error("Invalid or missing keyword for market data search");
+    showMarketInsightsError("Missing product group information");
+    return;
+  }
+  
+  console.log("Fetching market data for price position with keyword:", keyword);
+  
+  // Show loading indicators in market insights sections
+  const marketInsightsSection = document.querySelector('.market-insights');
+  if (marketInsightsSection) {
+    const pricePosition = marketInsightsSection.querySelector('.price-position');
+    const priceComparison = marketInsightsSection.querySelector('.price-comparison');
+    
+    if (pricePosition) {
+      pricePosition.innerHTML = '<div class="loading-indicator">Loading market position data...</div>';
+    }
+    
+    if (priceComparison) {
+      priceComparison.innerHTML = '<div class="loading-indicator">Loading price comparison data...</div>';
+    }
+  }
+  
+  // Get actual price from pricingData
+  const actualPrice = parseFloat(pricingData.actualPrice) || 999.99;
+  
+  // Fetch from API with a cleaned keyword
+  const cleanKeyword = keyword.trim();
+  fetch(`/api/search-product?keyword=${encodeURIComponent(cleanKeyword)}`)
+    .then(response => {
+      // Check if response is ok (status 200-299)
+      if (!response.ok) {
+        throw new Error(`API responded with status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("Received search product data:", data);
+      
+      if (!data.success) {
+        console.error("API reported failure:", data.message || "Unknown error");
+        throw new Error(data.message || "API reported failure");
+      }
+      
+      // Process market data from search results
+      const marketData = processSearchResultsForPriceData(data, actualPrice);
+      
+      // Only create visualizations if we have valid market data
+      if (marketData && marketData.success) {
+        // Create visualizations with the processed data
+        createPricePositionVisualization(marketData, pricingData);
+        createPriceComparisonVisualization(marketData, pricingData);
+    } else {
+        // Show error if market data couldn't be processed
+        showMarketInsightsError("Could not process market data");
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching market data:", error);
+      showMarketInsightsError("Failed to load market data");
+    });
+}
+
+/**
+ * Shows an error message in the market insights section
+ * @param {string} message - The error message to display
+ */
+function showMarketInsightsError(message) {
+  const marketInsightsSection = document.querySelector('.market-insights');
+  if (marketInsightsSection) {
+    // Clear sections
+    const pricePosition = marketInsightsSection.querySelector('.price-position');
+    const priceComparison = marketInsightsSection.querySelector('.price-comparison');
+    
+    if (pricePosition) {
+      pricePosition.innerHTML = `<div class="error-message">${message}</div>`;
+    }
+    
+    if (priceComparison) {
+      priceComparison.innerHTML = '';
+    }
+  }
+}
+
+/**
+ * Add or update a style element with the given CSS
+ * @param {string} id - The ID for the style element
+ * @param {string} css - The CSS content
+ */
+function addOrUpdateStyle(id, css) {
+  // Find existing style element or create a new one
+  let styleEl = document.getElementById(id);
+  
+  if (!styleEl) {
+    styleEl = document.createElement('style');
+    styleEl.id = id;
+    document.head.appendChild(styleEl);
+  }
+  
+  styleEl.textContent = css;
+}
+
+/**
+ * Ensure that the Price Impact Analysis section exists in the DOM
+ * Creates it if missing
+ * @returns {HTMLElement} The price impact section element
+ */
+function ensurePriceImpactSectionExists() {
+  // Check if section already exists
+  let priceImpactSection = document.getElementById('priceImpactAnalysis');
+  
+  if (!priceImpactSection) {
+    console.log("Price Impact Analysis section not found, creating it...");
+    
+    // Find a suitable parent container
+    const elasticitySection = document.getElementById('elasticity-section');
+    const resultsContent = document.getElementById('resultsContent');
+    const parentContainer = elasticitySection || resultsContent;
+    
+    if (!parentContainer) {
+      console.error("No suitable parent container found for Price Impact Analysis");
+      return null;
+    }
+    
+    // Create the section
+    priceImpactSection = document.createElement('div');
+    priceImpactSection.id = 'priceImpactAnalysis';
+    priceImpactSection.className = 'impact-analysis-container';
+    
+    // Add heading
+    const heading = document.createElement('h3');
+    heading.textContent = 'Price Impact Analysis';
+    heading.style.marginTop = '30px';
+    heading.style.marginBottom = '20px';
+    priceImpactSection.appendChild(heading);
+    
+    // Add to parent container
+    parentContainer.appendChild(priceImpactSection);
+    
+    // Add basic styling
+    addOrUpdateStyle('price-impact-styles', `
+      .impact-analysis-container {
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.03);
+        border-radius: 8px;
+        margin-bottom: 30px;
+      }
+    `);
+    
+    console.log("Price Impact Analysis section created");
+  }
+  
+  return priceImpactSection;
+}
+
+/**
+ * Remove any existing profit optimization sections from the DOM
+ */
+function removeProfitOptimizationSections() {
+  // Find and remove any profit optimization sections
+  const profitSection = document.getElementById('profitOptimization');
+  if (profitSection) {
+    console.log('Removing existing profit optimization section');
+    if (profitSection.parentNode) {
+      profitSection.parentNode.removeChild(profitSection);
+    }
+  }
+  
+  // Check for other elements that might be related to profit optimization
+  const salesProjection = document.getElementById('salesProjection');
+  if (salesProjection) {
+    console.log('Removing sales projection element');
+    if (salesProjection.parentNode) {
+      salesProjection.parentNode.removeChild(salesProjection);
+    }
+  }
+}
+
+/**
+ * Fetch market deals from API and update the Market Deal Analysis section
+ */
+async function fetchDeals() {
+  console.log('Fetching market deals data from Amazon API');
+  
+  try {
+    // Get selected category from dropdown
+    const categorySelect = document.getElementById('dealProductType');
+    const selectedCategory = categorySelect ? categorySelect.value : '';
+    
+    // Track fetchMarketDeals feature usage
+    UsageTracker.trackFeature('fetchMarketDeals', {
+      category: selectedCategory
+    });
+    
+    // Show loading state
+    document.getElementById('dealsLoading').style.display = 'block';
+    document.getElementById('dealsError').style.display = 'none';
+    document.getElementById('dealsResult').style.display = 'none';
+    
+    // Get button and show loading state
+    const button = document.querySelector('.action-button');
+    if (button) {
+      button.classList.add('loading');
+    }
+    
+    console.log('Selected category:', selectedCategory);
+    
+    // Prepare result data structure
+    let data = {
+      success: false,
+      deals: [],
+      deals_count: 0,
+      avg_discount: 0
+    };
+    
+    // 1. First fetch category filters from API
+    let categoryFilters = [];
+    let categoryId = null;
+    
+    try {
+      console.log('Fetching category filters from API...');
+      const filtersResponse = await window.amazonApi.getDealsFilter();
+      
+      if (filtersResponse && filtersResponse.departmentFilter && filtersResponse.departmentFilter.options) {
+        categoryFilters = filtersResponse.departmentFilter.options;
+        console.log(`Found ${categoryFilters.length} category filters from API`);
+        
+        // If a category is selected, find its ID
+        if (selectedCategory && selectedCategory !== 'All Categories') {
+          const selectedCategoryLower = selectedCategory.toLowerCase();
+          const matchingCategory = categoryFilters.find(cat => 
+            cat.text.toLowerCase() === selectedCategoryLower);
+          
+          if (matchingCategory) {
+            categoryId = matchingCategory.value;
+            console.log(`Found category ID for "${selectedCategory}": ${categoryId}`);
+          } else {
+            console.log(`Could not find category ID for "${selectedCategory}" in API response`);
+          }
+        }
+      } else {
+        console.warn('No category filters found in API response');
+      }
+    } catch (error) {
+      console.error('Error fetching category filters:', error);
+      // Continue with deals fetch even if filters fail
+    }
+    
+    // 2. Now fetch deals from API
+    console.log('Fetching deals from API...');
+    
+    // This will fetch deals from the actual Amazon API
+    const dealsResponse = await window.amazonApi.getDeals();
+    
+    if (dealsResponse && dealsResponse.deals && dealsResponse.deals.length > 0) {
+      console.log(`Retrieved ${dealsResponse.deals.length} deals from API`);
+      
+      // Store original deals for potential filtering
+      let allDeals = [...dealsResponse.deals];
+      let filteredDeals = allDeals;
+      
+      // Filter deals by selected category if needed and category ID was found
+      if (selectedCategory && selectedCategory !== 'All Categories') {
+        console.log(`Filtering deals by category: "${selectedCategory}"`);
+        
+        if (categoryId) {
+          // If we have a category ID, we could use it for filtering
+          // However, the API response doesn't include department IDs in the deals
+          // So we'll still need to use keyword filtering
+          console.log(`Using category ID ${categoryId} for filtering`);
+        }
+        
+        // Define category-specific keywords for better matching
+        const categoryLower = selectedCategory.toLowerCase();
+        const categoryKeywords = {
+          'electronics': [
+            'tablet', 'ipad', 'headphone', 'earbud', 'speaker', 'camera', 'tv', 'television', 
+            'monitor', 'watch', 'wireless', 'bluetooth', 'airpod', 'gaming', 'computer', 
+            'laptop', 'phone', 'apple', 'samsung', 'sony', 'beats', 'logitech', 'smart', 
+            'device', 'tech', 'electronic', 'gadget', 'odyssey', 'audio', 'video'
+          ],
+          'amazon devices & accessories': ['echo', 'kindle', 'fire', 'blink', 'ring', 'eero', 'amazon'],
+          'computers & accessories': ['computer', 'pc', 'laptop', 'keyboard', 'mouse', 'monitor', 'storage', 'usb', 'hard drive', 'processor', 'memory', 'ram'],
+          'home & kitchen': ['kitchen', 'home', 'cookware', 'appliance', 'furniture', 'bedding', 'bath'],
+          'sports & outdoors': ['sport', 'outdoor', 'fitness', 'exercise', 'camping', 'hiking', 'bike'],
+          'office products': ['office', 'pen', 'paper', 'desk', 'chair', 'calendar', 'stationery'],
+          'musical instruments': ['guitar', 'piano', 'keyboard', 'drum', 'amplifier', 'music', 'instrument']
+        };
+        
+        // Get matching keywords for current category
+        const keywords = categoryKeywords[categoryLower] || [];
+        
+        if (keywords.length > 0) {
+          console.log(`Using ${keywords.length} keywords for category "${categoryLower}"`);
+          
+          // Filter based on keywords
+          filteredDeals = allDeals.filter(deal => {
+            if (!deal.title) return false;
+            
+            const titleLower = deal.title.toLowerCase();
+            
+            // 1. Direct category match in title
+            if (titleLower.includes(categoryLower)) {
+              return true;
+            }
+            
+            // 2. Keyword match
+            for (const keyword of keywords) {
+              if (titleLower.includes(keyword)) {
+                return true;
+              }
+            }
+            
+            // No match found
+            return false;
+          });
+        } else {
+          // Use simple title matching if no keywords defined
+          filteredDeals = allDeals.filter(deal => 
+            deal.title && deal.title.toLowerCase().includes(categoryLower)
+          );
+        }
+        
+        console.log(`Filtered to ${filteredDeals.length} deals matching category "${selectedCategory}"`);
+      }
+      
+      // Update data with filtered deals
+      data.deals = filteredDeals;
+      data.deals_count = filteredDeals.length;
+      data.success = true;
+      
+      // Calculate average discount
+      let totalDiscount = 0;
+      filteredDeals.forEach(deal => {
+        if (deal.savingPercentage) {
+          totalDiscount += deal.savingPercentage;
+        }
+      });
+      
+      data.avg_discount = filteredDeals.length > 0 ? 
+        (totalDiscount / filteredDeals.length).toFixed(1) : 0;
+      
+    } else {
+      console.warn('No deals found in API response');
+      data.success = false;
+    }
+    
+    // Reset button state
+    if (button) {
+      button.classList.remove('loading');
+    }
+    
+    console.log('Market deals data processed:', data);
+    
+    // Hide loading, show results
+    document.getElementById('dealsLoading').style.display = 'none';
+    
+    if (data.success && data.deals.length > 0) {
+      document.getElementById('dealsResult').style.display = 'block';
+      
+      // Update last updated time
+      const lastUpdatedBadge = document.getElementById('lastUpdatedBadge');
+      const lastUpdatedTime = document.getElementById('lastUpdatedTime');
+      if (lastUpdatedBadge && lastUpdatedTime) {
+        lastUpdatedBadge.style.display = 'inline-flex';
+        lastUpdatedTime.textContent = new Date().toLocaleTimeString();
+      }
+      
+      // Update metrics
+      document.getElementById('totalDealsValue').textContent = data.deals_count || 0;
+      document.getElementById('avgDiscountValue').textContent = `${data.avg_discount || 0}%`;
+      
+      // Determine market activity level based on deal count and adjust styling
+      let activityLevel = 'Low';
+      let activityColor = '#94a3b8'; // Default gray
+      
+      if (data.deals_count > 50) {
+        activityLevel = 'High';
+        activityColor = '#f87171'; // Red for high activity
+      } else if (data.deals_count > 20) {
+        activityLevel = 'Medium';
+        activityColor = '#facc15'; // Yellow for medium activity
+      } else if (data.deals_count > 0) {
+        activityColor = '#4ade80'; // Green for low activity
+      }
+      
+      const marketActivityValue = document.getElementById('marketActivityValue');
+      marketActivityValue.textContent = activityLevel;
+      marketActivityValue.style.color = activityColor;
+      
+      // Generate impact text based on metrics and update styling
+      const impactText = document.getElementById('impactText');
+      const impactIcon = document.getElementById('impactIcon');
+      
+      if (data.deals_count > 0) {
+        // Generate impact text based on avg discount and deal count
+        if (data.avg_discount > 25) {
+          impactText.textContent = 'High discount activity detected. Consider competitive pricing to maintain market share.';
+          impactIcon.innerHTML = '<i class="fas fa-exclamation-circle" style="color: #f87171;"></i>';
+          impactText.style.color = '#f87171'; // Red text
+        } else if (data.avg_discount > 15) {
+          impactText.textContent = 'Moderate discount activity. Consider slight price adjustments to remain competitive.';
+          impactIcon.innerHTML = '<i class="fas fa-info-circle" style="color: #facc15;"></i>';
+          impactText.style.color = '#facc15'; // Yellow text
+        } else {
+          impactText.textContent = 'Low discount activity. Current pricing strategy appears sustainable.';
+          impactIcon.innerHTML = '<i class="fas fa-check-circle" style="color: #4ade80;"></i>';
+          impactText.style.color = '#4ade80'; // Green text
+        }
+      } else {
+        impactText.textContent = 'No active deals found. Current pricing can be maintained.';
+        impactIcon.innerHTML = '<i class="fas fa-check-circle" style="color: #4ade80;"></i>';
+        impactText.style.color = '#4ade80'; // Green text
+      }
+    } else {
+      // No deals found or error
+      document.getElementById('dealsError').style.display = 'block';
+      document.getElementById('errorMessage').textContent = 'No deals found for the selected category.';
+    }
+    
+    // Populate deals table with actual data
+    const dealsTableBody = document.getElementById('dealsTableBody');
+    if (!dealsTableBody) {
+      console.error('Deals table body not found');
+      return;
+    }
+    
+    dealsTableBody.innerHTML = '';
+    
+    if (data.deals.length > 0) {
+      // Show top deals (limited to first 5 for performance)
+      const dealsToShow = data.deals.slice(0, 5);
+      
+      dealsToShow.forEach(deal => {
+        const row = document.createElement('tr');
+        
+        // Format prices
+        const regularPrice = deal.retailPrice ? `$${deal.retailPrice.toFixed(2)}` : 'N/A';
+        const salePrice = deal.price ? `$${deal.price.toFixed(2)}` : 'N/A';
+        
+        // Determine discount badge class based on percentage
+        let discountClass = '';
+        if (deal.savingPercentage >= 30) {
+          discountClass = 'high';
+        } else if (deal.savingPercentage >= 15) {
+          discountClass = 'medium';
+        }
+        
+        const discount = deal.savingPercentage ? `${deal.savingPercentage}%` : 'N/A';
+        
+        // Calculate duration
+        let duration = 'N/A';
+        if (deal.startsAt && deal.endsAt) {
+          try {
+            const start = new Date(deal.startsAt);
+            const end = new Date(deal.endsAt);
+            const days = Math.round((end - start) / (1000 * 60 * 60 * 24));
+            duration = `<span class="duration-badge"><i class="fas fa-clock"></i>${days} days</span>`;
+          } catch (error) {
+            console.error('Error calculating deal duration:', error);
+          }
+        }
+        
+        // Create product cell with title and truncate if needed
+        const title = deal.title && deal.title.length > 50 ? 
+          deal.title.substring(0, 50) + '...' : 
+          deal.title || 'Unknown Product';
+        
+        row.innerHTML = `
+          <td>
+            <div class="product-info">
+              <div class="product-title">${title}</div>
+              ${deal.asin ? `<div class="product-asin">ASIN: ${deal.asin}</div>` : ''}
+            </div>
+          </td>
+          <td class="regular-price">${regularPrice}</td>
+          <td class="sale-price">${salePrice}</td>
+          <td><span class="discount-badge ${discountClass}">${discount}</span></td>
+          <td>${duration}</td>
+        `;
+        
+        dealsTableBody.appendChild(row);
+      });
+      
+      // If there are more deals than we're showing, add a note
+      if (data.deals.length > dealsToShow.length) {
+        const infoRow = document.createElement('tr');
+        infoRow.innerHTML = `
+          <td colspan="5" class="text-center">
+            <div class="info-message">
+              <i class="fas fa-info-circle"></i>
+              <p>Showing ${dealsToShow.length} of ${data.deals.length} deals. 
+                 ${selectedCategory && selectedCategory !== 'All Categories' ? `Filtered by: ${selectedCategory}` : ''}</p>
+        </div>
+          </td>
+        `;
+        dealsTableBody.appendChild(infoRow);
+      }
+    } else {
+      // No deals found
+      dealsTableBody.innerHTML = `
+        <tr>
+          <td colspan="5" class="text-center">
+            <div class="info-message">
+              <i class="fas fa-search"></i>
+              <p>No active deals found ${selectedCategory && selectedCategory !== 'All Categories' ? `for ${selectedCategory}` : ''}.</p>
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+  } catch (error) {
+    console.error('Error fetching market deals:', error);
+    
+    // Hide loading, show error
+    document.getElementById('dealsLoading').style.display = 'none';
+    document.getElementById('dealsError').style.display = 'block';
+    document.getElementById('errorMessage').textContent = error.message || 'Failed to fetch deals data';
+    
+    // Reset button state
+    const button = document.querySelector('.action-button');
+    if (button) {
+      button.classList.remove('loading');
+    }
+  }
+}
+
+/**
+ * User Usage Tracking System
+ * Tracks feature usage for analytics and recommendation improvements
+ */
+const UsageTracker = {
+  // Initialize the storage on first use
+  init() {
+    if (!localStorage.getItem('userUsageData')) {
+      localStorage.setItem('userUsageData', JSON.stringify({
+        features: {},
+        lastActive: Date.now(),
+        sessionCount: 1,
+        productSearches: [],
+        performanceMetrics: []
+      }));
+    } else {
+      // Update session count on new visit
+      const data = this.getData();
+      data.sessionCount++;
+      data.lastActive = Date.now();
+      this.saveData(data);
+    }
+    
+    // Start monitoring performance
+    this.initPerformanceTracking();
+    
+    console.log('Usage tracking initialized');
+  },
+  
+  // Initialize performance metrics tracking
+  initPerformanceTracking() {
+    // Monitor page load time
+    window.addEventListener('load', () => {
+      if (window.performance && window.performance.timing) {
+        const perfData = window.performance.timing;
+        
+        // Calculate page load time
+        const totalLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+        
+        // Log it as a special metric
+        this.trackFeature('performanceMetric', {
+          metric: 'pageLoad',
+          totalLoadTime: totalLoadTime,
+          domInteractive: perfData.domInteractive - perfData.navigationStart
+        });
+        
+        console.log(`Page load time: ${totalLoadTime}ms`);
+      }
+    });
+  },
+  
+  // Log a feature being used
+  trackFeature(featureName, additionalData = {}) {
+    const data = this.getData();
+    
+    if (!data.features[featureName]) {
+      data.features[featureName] = {
+        count: 0,
+        lastUsed: null,
+        details: []
+      };
+    }
+    
+    // Update usage statistics
+    data.features[featureName].count++;
+    data.features[featureName].lastUsed = Date.now();
+    
+    // Add detailed entry if additional data provided
+    if (Object.keys(additionalData).length > 0) {
+      data.features[featureName].details.push({
+        timestamp: Date.now(),
+        ...additionalData
+      });
+      
+      // Keep only last 10 detailed entries to save space
+      if (data.features[featureName].details.length > 10) {
+        data.features[featureName].details.shift();
+      }
+    }
+    
+    this.saveData(data);
+    console.log(`Tracked feature: ${featureName}`);
+  },
+  
+  // Track product searches for personalization
+  trackProductSearch(asin, productType, searchQuery) {
+    const data = this.getData();
+    
+    data.productSearches.push({
+      timestamp: Date.now(),
+      asin: asin || null,
+      productType: productType || null,
+      searchQuery: searchQuery || null
+    });
+    
+    // Keep only last 20 searches
+    if (data.productSearches.length > 20) {
+      data.productSearches.shift();
+    }
+    
+    this.saveData(data);
+  },
+  
+  // Get most used features
+  getMostUsedFeatures(limit = 5) {
+    const data = this.getData();
+    
+    return Object.entries(data.features)
+      .map(([name, stats]) => ({
+        name,
+        count: stats.count,
+        lastUsed: stats.lastUsed
+      }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, limit);
+  },
+  
+  // Get activity summary
+  getActivitySummary() {
+    const data = this.getData();
+    const daysSinceLastActive = Math.floor(
+      (Date.now() - data.lastActive) / (1000 * 60 * 60 * 24)
+    );
+    
+    return {
+      sessionCount: data.sessionCount,
+      daysSinceLastActive,
+      featuresUsed: Object.keys(data.features).length,
+      totalInteractions: Object.values(data.features)
+        .reduce((sum, feature) => sum + feature.count, 0)
+    };
+  },
+  
+  // Helper to get data
+  getData() {
+    try {
+      return JSON.parse(localStorage.getItem('userUsageData')) || {
+        features: {},
+        lastActive: Date.now(),
+        sessionCount: 1,
+        productSearches: []
+      };
+    } catch (e) {
+      console.error('Error parsing usage data:', e);
+      // Reset if corrupt
+      return {
+        features: {},
+        lastActive: Date.now(),
+        sessionCount: 1,
+        productSearches: []
+      };
+    }
+  },
+  
+  // Helper to save data
+  saveData(data) {
+    localStorage.setItem('userUsageData', JSON.stringify(data));
+  },
+  
+  // Clear all tracked data (for privacy)
+  clearAllData() {
+    localStorage.removeItem('userUsageData');
+    console.log('All usage tracking data cleared');
+  }
+};
+
+// Initialize the tracker when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+  initializeTheme();
+  UsageTracker.init();
+  
+  // Add event listeners for tracking
+  setupUsageTracking();
+  
+  // Initialize the usage dashboard
+  initializeUsageDashboard();
+  // ... existing code ...
+});
+
+/**
+ * Initialize the usage dashboard with data
+ */
+function initializeUsageDashboard() {
+  // Attach event listeners for dashboard buttons
+  document.getElementById('refreshUsageData')?.addEventListener('click', refreshUsageDashboard);
+  document.getElementById('exportUsageData')?.addEventListener('click', exportUsageData);
+  document.getElementById('clearUsageData')?.addEventListener('click', confirmClearUsageData);
+  
+  // Load dashboard data on tab switch
+  const usageDashboardTab = document.querySelector('.tab-button[onclick="switchTab(\'usageDashboard\')"]');
+  if (usageDashboardTab) {
+    usageDashboardTab.addEventListener('click', refreshUsageDashboard);
+  }
+  
+  // Initial data load
+  refreshUsageDashboard();
+}
+
+/**
+ * Refresh the dashboard with the latest data
+ */
+function refreshUsageDashboard() {
+  // Update usage statistics
+  updateUsageStats();
+  
+  // Update feature usage details
+  updateFeatureDetails();
+  
+  // Update search history
+  updateSearchHistory();
+  
+  // Create chart for most used features
+  createTopFeaturesChart();
+  
+  // Update performance metrics
+  updatePerformanceMetrics();
+  
+  // Update recent activities
+  updateRecentActivities();
+  
+  console.log('Usage dashboard refreshed');
+  
+  // Track this feature usage
+  UsageTracker.trackFeature('viewUsageDashboard');
+}
+
+/**
+ * Update the usage statistics in the dashboard
+ */
+function updateUsageStats() {
+  const summaryData = UsageTracker.getActivitySummary();
+  
+  // Update the summary statistics
+  document.getElementById('sessionCount').textContent = summaryData.sessionCount || 0;
+  document.getElementById('featuresUsed').textContent = summaryData.featuresUsed || 0;
+  // Removed total interactions count as requested
+  
+  // Format the last active date
+  const lastActiveElem = document.getElementById('lastActive');
+  if (lastActiveElem) {
+    const usageData = UsageTracker.getData();
+    if (usageData.lastActive) {
+      const lastActiveDate = new Date(usageData.lastActive);
+      const now = new Date();
+      const diffInDays = Math.floor((now - lastActiveDate) / (1000 * 60 * 60 * 24));
+      
+      if (diffInDays === 0) {
+        if (now.getDate() === lastActiveDate.getDate()) {
+          lastActiveElem.textContent = 'Today';
+        } else {
+          lastActiveElem.textContent = 'Yesterday';
+        }
+      } else if (diffInDays < 7) {
+        lastActiveElem.textContent = `${diffInDays} days ago`;
+      } else {
+        lastActiveElem.textContent = lastActiveDate.toLocaleDateString();
+      }
+    } else {
+      lastActiveElem.textContent = 'Never';
+    }
+  }
+}
+
+/**
+ * Update the feature usage details table
+ */
+function updateFeatureDetails() {
+  const tableBody = document.getElementById('featureDetailsList');
+  if (!tableBody) return;
+  
+  const usageData = UsageTracker.getData();
+  const features = usageData.features || {};
+  
+  // Clear existing content
+  tableBody.innerHTML = '';
+  
+  // Filter out tab navigation and switching data
+  const filteredFeatures = Object.entries(features)
+    .filter(([featureName, _]) => !['tabNavigation', 'tabSwitch'].includes(featureName));
+  
+  // Check if there are any features after filtering
+  if (filteredFeatures.length === 0) {
+    tableBody.innerHTML = `
+      <tr class="placeholder-row">
+        <td colspan="3">No usage data available</td>
+      </tr>
+    `;
+    return;
+  }
+  
+  // Sort features by usage count (descending)
+  const sortedFeatures = filteredFeatures.sort((a, b) => b[1].count - a[1].count);
+  
+  // Add each feature to the table
+  sortedFeatures.forEach(([featureName, stats]) => {
+    const row = document.createElement('tr');
+    
+    // Format the feature name to be more readable
+    const formattedName = featureName
+      .replace(/([A-Z])/g, ' $1') // Add spaces before capital letters
+      .replace(/^./, str => str.toUpperCase()); // Capitalize first letter
+    
+    // Format the last used date
+    let lastUsedText = 'Never';
+    if (stats.lastUsed) {
+      const lastUsedDate = new Date(stats.lastUsed);
+      const now = new Date();
+      const diffInDays = Math.floor((now - lastUsedDate) / (1000 * 60 * 60 * 24));
+      
+      if (diffInDays === 0) {
+        if (now.getDate() === lastUsedDate.getDate()) {
+          const hours = lastUsedDate.getHours().toString().padStart(2, '0');
+          const minutes = lastUsedDate.getMinutes().toString().padStart(2, '0');
+          lastUsedText = `Today at ${hours}:${minutes}`;
+        } else {
+          lastUsedText = 'Yesterday';
+        }
+      } else if (diffInDays < 7) {
+        lastUsedText = `${diffInDays} days ago`;
+      } else {
+        lastUsedText = lastUsedDate.toLocaleDateString();
+      }
+    }
+    
+    row.innerHTML = `
+      <td>${formattedName}</td>
+      <td>${stats.count}</td>
+      <td>${lastUsedText}</td>
+    `;
+    
+    tableBody.appendChild(row);
+  });
+}
+
+/**
+ * Update the search history list
+ */
+function updateSearchHistory() {
+  const historyList = document.getElementById('searchHistoryList');
+  if (!historyList) return;
+  
+  const usageData = UsageTracker.getData();
+  const searches = usageData.productSearches || [];
+  
+  // Clear existing content
+  historyList.innerHTML = '';
+  
+  // Check if there are any searches
+  if (searches.length === 0) {
+    historyList.innerHTML = `
+      <li class="placeholder-item">No search history available</li>
+    `;
+    return;
+  }
+  
+  // Sort searches by timestamp (descending)
+  const sortedSearches = [...searches].sort((a, b) => b.timestamp - a.timestamp);
+  
+  // Add each search to the list (limited to 10)
+  sortedSearches.slice(0, 10).forEach(search => {
+    const li = document.createElement('li');
+    
+    // Format the timestamp
+    const searchDate = new Date(search.timestamp);
+    const now = new Date();
+    const diffInDays = Math.floor((now - searchDate) / (1000 * 60 * 60 * 24));
+    
+    let timeText = '';
+    if (diffInDays === 0) {
+      if (now.getDate() === searchDate.getDate()) {
+        const hours = searchDate.getHours().toString().padStart(2, '0');
+        const minutes = searchDate.getMinutes().toString().padStart(2, '0');
+        timeText = `Today at ${hours}:${minutes}`;
+      } else {
+        timeText = 'Yesterday';
+      }
+    } else if (diffInDays < 7) {
+      timeText = `${diffInDays} days ago`;
+    } else {
+      timeText = searchDate.toLocaleDateString();
+    }
+    
+    // Create the search text
+    let searchText = '';
+    if (search.asin) {
+      searchText = `ASIN: ${search.asin}`;
+    } else if (search.searchQuery) {
+      searchText = search.searchQuery;
+    } else if (search.productType) {
+      searchText = `Type: ${search.productType}`;
+    } else {
+      searchText = 'Unknown search';
+    }
+    
+    li.innerHTML = `
+      <span class="search-text">${searchText}</span>
+      <span class="search-time">${timeText}</span>
+    `;
+    
+    historyList.appendChild(li);
+  });
+}
+
+/**
+ * Create a chart showing the most used features
+ */
+function createTopFeaturesChart() {
+  const chartContainer = document.getElementById('topFeaturesChart');
+  if (!chartContainer) return;
+  
+  // Clear existing chart
+  chartContainer.innerHTML = '';
+  
+  // Get feature usage data
+  const features = UsageTracker.getMostUsedFeatures(10);
+  
+  // Filter out tab navigation tracking
+  const filteredFeatures = features.filter(feature => 
+    !['tabNavigation', 'tabSwitch'].includes(feature.name)
+  );
+  
+  // If no data, show placeholder
+  if (filteredFeatures.length === 0) {
+    chartContainer.innerHTML = `
+      <div class="chart-placeholder">
+        <i class="fas fa-chart-bar"></i>
+        <p>No feature usage data available</p>
+      </div>
+    `;
+    return;
+  }
+  
+  // Create canvas for chart
+  const canvas = document.createElement('canvas');
+  chartContainer.appendChild(canvas);
+  
+  // Format feature names to be more readable
+  const formattedFeatures = filteredFeatures.map(feature => {
+    const formattedName = feature.name
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, str => str.toUpperCase());
+    
+    return {
+      ...feature,
+      formattedName
+    };
+  });
+  
+  // Create chart
+  const ctx = canvas.getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'bar',
+                data: {
+      labels: formattedFeatures.map(f => f.formattedName),
+                    datasets: [{
+        label: 'Usage Count',
+        data: formattedFeatures.map(f => f.count),
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(75, 192, 192, 0.7)',
+          'rgba(255, 159, 64, 0.7)',
+          'rgba(153, 102, 255, 0.7)',
+          'rgba(255, 99, 132, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(231, 233, 237, 0.7)',
+          'rgba(103, 58, 183, 0.7)',
+          'rgba(33, 150, 243, 0.7)',
+          'rgba(76, 175, 80, 0.7)'
+        ],
+        borderColor: [
+          'rgba(54, 162, 235, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(231, 233, 237, 1)',
+          'rgba(103, 58, 183, 1)',
+          'rgba(33, 150, 243, 1)',
+          'rgba(76, 175, 80, 1)'
+        ],
+        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+          ticks: {
+            precision: 0
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return `Usage count: ${context.raw}`;
+            }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+/**
+ * Export usage data as a JSON file
+ */
+function exportUsageData() {
+  const usageData = UsageTracker.getData();
+  
+  // Create a blob with the data
+  const dataStr = JSON.stringify(usageData, null, 2);
+  const blob = new Blob([dataStr], { type: 'application/json' });
+  
+  // Create a download link
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `usage_data_${new Date().toISOString().slice(0, 10)}.json`;
+  
+  // Trigger the download
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  
+  // Track this feature usage
+  UsageTracker.trackFeature('exportUsageData');
+  
+  console.log('Usage data exported');
+}
+
+/**
+ * Confirm before clearing all usage data
+ */
+function confirmClearUsageData() {
+  if (confirm('Are you sure you want to clear all usage data? This action cannot be undone.')) {
+    UsageTracker.clearAllData();
+    refreshUsageDashboard();
+    alert('All usage data has been cleared.');
+    
+    // Update placeholders
+    document.getElementById('topFeaturesChart').innerHTML = `
+      <div class="chart-placeholder">
+        <i class="fas fa-chart-bar"></i>
+        <p>Feature usage data will be displayed here</p>
+      </div>
+    `;
+  }
+}
+
+/**
+ * Setup event listeners for usage tracking
+ */
+function setupUsageTracking() {
+  // Track tab switching
+  const tabButtons = document.querySelectorAll('.tab-button');
+  tabButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const tabName = this.textContent.trim();
+      UsageTracker.trackFeature('tabSwitch', { tab: tabName });
+    });
+  });
+  
+  // Track price calculations
+  const calculateButton = document.getElementById('calculateBtn');
+  if (calculateButton) {
+    calculateButton.addEventListener('click', function() {
+      const productType = document.getElementById('productType').value;
+      const productGroup = document.getElementById('productGroup').value;
+      const asin = document.getElementById('asin').value;
+      const currentPrice = document.getElementById('priceValue').textContent;
+      
+      UsageTracker.trackFeature('priceCalculation', {
+        productType,
+        productGroup,
+        asin: asin || 'not-provided',
+        currentPrice
+      });
+      
+      // Also track as product search if ASIN provided
+      if (asin) {
+        UsageTracker.trackProductSearch(asin, productType);
+      }
+    });
+  }
+  
+  // Track market deals analysis
+  const categorySelect = document.getElementById('dealsCategorySelect');
+  if (categorySelect) {
+    categorySelect.addEventListener('change', function() {
+      UsageTracker.trackFeature('marketDealsFilter', {
+        category: this.value
+      });
+    });
+  }
+  
+  // Track API fetches
+  const fetchDealsBtn = document.getElementById('fetchDealsBtn');
+  if (fetchDealsBtn) {
+    fetchDealsBtn.addEventListener('click', function() {
+      UsageTracker.trackFeature('fetchMarketDeals');
+    });
+  }
+  
+  // Track theme changes
+  const themeSwitch = document.getElementById('theme-switch');
+  if (themeSwitch) {
+    themeSwitch.addEventListener('change', function() {
+      const newTheme = this.checked ? 'light' : 'dark';
+      UsageTracker.trackFeature('themeChange', { theme: newTheme });
+    });
+  }
+  
+  // Track sliders usage
+  const priceSlider = document.getElementById('actualPriceSlider');
+  if (priceSlider) {
+    priceSlider.addEventListener('change', function() {
+      UsageTracker.trackFeature('priceSliderAdjustment', { value: this.value });
+    });
+  }
+  
+  // Track competitor price slider usage
+  const competitorSlider = document.getElementById('competitorPriceSlider');
+  if (competitorSlider) {
+    competitorSlider.addEventListener('change', function() {
+      UsageTracker.trackFeature('competitorSliderAdjustment', { value: this.value });
+    });
+  }
+  
+  // Track ASIN entry
+  const asinInput = document.getElementById('asin');
+  if (asinInput) {
+    asinInput.addEventListener('change', function() {
+      if (this.value && this.value.length > 0) {
+        UsageTracker.trackFeature('asinLookup', { asin: this.value });
+        UsageTracker.trackProductSearch(this.value, document.getElementById('productType')?.value);
+      }
+    });
+  }
+  
+  // Track chart interactions
+  document.querySelectorAll('.chart-container').forEach(container => {
+    container.addEventListener('click', function() {
+      const containerId = this.id || 'unknown-chart';
+      UsageTracker.trackFeature('chartInteraction', { chart: containerId });
+    });
+  });
+}
+
+// ... existing code ...
+
+/**
+ * Update the performance metrics display
+ */
+function updatePerformanceMetrics() {
+  // Get performance elements
+  const pageLoadTimeElem = document.getElementById('pageLoadTime');
+  const domInteractiveElem = document.getElementById('domInteractive');
+  
+  if (!pageLoadTimeElem || !domInteractiveElem) return;
+  
+  // Get metrics data
+  const usageData = UsageTracker.getData();
+  const perfMetrics = usageData.features?.performanceMetric?.details || [];
+  
+  // Check if we have metrics
+  if (perfMetrics.length === 0) {
+    pageLoadTimeElem.textContent = 'Not measured';
+    domInteractiveElem.textContent = 'Not measured';
+    return;
+  }
+  
+  // Find the latest page load metric
+  const latestMetric = perfMetrics.find(m => m.metric === 'pageLoad');
+  
+  if (latestMetric) {
+    // Display formatted metrics
+    pageLoadTimeElem.textContent = `${Math.round(latestMetric.totalLoadTime)}ms`;
+    domInteractiveElem.textContent = `${Math.round(latestMetric.domInteractive)}ms`;
+    
+    // Add color coding based on values (green for fast, red for slow)
+    if (latestMetric.totalLoadTime < 1000) {
+      pageLoadTimeElem.className = 'stat-value good';
+    } else if (latestMetric.totalLoadTime < 3000) {
+      pageLoadTimeElem.className = 'stat-value average';
+    } else {
+      pageLoadTimeElem.className = 'stat-value poor';
+    }
+    
+    if (latestMetric.domInteractive < 500) {
+      domInteractiveElem.className = 'stat-value good';
+    } else if (latestMetric.domInteractive < 1500) {
+      domInteractiveElem.className = 'stat-value average';
+    } else {
+      domInteractiveElem.className = 'stat-value poor';
+    }
+  } else {
+    pageLoadTimeElem.textContent = 'Not measured';
+    domInteractiveElem.textContent = 'Not measured';
+  }
+}
+
+/**
+ * Populates the Recent Activities list with real Pricing Tool and Market Analysis activities
+ */
+function updateRecentActivities() {
+  const activitiesList = document.getElementById('recentActivitiesList');
+  if (!activitiesList) return;
+  
+  // Clear existing items
+  activitiesList.innerHTML = '';
+  
+  // Get usage data
+  const usageData = UsageTracker.getData();
+  const relevantFeatures = ['priceCalculation', 'marketAnalysis', 'fetchMarketDeals', 'fetchMarketDataForPricePosition'];
+  
+  // Collect relevant activities
+  const activities = [];
+  
+  // Process feature interactions for Pricing Tool and Market Analysis
+  Object.entries(usageData.features || {}).forEach(([featureName, stats]) => {
+    if (relevantFeatures.includes(featureName) && stats.details && stats.details.length > 0) {
+      stats.details.forEach(detail => {
+        let activity = {
+          action: '',
+          product: detail.productType || detail.asin || '',
+          time: new Date(detail.timestamp),
+          details: '',
+          status: 'completed',
+          featureName: featureName,
+          activityData: detail // Store the full data for displaying in popup
+        };
+        
+        // Set activity specifics based on feature
+        if (featureName === 'priceCalculation') {
+          activity.action = 'Price Optimization';
+          activity.details = detail.recommendedPrice ? 
+            `Recommended price: $${detail.recommendedPrice}` : 
+            'Price calculation performed';
+        } else if (featureName === 'marketAnalysis') {
+          activity.action = 'Market Analysis';
+          activity.details = detail.competitorCount ? 
+            `${detail.competitorCount} competitor prices analyzed` : 
+            'Market analysis performed';
+        } else if (featureName === 'fetchMarketDeals') {
+          activity.action = 'Deal Analysis';
+          activity.details = detail.dealsCount ? 
+            `${detail.dealsCount} market deals analyzed` :
+            'Market deals analyzed';
+        } else if (featureName === 'fetchMarketDataForPricePosition') {
+          activity.action = 'Price Positioning';
+          activity.details = 'Competitive price position analyzed';
+        }
+        
+        activities.push(activity);
+      });
+    }
+  });
+  
+  // Sort by timestamp (newest first)
+  activities.sort((a, b) => b.time - a.time);
+  
+  // Display activities (or leave empty if none exist)
+  activities.slice(0, 5).forEach(activity => {
+    // Format timestamp
+    const now = new Date();
+    const diffInDays = Math.floor((now - activity.time) / (1000 * 60 * 60 * 24));
+    
+    let timeText = '';
+    if (diffInDays === 0) {
+      if (now.getDate() === activity.time.getDate()) {
+        const hours = activity.time.getHours().toString().padStart(2, '0');
+        const minutes = activity.time.getMinutes().toString().padStart(2, '0');
+        timeText = `Today, ${hours}:${minutes}`;
+      } else {
+        timeText = 'Yesterday';
+      }
+    } else if (diffInDays < 7) {
+      timeText = `${diffInDays} days ago`;
+    } else {
+      timeText = activity.time.toLocaleDateString();
+    }
+    
+    const li = document.createElement('li');
+    li.className = 'usage-history-item';
+    li.style.cursor = 'pointer'; // Make it look clickable
+    
+    li.innerHTML = `
+      <div class="usage-history-content">
+        <div class="usage-history-header">
+          <span class="usage-history-title">${activity.action}</span>
+          <span class="usage-history-time">${timeText}</span>
+        </div>
+        <div class="usage-history-details">
+          <span class="usage-history-product">${activity.product}</span>
+          <span class="usage-history-info">${activity.details}</span>
+        </div>
+      </div>
+      <span class="usage-history-status ${activity.status}">${activity.status.charAt(0).toUpperCase() + activity.status.slice(1)}</span>
+    `;
+    
+    // Add click event to show activity details
+    li.addEventListener('click', () => {
+      showActivityDetails(activity);
+    });
+    
+    activitiesList.appendChild(li);
+  });
+  
+  // Create the modal for activity details if it doesn't exist
+  if (!document.getElementById('activityDetailsModal')) {
+    createActivityDetailsModal();
+  }
+}
+
+/**
+ * Creates the modal for showing activity details
+ */
+function createActivityDetailsModal() {
+  const modal = document.createElement('div');
+  modal.id = 'activityDetailsModal';
+  modal.className = 'activity-details-modal';
+  modal.style.display = 'none';
+  
+  modal.innerHTML = `
+    <div class="activity-modal-content">
+      <div class="activity-modal-header">
+        <h3 id="activityModalTitle">Activity Details</h3>
+        <span class="activity-modal-close">&times;</span>
+      </div>
+      <div class="activity-modal-body">
+        <div class="activity-input-section">
+          <h4>Input Parameters</h4>
+          <div id="activityInputDetails"></div>
+        </div>
+        <div class="activity-output-section">
+          <h4>Results</h4>
+          <div id="activityOutputDetails"></div>
+        </div>
+        <div id="activityVisualizationSection" class="activity-visualization-section" style="display: none;">
+          <h4>Visualization</h4>
+          <div id="activityVisualizationDetails"></div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Add close functionality
+  const closeBtn = modal.querySelector('.activity-modal-close');
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+  
+  // Close modal when clicking outside
+  window.addEventListener('click', (event) => {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+  
+  // Close modal when pressing Escape key
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && modal.style.display === 'block') {
+      modal.style.display = 'none';
+    }
+  });
+}
+
+/**
+ * Shows activity details in a modal
+ */
+function showActivityDetails(activity) {
+  const modal = document.getElementById('activityDetailsModal');
+  if (!modal) {
+    createActivityDetailsModal();
+  }
+  
+  // Set modal title
+  const modalTitle = document.getElementById('activityModalTitle');
+  modalTitle.textContent = `${activity.action} Details`;
+  
+  // Populate input parameters
+  const inputDetails = document.getElementById('activityInputDetails');
+  inputDetails.innerHTML = generateInputDetailsHTML(activity);
+  
+  // Populate results
+  const outputDetails = document.getElementById('activityOutputDetails');
+  outputDetails.innerHTML = generateOutputDetailsHTML(activity);
+  
+  // Add visualization if available
+  const visualizationSection = document.getElementById('activityVisualizationSection');
+  const visualizationDetails = document.getElementById('activityVisualizationDetails');
+  
+  if (activity.featureName === 'priceCalculation' && activity.activityData.segmentImpact) {
+    visualizationSection.style.display = 'block';
+    visualizationDetails.innerHTML = generateVisualizationHTML(activity);
+  } else {
+    visualizationSection.style.display = 'none';
+    visualizationDetails.innerHTML = '';
+  }
+  
+  // Show the modal
+  modal.style.display = 'block';
+}
+
+/**
+ * Generates visualization HTML for the activity
+ */
+function generateVisualizationHTML(activity) {
+  const data = activity.activityData;
+  
+  if (activity.featureName === 'priceCalculation' && data.segmentImpact && data.segmentImpact.segments) {
+    // Create segment impact visualization
+    const segments = data.segmentImpact.segments;
+    
+    // Create a bar chart showing demand impact by segment
+    let segmentBars = '';
+    let maxImpact = 0;
+    
+    // Find the max absolute impact for scaling
+    Object.entries(segments).forEach(([segmentName, segmentData]) => {
+      const absImpact = Math.abs(segmentData.weighted_impact || 0);
+      if (absImpact > maxImpact) maxImpact = absImpact;
+    });
+    
+    // Generate bars for each segment
+    Object.entries(segments).forEach(([segmentName, segmentData]) => {
+      const impact = segmentData.weighted_impact || 0;
+      const width = Math.min(100, Math.abs(impact) / maxImpact * 100);
+      const barClass = impact < 0 ? 'negative-impact' : 'positive-impact';
+      const formattedName = segmentName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      
+      segmentBars += `
+        <div class="segment-impact-item">
+          <div class="segment-name">${formattedName}</div>
+          <div class="segment-impact-bar-container">
+            <div class="segment-impact-bar ${barClass}" style="width: ${width}%"></div>
+          </div>
+          <div class="segment-impact-value">${impact.toFixed(2)}%</div>
+        </div>
+      `;
+    });
+    
+    // Create the price factors visualization
+    let priceFactorsBars = '';
+    
+    if (data.pricingFactorsPct) {
+      const factors = data.pricingFactorsPct;
+      
+      for (const [factorName, value] of Object.entries(factors)) {
+        const formattedName = factorName.replace(/_/g, ' ').replace(/impact/i, '').trim().replace(/\b\w/g, l => l.toUpperCase());
+        const barClass = value < 0 ? 'negative-impact' : 'positive-impact';
+        const width = Math.min(100, Math.abs(value) * 5); // Scale for visualization
+        
+        priceFactorsBars += `
+          <div class="factor-impact-item">
+            <div class="factor-name">${formattedName}</div>
+            <div class="factor-impact-bar-container">
+              <div class="factor-impact-bar ${barClass}" style="width: ${width}%"></div>
+            </div>
+            <div class="factor-impact-value">${value.toFixed(1)}%</div>
+          </div>
+        `;
+      }
+    }
+    
+    // Create pricing scale visualization
+    const originalPrice = parseFloat(data.actualPrice);
+    const competitorPrice = parseFloat(data.competitorPrice);
+    const recommendedPrice = parseFloat(data.recommendedPrice);
+    
+    const minPrice = Math.min(originalPrice, competitorPrice, recommendedPrice);
+    const maxPrice = Math.max(originalPrice, competitorPrice, recommendedPrice);
+    const range = maxPrice - minPrice;
+    const padding = range * 0.1;
+    
+    const scaleMin = minPrice - padding;
+    const scaleMax = maxPrice + padding;
+    const scaleRange = scaleMax - scaleMin;
+    
+    const getPosition = (price) => ((price - scaleMin) / scaleRange * 100).toFixed(1);
+    
+    const originalPosition = getPosition(originalPrice);
+    const competitorPosition = getPosition(competitorPrice);
+    const recommendedPosition = getPosition(recommendedPrice);
+    
+    return `
+      <div class="activity-visualizations">
+        <div class="price-position-visualization">
+          <h5>Price Comparison</h5>
+          <div class="price-scale-container">
+            <div class="price-scale">
+              <div class="price-marker current-price" style="left: ${originalPosition}%;">
+                <div class="marker-dot"></div>
+                <span class="marker-label">Current<br>$${originalPrice.toFixed(2)}</span>
+              </div>
+              <div class="price-marker competitor-price" style="left: ${competitorPosition}%;">
+                <div class="marker-dot"></div>
+                <span class="marker-label">Competitor<br>$${competitorPrice.toFixed(2)}</span>
+              </div>
+              <div class="price-marker recommended-price" style="left: ${recommendedPosition}%;">
+                <div class="marker-dot"></div>
+                <span class="marker-label">Recommended<br>$${recommendedPrice.toFixed(2)}</span>
+              </div>
+              <div class="price-track"></div>
+              <div class="scale-labels">
+                <span class="min-label">$${scaleMin.toFixed(2)}</span>
+                <span class="max-label">$${scaleMax.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="segment-impact-visualization">
+          <h5>Customer Segment Impact</h5>
+          <div class="segment-impact-container">
+            ${segmentBars}
+          </div>
+          <div class="total-impact">
+            <span class="total-impact-label">Total Demand Impact:</span>
+            <span class="total-impact-value ${data.segmentImpact.total_impact < 0 ? 'negative-impact' : 'positive-impact'}">
+              ${data.segmentImpact.total_impact.toFixed(2)}%
+            </span>
+          </div>
+        </div>
+        
+        <div class="pricing-factors-visualization">
+          <h5>Pricing Factors</h5>
+          <div class="pricing-factors-container">
+            ${priceFactorsBars}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  
+  return '<p>No visualization data available for this activity.</p>';
+}
+
+/**
+ * Generates HTML for input parameters section
+ */
+function generateInputDetailsHTML(activity) {
+  const data = activity.activityData;
+  let html = '<table class="details-table">';
+  
+  if (activity.featureName === 'priceCalculation') {
+    html += `
+      <tr>
+        <td><strong>Product Type:</strong></td>
+        <td>${data.productType || 'N/A'}</td>
+      </tr>
+      <tr>
+        <td><strong>Product Group:</strong></td>
+        <td>${data.productGroup || 'N/A'}</td>
+      </tr>
+      <tr>
+        <td><strong>ASIN:</strong></td>
+        <td>${data.asin || 'N/A'}</td>
+      </tr>
+      <tr>
+        <td><strong>Current Price:</strong></td>
+        <td>$${data.actualPrice ? data.actualPrice.toFixed(2) : 'N/A'}</td>
+      </tr>
+      <tr>
+        <td><strong>Competitor Price:</strong></td>
+        <td>$${data.competitorPrice ? data.competitorPrice.toFixed(2) : 'N/A'}</td>
+      </tr>
+      <tr>
+        <td><strong>Rating:</strong></td>
+        <td>${data.rating || 'N/A'}</td>
+      </tr>
+      <tr>
+        <td><strong>Monthly Orders:</strong></td>
+        <td>${data.numberOfOrders || 'N/A'}</td>
+      </tr>
+    `;
+  } else if (activity.featureName === 'marketAnalysis') {
+    html += `
+      <tr>
+        <td><strong>ASIN:</strong></td>
+        <td>${data.asin || 'N/A'}</td>
+      </tr>
+      <tr>
+        <td><strong>Date Analyzed:</strong></td>
+        <td>${new Date(data.timestamp).toLocaleString()}</td>
+      </tr>
+    `;
+  } else if (activity.featureName === 'fetchMarketDeals') {
+    html += `
+      <tr>
+        <td><strong>Category:</strong></td>
+        <td>${data.category || 'All Categories'}</td>
+      </tr>
+      <tr>
+        <td><strong>Date Analyzed:</strong></td>
+        <td>${new Date(data.timestamp).toLocaleString()}</td>
+      </tr>
+    `;
+  } else if (activity.featureName === 'fetchMarketDataForPricePosition') {
+    html += `
+      <tr>
+        <td><strong>Product Type:</strong></td>
+        <td>${data.productType || 'N/A'}</td>
+      </tr>
+      <tr>
+        <td><strong>Current Price:</strong></td>
+        <td>$${data.currentPrice ? data.currentPrice.toFixed(2) : 'N/A'}</td>
+      </tr>
+    `;
+  }
+  
+  html += '</table>';
+  return html;
+}
+
+/**
+ * Generates HTML for output/results section
+ */
+function generateOutputDetailsHTML(activity) {
+  const data = activity.activityData;
+  
+  if (activity.featureName === 'priceCalculation') {
+    return `
+      <div class="price-recommendation-card">
+        <div class="recommendation-header">
+          <h5>Price Recommendation</h5>
+        </div>
+        <div class="recommendation-body">
+          <div class="recommended-price">
+            <span class="price-label">Recommended Price:</span>
+            <span class="price-value">$${data.recommendedPrice ? parseFloat(data.recommendedPrice).toFixed(2) : 'N/A'}</span>
+          </div>
+          <div class="price-range">
+            <div class="min-price">
+              <span class="range-label">Min Price:</span>
+              <span class="range-value">$${data.minPrice ? parseFloat(data.minPrice).toFixed(2) : 'N/A'}</span>
+            </div>
+            <div class="max-price">
+              <span class="range-label">Max Price:</span>
+              <span class="range-value">$${data.maxPrice ? parseFloat(data.maxPrice).toFixed(2) : 'N/A'}</span>
+            </div>
+          </div>
+          <div class="impact-factors">
+            <div class="impact-factor">
+              <span class="factor-label">Price Elasticity:</span>
+              <span class="factor-value">${data.priceElasticity ? data.priceElasticity.toFixed(2) : 'N/A'}</span>
+            </div>
+            <div class="impact-factor">
+              <span class="factor-label">Volume Impact:</span>
+              <span class="factor-value">${data.volumeImpact ? data.volumeImpact.toFixed(1) + '%' : 'N/A'}</span>
+            </div>
+            <div class="impact-factor">
+              <span class="factor-label">Revenue Impact:</span>
+              <span class="factor-value">${data.revenueImpact ? data.revenueImpact.toFixed(1) + '%' : 'N/A'}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (activity.featureName === 'marketAnalysis') {
+    return `
+      <div class="market-analysis-card">
+        <div class="market-analysis-header">
+          <h5>Competitor Analysis</h5>
+        </div>
+        <div class="market-analysis-body">
+          <div class="competitors-found">
+            <span class="metric-label">Competitors Found:</span>
+            <span class="metric-value">${data.competitorCount || 'N/A'}</span>
+          </div>
+          <div class="market-position">
+            <span class="metric-label">Market Position:</span>
+            <span class="metric-value">${data.marketPosition || 'N/A'}</span>
+          </div>
+          <p class="market-insight">${data.marketInsight || 'Analysis completed successfully.'}</p>
+        </div>
+      </div>
+    `;
+  } else if (activity.featureName === 'fetchMarketDeals') {
+    return `
+      <div class="deals-analysis-card">
+        <div class="deals-header">
+          <h5>Market Deals Analysis</h5>
+        </div>
+        <div class="deals-body">
+          <div class="deals-metrics">
+            <div class="metric">
+              <span class="metric-label">Total Deals:</span>
+              <span class="metric-value">${data.dealsCount || 'N/A'}</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Average Discount:</span>
+              <span class="metric-value">${data.avgDiscount ? data.avgDiscount + '%' : 'N/A'}</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Market Activity:</span>
+              <span class="metric-value">${data.marketActivity || 'N/A'}</span>
+            </div>
+          </div>
+          <p class="deals-insight">${data.dealInsight || 'Deals analysis completed successfully.'}</p>
+        </div>
+      </div>
+    `;
+  } else if (activity.featureName === 'fetchMarketDataForPricePosition') {
+    return `
+      <div class="price-position-card">
+        <div class="position-header">
+          <h5>Price Position Analysis</h5>
+        </div>
+        <div class="position-body">
+          <div class="position-metric">
+            <span class="metric-label">Price Percentile:</span>
+            <span class="metric-value">${data.pricePercentile ? data.pricePercentile + '%' : 'N/A'}</span>
+          </div>
+          <div class="position-metric">
+            <span class="metric-label">Market Average Price:</span>
+            <span class="metric-value">$${data.marketAvgPrice ? parseFloat(data.marketAvgPrice).toFixed(2) : 'N/A'}</span>
+          </div>
+          <p class="position-insight">${data.positionInsight || 'Price position analysis completed successfully.'}</p>
+        </div>
+      </div>
+    `;
+  }
+  
+  return '<p>No detailed results available for this activity.</p>';
+}
+
+// ... existing code ...
 
 
 

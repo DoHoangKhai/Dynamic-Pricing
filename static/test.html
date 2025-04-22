@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>API Test</h1>
+        <button id="testBtn">Test API</button>
+        <div id="statusContainer" style="margin-top: 10px;"></div>
+        <h3>Response:</h3>
+        <pre id="response"></pre>
+        <h3>Status:</h3>
+        <pre id="status"></pre>
+    </div>
+
+    <script>
+        document.getElementById('testBtn').addEventListener('click', async function() {
+            const statusContainer = document.getElementById('statusContainer');
+            const responseElem = document.getElementById('response');
+            const statusElem = document.getElementById('status');
+            
+            statusContainer.innerHTML = '<span style="color: blue;">Testing API...</span>';
+            
+            try {
+                // Create a basic payload for the API
+                const payload = {
+                    product_type: "Electronics",
+                    product_group: "Smartphones",
+                    actual_price: 999.99,
+                    competitor_price: 1049.99,
+                    rating: 4.5,
+                    number_of_orders: 120
+                };
+                
+                console.log("Sending data:", JSON.stringify(payload));
+                
+                const response = await fetch('/api/predict-price', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                console.log("Response status:", response.status);
+                
+                // If response is not OK, try to get error details
+                if (!response.ok) {
+                    let errorText = await response.text();
+                    try {
+                        // Try to parse as JSON
+                        const errorJson = JSON.parse(errorText);
+                        errorText = JSON.stringify(errorJson, null, 2);
+                    } catch (e) {
+                        // Keep as text if not JSON
+                    }
+                    
+                    statusContainer.innerHTML = `<span class="error">Error: ${response.status} ${response.statusText}</span>`;
+                    responseElem.textContent = errorText;
+                    statusElem.textContent = `Failed with status: ${response.status}`;
+                    return;
+                }
+                
+                // Get the JSON response
+                const data = await response.json();
+                
+                // Prettify and display the response
+                responseElem.textContent = JSON.stringify(data, null, 2);
+                statusElem.textContent = `Success - Response received`;
+                statusContainer.innerHTML = '<span class="success">Success! API responded correctly.</span>';
+                
+                // Check if response has expected properties
+                const requiredProps = [
+                    'recommendedPrice', 'minPrice', 'maxPrice', 
+                    'elasticityCategory', 'explanation'
+                ];
+                
+                const snakeCaseProps = [
+                    'recommended_price', 'min_price', 'max_price',
+                    'elasticity_category', 'explanation'
+                ];
+                
+                // Check for camelCase
+                const missingCamelProps = requiredProps.filter(prop => typeof data[prop] === 'undefined');
+                
+                // Check for snake_case
+                const missingSnakeProps = snakeCaseProps.filter(prop => typeof data[prop] === 'undefined');
+                
+                if (missingCamelProps.length > 0 && missingSnakeProps.length > 0) {
+                    const html = `
+                        <div class="error">
+                            <p>Warning: Some required properties are missing.</p>
+                            <p>Missing camelCase props: ${missingCamelProps.join(', ')}</p>
+                            <p>Missing snake_case props: ${missingSnakeProps.join(', ')}</p>
+                        </div>
+                    `;
+                    statusContainer.innerHTML = html;
+                }
+                
+            } catch (error) {
+                console.error("Error:", error);
+                statusContainer.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+                statusElem.textContent = `Exception: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html> 

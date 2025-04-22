@@ -1,20 +1,413 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamic Pricing Dashboard</title>
+  <title>QuickPrice</title>
   <link rel="stylesheet" href="/static/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.0.1/dist/chartjs-plugin-annotation.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="/static/price_visualizations.js" defer></script>
+  <script src="/static/segment_visualization.js" defer></script>
+  <script src="/static/amazon_api_direct.js"></script>
+  <script src="/static/market_analysis.js" defer></script>
+  <script src="/static/market_analysis_test.js"></script>
+  <script src="/static/market_analysis_tracker.js"></script>
+  <!-- Theme will be initialized by initializeTheme function in script.js -->
+  
+  <!-- Custom CSS with variables for theme switching -->
+  <style>
+    /* Theme variables */
+    :root {
+      /* Dark Theme (Default) */
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --text-color: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-color: #3b82f6;
+      --hover-color: #2563eb;
+      --success-color: #22c55e;
+      --warning-color: #f59e0b;
+      --danger-color: #ef4444;
+      --neutral-color: #64748b;
+      --chart-grid: rgba(255, 255, 255, 0.1);
+      --header-bg: #13293d;
+      --header-text: #ffffff;
+      --primary-color: #007bff;
+      --secondary-color: #6c757d;
+      --link-color: #007bff;
+      --link-hover-color: #0056b3;
+      --heading-color: #13293d;
+      --card-header-bg: #f8f9fa;
+      --input-bg: #ffffff;
+      --input-border: #ced4da;
+      --input-focus-border: #80bdff;
+      --btn-primary-bg: #007bff;
+      --btn-primary-border: #007bff;
+      --btn-primary-text: #ffffff;
+      --inner-card-bg-color: #f8f9fa;
+      --inner-card-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      --nav-bg: #ffffff;
+      --nav-link-color: #13293d;
+      --nav-link-active-color: #007bff;
+      --text-secondary-color: #6c757d;
+      --chart-tooltip-color: #212529;
+      --chart-tooltip-bg: #ffffff;
+      --header-title-color: #ffffff;
+    }
+    
+    /* Light theme */
+    [data-theme="light"] {
+      --bg-color: #f9f5f2; /* Soft white with slight warmth */
+      --card-bg: #ffffff;
+      --card-border: #e5e0db; /* Soft beige border */
+      --text-color: #1e293b;
+      --text-muted: #64748b;
+      --accent-color: #f97316; /* Orange accent */
+      --hover-color: #ea580c; /* Darker orange for hover */
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --danger-color: #ef4444;
+      --neutral-color: #94a3b8;
+      --chart-grid: rgba(0, 0, 0, 0.1);
+      --header-bg: #eef3f8;
+      --header-text: #333333;
+      --primary-color: #007bff;
+      --secondary-color: #5a7288;
+      --link-color: #007bff;
+      --link-hover-color: #0056b3;
+      --heading-color: #0e4377;
+      --card-header-bg: #eef3f8;
+      --input-bg: #ffffff;
+      --input-border: #c9d6e2;
+      --input-focus-border: #80bdff;
+      --btn-primary-bg: #007bff;
+      --btn-primary-border: #007bff;
+      --btn-primary-text: #ffffff;
+      --inner-card-bg-color: #f5f8fa;
+      --inner-card-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      --nav-bg: #ffffff;
+      --nav-link-color: #13293d;
+      --nav-link-active-color: #007bff;
+      --text-secondary-color: #5a7288;
+      --chart-tooltip-color: #212529;
+      --chart-tooltip-bg: #ffffff;
+      --header-title-color: #0e4377;
+    }
+    
+    /* Custom styling for the header title */
+    .app-title {
+      color: var(--header-title-color);
+      font-weight: 700;
+      font-size: 1.5rem;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      letter-spacing: 0.5px;
+    }
+    
+    /* Enhanced card styling */
+    .card {
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+      margin-bottom: 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--card-header-bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    /* Custom spacing for Market Analysis buttons */
+    .data-controls .btn-outline-secondary {
+      margin-right: 15px !important;
+    }
+    
+    /* Enhanced styling for Market Analysis tab */
+    .data-controls {
+      margin-top: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .data-controls .btn {
+      padding: 8px 16px;
+      font-size: 14px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+    
+    .data-controls .btn-outline-secondary:hover {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+    
+    .data-controls .btn-outline-info:hover {
+      background-color: var(--info-color);
+      color: white;
+    }
+    
+    /* Improved status grid layout */
+    .market-data-status {
+      background-color: var(--card-bg-color);
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 25px;
+    }
+    
+    .status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      background-color: var(--card-bg);
+      border-radius: 4px;
+    }
+    
+    /* Improved fetch button */
+    #fetchDataBtn {
+      padding: 10px 18px;
+      font-weight: 500;
+    }
+
+    /* Market Analysis visualization styles */
+    .visualization-container {
+      min-height: 350px;
+      background-color: var(--inner-card-bg-color);
+      border-radius: 8px;
+      padding: 20px;
+    }
+    
+    .chart-placeholder {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: var(--text-secondary-color);
+    }
+    
+    .chart-placeholder i {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.6;
+    }
+    
+    .analysis-panel h2 {
+      margin-bottom: 24px;
+      color: var(--heading-color);
+    }
+    
+    .analysis-panel .card-header {
+      background-color: var(--card-header-bg);
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .analysis-panel .card-header h3 {
+      font-size: 1.25rem;
+    }
+  </style>
+  
+  <!-- Additional styles for header layout -->
+  <style>
+    .user-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .user-profile {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .user-name, .user-role {
+      display: inline-block;
+    }
+    
+    .user-role {
+      background-color: #4361ee;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .user-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      margin-top: 5px;
+      background-color: var(--card-bg);
+      min-width: 120px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      z-index: 10;
+      overflow: hidden;
+    }
+    
+    .dropdown-content a {
+      color: var(--text-color);
+      padding: 10px 15px;
+      text-decoration: none;
+      display: block;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+    }
+    
+    .dropdown-content a:hover {
+      background-color: var(--hover-color);
+      color: white;
+    }
+    
+    .dropdown-content a i {
+      margin-right: 8px;
+      width: 16px;
+      text-align: center;
+    }
+    
+    .dropdown-content.show {
+      display: block;
+    }
+    
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+    }
+    
+    /* Improved theme toggle styling */
+    .theme-switch__input {
+      height: 0;
+      width: 0;
+      visibility: hidden;
+      position: absolute;
+    }
+    
+    .theme-switch__label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      width: 50px;
+      height: 26px;
+      background: #334155;
+      border-radius: 100px;
+      position: relative;
+      transition: background-color 0.2s;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .theme-switch__label i {
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+    
+    .theme-switch__label .fa-sun {
+      color: #f59e0b;
+      margin-left: 5px;
+    }
+    
+    .theme-switch__label .fa-moon {
+      color: #94a3b8;
+      margin-right: 5px;
+    }
+    
+    .theme-switch__label .ball {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.3s cubic-bezier(0.45, 0.05, 0.55, 0.95), 
+                  background-color 0.2s;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    
+    .theme-switch__input:checked + .theme-switch__label {
+      background: #60a5fa;
+    }
+    
+    .theme-switch__input:checked + .theme-switch__label .ball {
+      transform: translateX(24px);
+    }
+    
+    .theme-switch__label:hover {
+      opacity: 0.9;
+    }
+    
+    .theme-switch__label:active .ball {
+      width: 28px;
+      transform: translateX(8px);
+    }
+    
+    .theme-switch__input:checked + .theme-switch__label:active .ball {
+      transform: translateX(16px);
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>Dynamic Pricing Dashboard</h1>
-      <div class="user-profile">
-        <span class="user-name">Admin User</span>
-        <span class="user-role">Admin</span>
+      <h1 class="app-title">QuickPrice</h1>
+      <div class="user-controls">
+        <div class="user-profile">
+          <span class="user-name">Sarah Johnson</span>
+          <div class="user-dropdown">
+            <span class="user-role" onclick="toggleDropdown()">Admin</span>
+            <div class="dropdown-content" id="adminDropdown">
+              <a href="/profile" onclick="setProfileRedirect(event)"><i class="fas fa-user-circle"></i>Profile</a>
+              <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i>Logout</a>
+            </div>
+          </div>
+        </div>
+        <div class="theme-toggle">
+          <input type="checkbox" id="theme-switch" class="theme-switch__input">
+          <label for="theme-switch" class="theme-switch__label">
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-moon"></i>
+            <div class="ball"></div>
+          </label>
+        </div>
       </div>
     </header>
 
@@ -22,6 +415,7 @@
       <button class="tab-button active" onclick="switchTab('overview')">Overview</button>
       <button class="tab-button" onclick="switchTab('pricingTool')">Pricing Tool</button>
       <button class="tab-button" onclick="switchTab('marketAnalysis')">Market Analysis</button>
+      <button class="tab-button" onclick="switchTab('usageDashboard')">Usage Dashboard</button>
     </nav>
 
     <div id="overview" class="tab-content active">
@@ -82,35 +476,24 @@
 
         <div class="card wide">
           <div class="card-header">
-            <h3>Latest Transactions</h3>
+            <h3>Recent Activities</h3>
             <span class="icon">📋</span>
           </div>
           <div class="card-content">
-            <ul class="transaction-list">
-              <li class="transaction-item">
-                <span class="transaction-product">Sony WH-1000XM4 Headphones</span>
-                <span class="transaction-date">Today, 2:34 PM</span>
-                <span class="transaction-amount">$348.00</span>
-                <span class="transaction-status completed">Completed</span>
-              </li>
-              <li class="transaction-item">
-                <span class="transaction-product">Apple MacBook Pro 16"</span>
-                <span class="transaction-date">Today, 1:12 PM</span>
-                <span class="transaction-amount">$2,399.00</span>
-                <span class="transaction-status completed">Completed</span>
-              </li>
-              <li class="transaction-item">
-                <span class="transaction-product">Samsung Galaxy S21 Ultra</span>
-                <span class="transaction-date">Yesterday, 7:54 PM</span>
-                <span class="transaction-amount">$1,199.00</span>
-                <span class="transaction-status pending">Pending</span>
-              </li>
-              <li class="transaction-item">
-                <span class="transaction-product">Logitech MX Master 3</span>
-                <span class="transaction-date">Yesterday, 3:22 PM</span>
-                <span class="transaction-amount">$99.99</span>
-                <span class="transaction-status completed">Completed</span>
-              </li>
+            <ul class="usage-history-list" id="recentActivitiesList">
+              <!-- Will be populated with real activity data via JavaScript -->
+            </ul>
+          </div>
+        </div>
+
+        <div class="card wide">
+          <div class="card-header">
+            <h3>History Usage</h3>
+            <span class="icon">📊</span>
+          </div>
+          <div class="card-content">
+            <ul class="usage-history-list" id="overviewUsageList">
+              <!-- Will be populated with real usage data via JavaScript -->
             </ul>
           </div>
         </div>
@@ -123,7 +506,7 @@
           <h2>Dynamic Price Calculator</h2>
           <div class="form-group">
             <label for="productType">Product Type</label>
-            <select id="productType" onchange="updateProductGroups()">
+            <select id="productType">
               <option value="Electronics">Electronics</option>
               <option value="Computers&Accessories">Computers & Accessories</option>
               <option value="MusicalInstruments">Musical Instruments</option>
@@ -138,20 +521,32 @@
           <div class="form-group">
             <label for="productGroup">Product Group</label>
             <select id="productGroup">
-              <!-- Options will be populated based on Product Type -->
+              <!-- Options will be populated via JavaScript -->
             </select>
           </div>
           <div class="form-group">
             <label for="asin">Amazon ASIN (Optional)</label>
             <input type="text" id="asin" placeholder="e.g., B08N5KWB9H">
           </div>
-          <div class="form-group">
-            <label for="actualPrice">Current Price ($)</label>
-            <input type="number" id="actualPrice" min="0.01" step="0.01" placeholder="Enter actual price" value="999.99">
+          <div class="form-group price-slider">
+            <label for="actualPrice">Current Price: $<span id="priceValue">999.99</span></label>
+            <div class="slider-container">
+              <input type="range" id="priceSlider" min="1" max="2000" step="0.01" value="999.99" class="slider">
+              <div class="price-inputs">
+                <input type="number" id="actualPrice" min="0.01" step="0.01" placeholder="Enter actual price" value="999.99">
+                <button class="refresh-btn" onclick="updatePriceSlider()"><i class="fas fa-sync-alt"></i></button>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="competitorPrice">Competitor Price ($)</label>
-            <input type="number" id="competitorPrice" min="0.01" step="0.01" placeholder="Enter competitor price" value="1049.99">
+          <div class="form-group price-slider">
+            <label for="competitorPrice">Competitor Price: $<span id="competitorPriceValue">1049.99</span></label>
+            <div class="slider-container">
+              <input type="range" id="competitorPriceSlider" min="1" max="2000" step="0.01" value="1049.99" class="slider">
+              <div class="price-inputs">
+                <input type="number" id="competitorPrice" min="0.01" step="0.01" placeholder="Enter competitor price" value="1049.99">
+                <button class="refresh-btn" onclick="updateCompetitorPriceSlider()"><i class="fas fa-sync-alt"></i></button>
+              </div>
+            </div>
           </div>
           <div class="form-group">
             <label for="rating">Rating (1-5)</label>
@@ -161,676 +556,1195 @@
             <label for="numberOfOrders">Recent Orders</label>
             <input type="number" id="numberOfOrders" min="0" placeholder="Enter number of orders" value="120">
           </div>
-          <button id="calculateButton" onclick="calculatePrice()">Calculate Optimal Price</button>
+          <div id="errorMessage" class="error-message hidden">
+            <div class="error-icon"><i class="fas fa-exclamation-circle"></i></div>
+            <span>Error: Unable to calculate price recommendation.</span>
+          </div>
+          <div class="calculator-section">
+            <button id="calculateButton" class="animate-btn" onclick="calculatePrice()">
+              Calculate Optimal Price
+            </button>
+            
+            <!-- This div will be populated by JavaScript with the recommendation results -->
+            <div class="price-recommendation"></div>
+          </div>
+          
+          <!-- API Error message -->
+          <div id="apiErrorMessage" class="error-message hidden">
+            <i class="fas fa-exclamation-circle"></i>
+            <span>An error occurred while calculating the price.</span>
+          </div>
         </div>
         <div class="pricing-results">
           <h2>Price Recommendation</h2>
-          <div id="resultsContent" class="results-content hidden">
-            <div class="price-card">
-              <h3>Recommended Price</h3>
-              <div class="price" id="recommendedPrice">$0.00</div>
+          <div id="resultsSection" class="results-section">
+            <h3 class="section-title"><i class="fas fa-chart-line"></i> Price Recommendation</h3>
+            
+            <div id="resultsLoading" class="loading-indicator">
+              <div class="spinner"></div>
+              <p>Calculating optimal price...</p>
             </div>
-            <div class="price-range">
-              <div class="min-price">
-                <span>Min</span>
-                <div id="minPrice">$0.00</div>
+            
+            <div id="resultsContent" class="hidden">
+              <div id="recommendationContainer" class="recommendation-container">
+                <!-- Price cards will be filled by JavaScript -->
               </div>
-              <div class="max-price">
-                <span>Max</span>
-                <div id="maxPrice">$0.00</div>
-              </div>
-            </div>
-            <div class="elasticity-info">
-              <h3>Elasticity Category</h3>
-              <div id="elasticityCategory">Unknown</div>
-            </div>
-            <div class="impact-factors">
-              <h3>Impact Factors</h3>
-              <div class="factor">
-                <span>Rating Impact:</span>
-                <span id="ratingImpact">0%</span>
-              </div>
-              <div class="factor">
-                <span>Order Volume Impact:</span>
-                <span id="orderImpact">0%</span>
-              </div>
-              <div class="factor">
-                <span>Market Data Impact:</span>
-                <span id="marketImpact">0%</span>
-              </div>
-            </div>
-            <div class="explanation">
-              <h3>Analysis</h3>
-              <p id="explanation"></p>
-            </div>
-            <div id="marketInsightsSection" class="market-insights hidden">
-              <h3>Market Insights</h3>
-              <div class="insights-grid">
-                <div class="insight">
-                  <span>Price Trend</span>
-                  <span id="priceTrend">stable</span>
+              
+              <!-- COMPLETELY NEW SECTION: PRICE ELASTICITY METRICS INSTEAD OF POSITION CHART -->
+              <div class="elasticity-section simplified" id="elasticity-section" style="display: none;">
+                
+                <!-- MOVED: Price metrics grid now appears first -->
+                <div class="price-metrics-grid">
+                  <div class="price-metric-card">
+                    <div class="metric-title">Min Price</div>
+                    <div class="metric-value min-value" id="min-price-display">$0.00</div>
+                  </div>
+                  <div class="price-metric-card highlighted">
+                    <div class="metric-title">Recommended Price</div>
+                    <div class="metric-value rec-value" id="recommended-price-display">$0.00</div>
+                  </div>
+                  <div class="price-metric-card">
+                    <div class="metric-title">Max Price</div>
+                    <div class="metric-value max-value" id="max-price-display">$0.00</div>
+                  </div>
                 </div>
-                <div class="insight">
-                  <span>Price Volatility</span>
-                  <span id="priceVolatility">0%</span>
+                
+                <!-- Replace Price Change Impact with Pricing Influence Factors -->
+                <div class="elasticity-impact">
+                  <h4>Pricing Influence Factors</h4>
+                  <div class="impact-metrics">
+                    <div class="impact-metric">
+                      <span class="impact-label">Rating</span>
+                      <span class="impact-value" id="rating-impact">0%</span>
+                    </div>
+                    <div class="impact-metric">
+                      <span class="impact-label">Competitor</span>
+                      <span class="impact-value" id="competitor-impact">0%</span>
+                    </div>
+                    <div class="impact-metric">
+                      <span class="impact-label">Market</span>
+                      <span class="impact-value" id="market-impact">0%</span>
+                    </div>
+                  </div>
                 </div>
-                <div class="insight">
-                  <span>Market Position</span>
-                  <span id="marketPosition">average</span>
-                </div>
-                <div class="insight">
-                  <span>Sentiment Score</span>
-                  <span id="sentimentScore">0</span>
+                
+                <h3 class="section-title" style="margin-top: 20px;">Price Elasticity Analysis</h3>
+                <div class="elasticity-category-container">
+                  <div class="elasticity-value medium-elasticity" id="elasticity-value">-</div>
+                  <div class="elasticity-explanation">
+                    <p id="elasticityExplanation">Based on historical data and current market conditions, this product shows moderate price sensitivity.</p>
+                  </div>
+                  <div class="elasticity-impact">
+                    <p>Price Change Impact on Demand: <span id="elasticityImpactValue">-</span></p>
+                  </div>
                 </div>
               </div>
+              
+              <!-- Add Price Impact Analysis section here -->
+              <div class="price-impact-section">
+                <h3 class="section-title"><i class="fas fa-chart-bar"></i> Price Impact Analysis</h3>
+                <div id="priceImpactAnalysis" class="impact-analysis-container">
+                  <!-- Charts will be rendered here by JavaScript -->
+                  <canvas id="priceImpactChart"></canvas>
+                </div>
+              </div>
+              
             </div>
           </div>
-          <div id="noResults" class="no-results">
-            <!-- Empty div - static items removed -->
+          
+          <!-- Error state hidden by default -->
+          <div id="noResults" class="no-results hidden"></div>
+        </div>
+      </div>
+
+      <!-- Market Deal Analysis Section -->
+      <div class="card wide market-deals-card" id="market-deals-section">
+        <div class="card-header">
+          <h3><i class="fas fa-chart-line"></i> Market Deal Analysis</h3>
+          <div class="header-actions">
+            <div class="market-search-container">
+              <select id="dealProductType" class="deal-category-select">
+                <option value="All Categories" selected>All Categories</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Computers&Accessories">Computers & Accessories</option>
+                <option value="Home&Kitchen">Home & Kitchen</option>
+                <option value="Sports&Outdoors">Sports & Outdoors</option>
+                <option value="OfficeProducts">Office Products</option>
+                <option value="MusicalInstruments">Musical Instruments</option>
+              </select>
+              <button class="action-button" onclick="fetchDeals()">
+                <span class="btn-content"><i class="fas fa-search"></i> Analyze</span>
+                <span class="btn-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading...</span>
+              </button>
+            </div>
+            <span id="lastUpdatedBadge" style="display: none;" class="last-updated">
+              <i class="fas fa-clock"></i> Updated: <span id="lastUpdatedTime"></span>
+            </span>
           </div>
         </div>
         
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Revenue by Category</h3>
+        <div class="card-content">
+          <div class="deals-description">
+            <p><i class="fas fa-info-circle"></i> Analyze current market deals for your product category to inform your pricing strategy.</p>
           </div>
-          <div class="chart-container" style="height: 250px; padding: 10px;">
-            <canvas id="categoryChart"></canvas>
+          
+          <!-- Loading state -->
+          <div id="dealsLoading" style="display: none;" class="text-center py-4">
+            <div class="spinner">
+              <i class="fas fa-circle-notch fa-spin"></i>
+            </div>
+            <p class="loading-text">Analyzing current market deals...</p>
+          </div>
+          
+          <!-- Error state -->
+          <div id="dealsError" style="display: none;" class="py-3">
+            <div class="alert-box">
+              <i class="fas fa-exclamation-triangle"></i>
+              <div id="errorMessage">Failed to fetch deals data.</div>
+              <button onclick="fetchDeals()" class="retry-button">
+                <i class="fas fa-redo"></i> Retry
+              </button>
+            </div>
+          </div>
+          
+          <!-- Initial state -->
+          <div class="market-deals-container">
+            <div class="initial-state">
+              <div class="empty-state-icon">
+                <i class="fas fa-tags"></i>
+              </div>
+              <h3>Market Deal Analysis</h3>
+              <p>Select a product category and click "Analyze" to view current market deals</p>
+              <div class="empty-state-action">
+                <button class="action-button" onclick="fetchDeals()">
+                  <span class="btn-content"><i class="fas fa-search"></i> Analyze All Deals</span>
+                  <span class="btn-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading...</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Result state -->
+          <div id="dealsResult" style="display: none;">
+            <div class="deals-summary-container">
+              <h4 class="section-title"><i class="fas fa-chart-pie"></i> Market Deals Summary</h4>
+              
+              <div class="deal-metrics">
+                <!-- Total Deals -->
+                <div class="metric-box">
+                  <div class="key-metric">
+                    <div class="metric-icon">
+                      <i class="fas fa-tags"></i>
+                    </div>
+                    <div class="metric-info">
+                      <div class="metric-label">Active Deals</div>
+                      <div class="metric-value" id="totalDealsValue">-</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Average Discount -->
+                <div class="metric-box">
+                  <div class="key-metric">
+                    <div class="metric-icon">
+                      <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="metric-info">
+                      <div class="metric-label">Average Discount</div>
+                      <div class="metric-value" id="avgDiscountValue">-</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Market Activity -->
+                <div class="metric-box">
+                  <div class="key-metric">
+                    <div class="metric-icon">
+                      <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="metric-info">
+                      <div class="metric-label">Market Activity</div>
+                      <div class="metric-value" id="marketActivityValue">-</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Pricing Strategy Impact -->
+              <div class="impact-indicator">
+                <div class="impact-header">
+                  <div id="impactIcon"><i class="fas fa-info-circle"></i></div>
+                  <h4>Pricing Strategy Impact</h4>
+                </div>
+                <p id="impactText">Based on current market deals, we'll provide pricing strategy recommendations.</p>
+              </div>
+            </div>
+            
+            <!-- Deals Table -->
+            <div class="deals-table-container">
+              <table class="deals-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Regular Price</th>
+                    <th>Sale Price</th>
+                    <th>Discount</th>
+                    <th>Duration</th>
+                  </tr>
+                </thead>
+                <tbody id="dealsTableBody">
+                  <!-- Deals data will be injected here by JavaScript -->
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    
+
     <div id="marketAnalysis" class="tab-content">
-      <div class="market-analysis">
-        <div class="control-panel">
-          <h2>Market Data Control Panel</h2>
-          <div class="form-group">
-            <label for="marketProductAsin">Enter Product ASIN</label>
-            <input type="text" id="marketProductAsin" placeholder="e.g., B07ZPKBL9V">
-          </div>
-          <button id="refreshMarketDataBtn" onclick="refreshMarketData()">Refresh Market Data</button>
-          <button id="analyzeProductBtn" onclick="analyzeProduct()">Analyze Product</button>
-          
-          <div class="data-status">
-            <h3>Data Collection Status</h3>
-            <div class="status-item">
-              <span>Best Sellers Data</span>
-              <span id="bestSellersStatus">Not Collected</span>
+      <div class="row">
+        <!-- Left Column: Market Data Control Panel -->
+        <div class="col-md-4">
+          <div class="card dark-card mb-4">
+            <div class="card-header">
+              <h5 class="mb-0"><i class="fas fa-chart-line mr-2"></i>Market Data Control Panel</h5>
             </div>
-            <div class="status-item">
-              <span>Product Details</span>
-              <span id="productDetailsStatus">Not Collected</span>
-            </div>
-            <div class="status-item">
-              <span>Reviews Data</span>
-              <span id="reviewsStatus">Not Collected</span>
-            </div>
-            <div class="status-item">
-              <span>Market Deals</span>
-              <span id="dealsStatus">Not Collected</span>
+            <div class="card-body">
+              <div class="market-data-form mb-3">
+                <label for="asin" class="form-label">Product ASIN</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="asinMarketAnalysis" placeholder="Enter Amazon ASIN" value="B0BYS2D9CJ">
+                  <div class="input-group-append">
+                    <button class="btn btn-primary animate-btn" id="fetchDataBtn" onclick="fetchMarketData()">
+                      <span class="btn-content"><i class="fas fa-sync-alt mr-1"></i>Fetch Data</span>
+                      <span class="btn-loading d-none"><i class="fas fa-spinner fa-spin"></i> Loading...</span>
+                    </button>
+                  </div>
+                </div>
+                <small class="form-text text-muted">Enter the ASIN of the product you want to analyze</small>
+              </div>
+              
+              <div class="data-controls mb-3">
+                <button class="btn btn-sm btn-outline-secondary mr-2" onclick="clearMarketData()">
+                  <i class="fas fa-trash-alt mr-1"></i>Clear Data
+                </button>
+                <button class="btn btn-sm btn-outline-info" onclick="refreshMarketDataStatus()">
+                  <i class="fas fa-redo-alt mr-1"></i>Refresh Status
+                </button>
+              </div>
+              
+              <div class="market-data-status">
+                <h6 class="font-weight-bold mb-2">Data Collection Status:</h6>
+                <div class="status-grid">
+                  <div class="status-item">
+                    <span class="status-label">Price History:</span>
+                    <span class="status-indicator" id="priceHistoryStatus">
+                      <i class="fas fa-times-circle text-danger"></i> Not Collected
+                    </span>
+                  </div>
+                  <div class="status-item">
+                    <span class="status-label">Competitor Data:</span>
+                    <span class="status-indicator" id="competitorStatus">
+                      <i class="fas fa-times-circle text-danger"></i> Not Collected
+                    </span>
+                  </div>
+                  <div class="status-item">
+                    <span class="status-label">Reviews Data:</span>
+                    <span class="status-indicator" id="reviewsStatus">
+                      <i class="fas fa-times-circle text-danger"></i> Not Collected
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         
-        <div class="analysis-panel">
-          <h2>Market Analysis</h2>
-          <div class="visualization-container">
-            <h3>Price Trend Analysis</h3>
-            <div class="visualization">
-              <canvas id="priceTrendChart"></canvas>
+        <!-- Right Column: Market Analysis -->
+        <div class="col-md-8">
+          <div class="analysis-panel">
+            <h2><i class="fas fa-chart-bar"></i> Market Analysis Dashboard</h2>
+            
+            <!-- Price History Analysis -->
+            <div class="card mb-4">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="mb-0"><i class="fas fa-chart-line mr-2"></i>Price History Analysis</h3>
+              </div>
+              <div class="card-body">
+                <div id="priceHistoryChart" class="visualization-container">
+                  <div class="chart-placeholder">
+                    <i class="fas fa-chart-line"></i>
+                    <p>Price history data will be displayed here once collected.</p>
+                  </div>
+                </div>
+              </div>
             </div>
             
-            <h3>Review Sentiment Analysis</h3>
-            <div class="visualization">
-              <canvas id="sentimentChart"></canvas>
+            <!-- Competitor Analysis -->
+            <div class="card mb-4">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="mb-0"><i class="fas fa-store mr-2"></i>Competitor Analysis</h3>
+              </div>
+              <div class="card-body">
+                <div id="competitorChart" class="visualization-container">
+                  <div class="chart-placeholder">
+                    <i class="fas fa-store"></i>
+                    <p>Competitor data will be displayed here once collected.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Reviews Analysis -->
+            <div class="card mb-4">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="mb-0"><i class="fas fa-comment-dots mr-2"></i>Reviews Analysis</h3>
+              </div>
+              <div class="card-body">
+                <div id="reviewsChart" class="visualization-container">
+                  <div class="chart-placeholder">
+                    <i class="fas fa-comment-dots"></i>
+                    <p>Review data will be displayed here once collected.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          
-          <div class="market-position">
-            <h3>Market Position Analysis</h3>
-            <div class="position-card">
-              <h4>Price Positioning</h4>
-              <div class="position-info">
-                <div class="position-item">
-                  <span>Price Position</span>
-                  <span id="pricePosition" class="value status-average">Average</span>
-                </div>
-                <div class="position-item">
-                  <span>Competitive Index</span>
-                  <span id="competitiveIndex" class="value">65/100</span>
-                </div>
-                <div class="position-item">
-                  <span>Price Percentile</span>
-                  <span id="pricePercentile" class="value">58%</span>
-                </div>
-                <div class="position-item">
-                  <span>Price Volatility</span>
-                  <span id="priceVolatilityValue" class="value">Medium</span>
-                </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Usage Dashboard Section -->
+    <div id="usageDashboard" class="tab-content">
+      <h2 class="section-header">Usage Analytics Dashboard</h2>
+      <div class="dashboard-row">
+        <div class="card usage-summary-card">
+          <div class="card-header">
+            <h3>Usage Summary</h3>
+            <span class="icon">📊</span>
+          </div>
+          <div class="card-content">
+            <div class="usage-stats">
+              <div class="stat-item">
+                <span class="stat-label">Total Sessions</span>
+                <span class="stat-value" id="sessionCount">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Last Active</span>
+                <span class="stat-value" id="lastActive">-</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Features Used</span>
+                <span class="stat-value" id="featuresUsed">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card top-features-card">
+          <div class="card-header">
+            <h3>Most Used Features</h3>
+            <span class="icon">🔥</span>
+          </div>
+          <div class="card-content">
+            <div id="topFeaturesChart" class="chart-container">
+              <div class="chart-placeholder">
+                <i class="fas fa-chart-bar"></i>
+                <p>Feature usage data will be displayed here</p>
               </div>
             </div>
           </div>
         </div>
       </div>
       
-      <div class="report-panel">
-        <h2>Market Summary Report</h2>
-        <div class="report-card">
-          <div class="report-header">
-            <h3>Market Insights</h3>
-            <span id="reportDate" class="report-date">Generated: Not Available</span>
+      <div class="dashboard-row">
+        <div class="card usage-detail-card">
+          <div class="card-header">
+            <h3>Feature Usage Details</h3>
+            <span class="icon">📝</span>
           </div>
-          
-          <div id="marketSummaryContent">
-            <p class="no-data-message">Run an analysis to generate a market summary report.</p>
+          <div class="card-content">
+            <table class="usage-table">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Usage Count</th>
+                  <th>Last Used</th>
+                </tr>
+              </thead>
+              <tbody id="featureDetailsList">
+                <tr class="placeholder-row">
+                  <td colspan="3">No usage data available</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <div class="card search-history-card">
+          <div class="card-header">
+            <h3>Recent Searches</h3>
+            <span class="icon">🔍</span>
+          </div>
+          <div class="card-content">
+            <ul id="searchHistoryList" class="search-history-list">
+              <li class="placeholder-item">No search history available</li>
+            </ul>
           </div>
         </div>
       </div>
-    </div>
-    
-    <div id="pricing-tab" class="tab-content hidden">
-      <div class="card full-width">
-        <div class="card-header">
-          <h3 class="card-title">Price Recommendation Tool</h3>
+      
+      <div class="dashboard-row">
+        <div class="card performance-card">
+          <div class="card-header">
+            <h3>Performance Metrics</h3>
+            <span class="icon">⚡</span>
+          </div>
+          <div class="card-content">
+            <div class="performance-stats">
+              <div class="stat-item">
+                <span class="stat-label">Page Load Time</span>
+                <span class="stat-value" id="pageLoadTime">--</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">DOM Interactive</span>
+                <span class="stat-value" id="domInteractive">--</span>
+              </div>
+            </div>
+            <div class="performance-note">
+              <p>Performance metrics help identify potential areas for optimization. Lower values indicate better performance.</p>
+            </div>
+          </div>
         </div>
-        <p>Enter details about your product to get an optimal price recommendation based on market data.</p>
-        
-        <div class="seller-form">
-          <div class="form-group">
-            <label class="form-label">Product Type</label>
-            <select class="form-select" id="productType" onchange="updateProductGroups()">
-              <option value="">Select Product Type</option>
-              <option value="Computers&Accessories">Computers & Accessories</option>
-              <option value="Electronics">Electronics</option>
-              <option value="MusicalInstruments">Musical Instruments</option>
-              <option value="OfficeProducts">Office Products</option>
-              <option value="Home&Kitchen">Home & Kitchen</option>
-              <option value="HomeImprovement">Home Improvement</option>
-              <option value="Toys&Games">Toys & Games</option>
-              <option value="Car&Motorbike">Car & Motorbike</option>
-              <option value="Health&PersonalCare">Health & Personal Care</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label">Product Group</label>
-            <div class="search-container">
-              <input type="text" id="groupSearchInput" class="form-input" placeholder="Search product groups..." onkeyup="filterProductGroups()">
-            </div>
-            <select class="form-select" id="productGroup" disabled size="5">
-              <option value="">Select Product Type First</option>
-            </select>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group half-width">
-              <label class="form-label">Actual Price ($)</label>
-              <input type="number" class="form-input" id="actualPrice" placeholder="e.g. 99.99">
-            </div>
-            
-            <div class="form-group half-width">
-              <label class="form-label">Discounted Price ($)</label>
-              <input type="number" class="form-input" id="discountedPrice" placeholder="e.g. 79.99">
-            </div>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group half-width">
-              <label class="form-label">Discount Percentage (%)</label>
-              <input type="number" class="form-input" id="discountPercentage" placeholder="e.g. 20">
-            </div>
-            
-            <div class="form-group half-width">
-              <label class="form-label">Rating (0-5)</label>
-              <input type="number" class="form-input" id="rating" placeholder="e.g. 4.5" min="0" max="5" step="0.1">
-            </div>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group half-width">
-              <label class="form-label">Average Market Price ($)</label>
-              <input type="number" class="form-input" id="averagePrice" placeholder="e.g. 85.99">
-            </div>
-            
-            <div class="form-group half-width">
-              <label class="form-label">Average Shipping Value ($)</label>
-              <input type="number" class="form-input" id="averageShippingValue" placeholder="e.g. 5.99">
-            </div>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group half-width">
-              <label class="form-label">Number of Orders</label>
-              <input type="number" class="form-input" id="numberOfOrders" placeholder="e.g. 120">
-            </div>
-            
-            <div class="form-group half-width">
-              <label class="form-label">Competitor Price ($)</label>
-              <input type="number" class="form-input" id="competitorPrice" placeholder="e.g. 89.99">
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label">Additional Features/Description</label>
-            <textarea class="form-input" id="productDescription" rows="3" placeholder="Enter any additional details about your product..."></textarea>
-          </div>
-          
-          <button class="btn btn-primary" onclick="getPriceRecommendation()">Get Price Recommendation</button>
-        </div>
-        
-        <div class="result-card" id="resultCard">
-          <h3>Recommended Price</h3>
-          <div class="price-recommendation" id="recommendedPrice">$0.00</div>
-          <div class="price-range" id="priceRange">Competitive price range: $0.00 - $0.00</div>
-          <p class="price-explanation" id="priceExplanation"></p>
-        </div>
+      </div>
+      
+      <div class="dashboard-row actions-row">
+        <button id="refreshUsageData" class="action-button">
+          <i class="fas fa-sync-alt"></i> Refresh Data
+        </button>
+        <button id="exportUsageData" class="action-button">
+          <i class="fas fa-download"></i> Export Data
+        </button>
+        <button id="clearUsageData" class="action-button danger">
+          <i class="fas fa-trash-alt"></i> Clear All Data
+        </button>
       </div>
     </div>
   </div>
-  <div class="row mb-4">
-    <div class="col-md-10 mx-auto">
-      <div class="card wide">
-        <div class="card-header">
-          <h3>Market Deals Analysis</h3>
-          <span class="icon"><i class="fas fa-chart-line"></i></span>
-        </div>
-        
-        <div class="card-content">
-          <!-- Button to fetch deals -->
-          <div class="action-row">
-            <button id="fetchDealsBtn" class="action-button">
-              <i class="fas fa-sync-alt me-2"></i>Fetch Current Deals
-            </button>
-            <span id="lastUpdatedBadge" style="display: none;" class="last-updated">
-              Last updated: <span id="lastUpdatedTime"></span>
-            </span>
-          </div>
-          
-          <!-- Loading state -->
-          <div id="dealsLoading" style="display: none;" class="text-center py-4">
-            <div class="spinner-border text-primary mb-3" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <p class="mb-0 text-muted">Analyzing current market deals...</p>
-          </div>
-          
-          <!-- Error state -->
-          <div id="dealsError" style="display: none;" class="py-3">
-            <div class="alert alert-danger d-flex align-items-center" role="alert">
-              <i class="fas fa-exclamation-circle me-2"></i>
-              <div id="errorMessage">Failed to fetch deals data.</div>
-            </div>
-          </div>
-          
-          <!-- Result state -->
-          <div id="dealsResult" style="display: none;">
-            <h4 class="section-title">Market Deals Summary</h4>
-            
-            <div class="deal-metrics">
-              <!-- Total Deals -->
-              <div class="metric-box">
-                <div class="key-metric">
-                  <div class="metric-label">Active Deals</div>
-                  <div class="metric-value">
-                    <i class="fas fa-tags metric-icon"></i>
-                    <span id="totalDealsValue" class="pricing-impact">-</span>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Average Discount -->
-              <div class="metric-box">
-                <div class="key-metric">
-                  <div class="metric-label">Average Discount</div>
-                  <div class="metric-value">
-                    <i class="fas fa-percentage metric-icon"></i>
-                    <span id="avgDiscountValue" class="pricing-impact">-</span>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Market Activity -->
-              <div class="metric-box">
-                <div class="key-metric">
-                  <div class="metric-label">Activity Level</div>
-                  <div class="metric-value">
-                    <i class="fas fa-chart-bar metric-icon"></i>
-                    <span id="marketActivityValue" class="pricing-impact">-</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Pricing Impact Section -->
-            <div class="impact-section">
-              <h4 class="section-title">Pricing Impact</h4>
-              
-              <div class="impact-content">
-                <div id="impactIcon" class="impact-icon">
-                  <i class="fas fa-arrow-right"></i>
-                </div>
-                
-                <p id="impactText" class="impact-text">Analyzing market data...</p>
-                
-                <!-- Gauge visualization -->
-                <div class="impact-gauge">
-                  <div class="progress-bar-container">
-                    <div id="impactGaugeBar" class="progress-bar" style="width: 50%"></div>
-                  </div>
-                  <div class="gauge-labels">
-                    <span>Decrease Prices</span>
-                    <span>Increase Prices</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2023 QuickPrice</p>
     </div>
-  </div>
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
-  <script src="{{ url_for('static', filename='category_revenue.js') }}"></script>
-  <script src="{{ url_for('static', filename='market_analyzer.js') }}"></script>
+  </footer>
+  
+  <!-- Load scripts in the correct order -->
+  <!-- Load main script with core functionality first -->
+  <script src="/static/script.js"></script>
+  
+  <!-- Chart.js libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+  
+  <!-- Then load visualization scripts that enhance functionality -->
+  <script src="/static/price_visualizations.js"></script>
+  <script src="/static/segment_visualization.js"></script>
+  <script src="/static/amazon_api_direct.js"></script>
+  <script src="/static/market_analysis.js"></script>
+  
+  <!-- Add explicit event listener for product type change -->
   <script>
-  // Add this to your existing JavaScript
-  document.addEventListener('DOMContentLoaded', function() {
-    // Other existing initialization...
-
-    // Market Deals functionality
-    const fetchDealsBtn = document.getElementById('fetchDealsBtn');
-    if (fetchDealsBtn) {
-      fetchDealsBtn.addEventListener('click', async function() {
-        try {
-          // Show loading state
-          document.getElementById('dealsLoading').style.display = 'block';
-          document.getElementById('dealsResult').style.display = 'none';
-          document.getElementById('dealsError').style.display = 'none';
-          
-          fetchDealsBtn.disabled = true;
-          fetchDealsBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
-          
-          const response = await fetch('/api/market-deals');
-          const data = await response.json();
-          
-          console.log('Deals API response:', data);
-          
-          // Hide loading state
-          document.getElementById('dealsLoading').style.display = 'none';
-          
-          if (data.success) {
-            // Show result state
-            document.getElementById('dealsResult').style.display = 'block';
-            
-            // Update last updated time
-            const lastUpdatedBadge = document.getElementById('lastUpdatedBadge');
-            const lastUpdatedTime = document.getElementById('lastUpdatedTime');
-            lastUpdatedBadge.style.display = 'inline-block';
-            lastUpdatedTime.textContent = new Date().toLocaleTimeString();
-            
-            // Update deals summary values
-            const totalDealsValue = document.getElementById('totalDealsValue');
-            const avgDiscountValue = document.getElementById('avgDiscountValue');
-            const marketActivityValue = document.getElementById('marketActivityValue');
-
-            totalDealsValue.textContent = data.deals_count;
-            avgDiscountValue.textContent = data.avg_discount + '%';
-            
-            const marketActivity = data.deals_summary.market_activity.toUpperCase();
-            marketActivityValue.textContent = marketActivity;
-            
-            // Set color based on activity level
-            if (marketActivity === 'HIGH') {
-              marketActivityValue.className = 'pricing-impact critical';
-              document.querySelectorAll('.key-metric')[2].classList.add('highlight');
-            } else if (marketActivity === 'MEDIUM') {
-              marketActivityValue.className = 'pricing-impact text-warning';
-            } else {
-              marketActivityValue.className = 'pricing-impact text-success';
-            }
-
-            // Highlight critical metrics that significantly impact pricing
-            if (data.deals_count > 25) {
-              totalDealsValue.className = 'pricing-impact critical';
-              document.querySelectorAll('.key-metric')[0].classList.add('highlight');
-            }
-            
-            if (data.avg_discount > 15) {
-              avgDiscountValue.className = 'pricing-impact critical';
-            }
-            
-            // Determine pricing impact
-            const impactText = document.getElementById('impactText');
-            const impactIcon = document.getElementById('impactIcon').querySelector('i');
-            const impactGaugeBar = document.getElementById('impactGaugeBar');
-            
-            if (data.avg_discount > 20 && data.deals_count > 30) {
-              // High discount environment
-              impactText.textContent = 'Consider reducing prices by 4% to remain competitive in this high-discount environment';
-              impactText.className = 'mb-0 fw-bold text-danger';
-              impactIcon.className = 'fas fa-arrow-down text-danger';
-              impactGaugeBar.style.width = '20%';
-              impactGaugeBar.className = 'progress-bar bg-danger';
-            } else if (data.avg_discount > 10 && data.deals_count > 20) {
-              // Moderate discount environment
-              impactText.textContent = 'Consider reducing prices by 2% to adapt to moderate discount activity';
-              impactText.className = 'mb-0 fw-bold text-warning';
-              impactIcon.className = 'fas fa-arrow-down text-warning';
-              impactGaugeBar.style.width = '35%';
-              impactGaugeBar.className = 'progress-bar bg-warning';
-            } else if (data.avg_discount < 5 && data.deals_count < 10) {
-              // Low discount environment
-              impactText.textContent = 'Opportunity to increase prices by 1% in this low-discount environment';
-              impactText.className = 'mb-0 fw-bold text-success';
-              impactIcon.className = 'fas fa-arrow-up text-success';
-              impactGaugeBar.style.width = '65%';
-              impactGaugeBar.className = 'progress-bar bg-success';
-            } else {
-              // No significant change needed
-              impactText.textContent = 'No significant pricing adjustment needed based on current deals';
-              impactText.className = 'mb-0 fw-bold text-info';
-              impactIcon.className = 'fas fa-arrow-right text-info';
-              impactGaugeBar.style.width = '50%';
-              impactGaugeBar.className = 'progress-bar bg-info';
-            }
-
-            // Add tooltip explaining why metrics are highlighted
-            const keyMetrics = document.querySelectorAll('.key-metric.highlight');
-            keyMetrics.forEach(metric => {
-              metric.setAttribute('title', 'This metric significantly impacts pricing recommendations');
-              metric.style.cursor = 'help';
-            });
+    document.addEventListener('DOMContentLoaded', function() {
+      const productTypeSelect = document.getElementById('productType');
+      if (productTypeSelect) {
+        console.log("Adding change event listener to product type select");
+        productTypeSelect.addEventListener('change', function() {
+          console.log("Product type changed, calling updateProductGroups");
+          if (typeof updateProductGroups === 'function') {
+            updateProductGroups();
           } else {
-            // Show error state
-            document.getElementById('dealsError').style.display = 'block';
-            document.getElementById('errorMessage').textContent = data.message || 'Unknown error fetching deals data';
+            console.error("updateProductGroups function not found");
           }
-        } catch (error) {
-          console.error('Network Error:', error);
-          // Show error state
-          document.getElementById('dealsLoading').style.display = 'none';
-          document.getElementById('dealsError').style.display = 'block';
-          document.getElementById('errorMessage').textContent = 'Failed to connect to deals API. Please try again later.';
-        } finally {
-          fetchDealsBtn.disabled = false;
-          fetchDealsBtn.innerHTML = '<i class="fas fa-sync-alt me-2"></i>Fetch Current Deals';
+        });
+      }
+    });
+  </script>
+  
+  <!-- Theme toggle script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Theme toggle functionality
+      const themeSwitch = document.getElementById('theme-switch');
+      
+      // Check for saved theme preference or use user's system preference
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      // Set initial theme
+      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeSwitch.checked = true;
+      }
+      
+      // Listen for toggle changes
+      themeSwitch.addEventListener('change', function(e) {
+        // Call the toggleTheme function from script.js
+        if (typeof toggleTheme === 'function') {
+          toggleTheme();
+        } else {
+          // Fallback in case toggleTheme isn't available
+          const newTheme = e.target.checked ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          
+          // Update background color
+          document.body.style.backgroundColor = newTheme === 'light' ? '#f8fafc' : '#0f172a';
+          document.documentElement.style.backgroundColor = newTheme === 'light' ? '#f8fafc' : '#0f172a';
+        }
+        
+        // Dispatch theme changed event
+        document.dispatchEvent(new CustomEvent('themeChanged', {
+          detail: { dark: e.target.checked }
+        }));
+        
+        // Force update visualization containers
+        if (typeof updateChartTheme === 'function') {
+          updateChartTheme();
+        }
+        
+        // Specifically update profit optimization chart if it exists
+        if (typeof updateProfitOptimizationChart === 'function') {
+          setTimeout(() => {
+            // Find the last price calculation data
+            const lastPriceData = window.lastPriceCalculationData;
+            if (lastPriceData) {
+              updateProfitOptimizationChart(lastPriceData);
+            }
+          }, 100);
         }
       });
+      
+      // Update competitive position
+      updateCompetitivePosition();
+      
+      // Dispatch initial theme event for components that need it
+      const initialTheme = document.documentElement.getAttribute('data-theme');
+      document.dispatchEvent(new CustomEvent('themeChanged', { 
+        detail: { theme: initialTheme }
+      }));
+      
+      // Initialize on page load
+      updateVisualizationThemes();
+    });
+    
+    // Function to update all theme-sensitive colors
+    function updateThemeColors(theme) {
+      // Update Chart.js defaults
+      if (window.Chart) {
+        Chart.defaults.color = theme === 'dark' ? '#a8c7e5' : '#13293d';
+        Chart.defaults.borderColor = theme === 'dark' ? 'rgba(209, 227, 247, 0.1)' : 'rgba(19, 41, 61, 0.1)';
+        
+        // Force all charts to update
+        Chart.instances.forEach(chart => {
+          if (chart.options && chart.options.scales) {
+            // Update grid colors for light/dark theme
+            if (chart.options.scales.y) {
+              chart.options.scales.y.grid.color = theme === 'dark' 
+                ? 'rgba(209, 227, 247, 0.05)' 
+                : 'rgba(19, 41, 61, 0.05)';
+            }
+            if (chart.options.scales.x) {
+              chart.options.scales.x.grid.color = theme === 'dark' 
+                ? 'rgba(209, 227, 247, 0.05)' 
+                : 'rgba(19, 41, 61, 0.05)';
+            }
+          }
+          chart.update();
+        });
+      }
+      
+      // Update competitive position
+      updateCompetitivePosition();
     }
-  });
+    
+    // Function to update all visualization container backgrounds
+    function updateVisualizationThemes() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      
+      // Update the container backgrounds
+      document.querySelectorAll('.visualization-card, .chart-container, .forecast-chart-container, .forecast-stats-container, .factor-card, .forecast-price-impact, .forecast-models-used, .price-card, .results-content, .factor-card').forEach(el => {
+        if (isDark) {
+          el.style.backgroundColor = '#132736';
+          el.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+        } else {
+          el.style.backgroundColor = '';
+          el.style.boxShadow = '';
+        }
+      });
+      
+      // Only update charts if they exist and are visible
+      const resultsVisible = !document.getElementById('resultsContent').classList.contains('hidden');
+      if (resultsVisible) {
+        // Check if these functions exist before calling them
+        if (typeof updateSegmentImpactVisuals === 'function' && 
+            document.getElementById('segmentImpactChart')) {
+          try {
+            updateSegmentImpactVisuals();
+          } catch (e) {
+            console.error('Error updating segment impact visuals:', e);
+          }
+        }
+        
+        if (typeof updateProfitOptimizationChart === 'function' && 
+            document.getElementById('profitOptimizationChart')) {
+          try {
+            updateProfitOptimizationChart();
+          } catch (e) {
+            console.error('Error updating profit optimization chart:', e);
+          }
+        }
+        
+        if (typeof updateImpactFactors === 'function' && 
+            document.getElementById('ratingImpact')) {
+          try {
+            updateImpactFactors();
+          } catch (e) {
+            console.error('Error updating impact factors:', e);
+          }
+        }
+      }
+    }
+    
+    // Function to update competitive position
+    function updateCompetitivePosition() {
+      // Get price marker elements
+      const yourPriceMarker = document.getElementById('yourPriceMarker');
+      const competitorPriceMarker = document.getElementById('competitorPriceMarker');
+      const recommendedPriceMarker = document.getElementById('recommendedPriceMarker');
+      
+      if (!yourPriceMarker || !competitorPriceMarker || !recommendedPriceMarker) return;
+      
+      // Get theme
+      const theme = document.documentElement.getAttribute('data-theme');
+      const isDark = theme === 'dark';
+      
+      // Update marker visibility
+      yourPriceMarker.style.backgroundColor = isDark ? '#2d7db9' : '#007bff';
+      yourPriceMarker.style.color = isDark ? '#fff' : '#fff';
+      yourPriceMarker.style.fontWeight = 'bold';
+      
+      competitorPriceMarker.style.backgroundColor = isDark ? '#546e85' : '#6c757d';
+      competitorPriceMarker.style.color = isDark ? '#fff' : '#fff';
+      competitorPriceMarker.style.fontWeight = 'bold';
+      
+      recommendedPriceMarker.style.backgroundColor = isDark ? '#2a8c7c' : '#28a745';
+      recommendedPriceMarker.style.color = isDark ? '#fff' : '#fff';
+      recommendedPriceMarker.style.fontWeight = 'bold';
+    }
   </script>
-  <style>
-    .bg-gradient-primary-to-secondary {
-      background: linear-gradient(to right, #2c7be5, #6bb2e8);
+
+  <!-- Add after the recommendation section -->
+  <div class="row mb-4" id="modelComparisonSection" style="display: none;">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0"><i class="fas fa-brain"></i> FinalOptimalModel Analysis</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between mb-3">
+            <div>
+              <h6 class="text-muted">Model Performance</h6>
+              <div class="h3 mb-0" id="modelPerformance">+202% Profit</div>
+              <small class="text-muted">vs. baseline pricing models</small>
+            </div>
+            <div>
+              <h6 class="text-muted">Legacy Price</h6>
+              <div class="h3 mb-0" id="legacyPrice">$0.00</div>
+              <small class="text-muted">Previous model recommendation</small>
+            </div>
+            <div>
+              <h6 class="text-muted">Price Difference</h6>
+              <div class="h3 mb-0" id="priceDiffPct">0.0%</div>
+              <small class="text-muted">vs. legacy models</small>
+            </div>
+          </div>
+          <p class="card-text">
+            The FinalOptimalModel represents our most advanced pricing technology with 
+            optimized parameters for profit maximization:
+          </p>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="text-center mb-3">
+                <div class="small text-muted">Base Markup</div>
+                <div class="h5">97%</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="text-center mb-3">
+                <div class="small text-muted">Elasticity Weight</div>
+                <div class="h5">92%</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="text-center mb-3">
+                <div class="small text-muted">Risk Threshold</div>
+                <div class="h5">0.62</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Update the displayRecommendation function to show the model section -->
+  <script>
+  function displayRecommendation(data) {
+    console.log("Displaying recommendation data:", data);
+    
+    // Clear loading state
+    document.getElementById("loadingResults").style.display = "none";
+    document.getElementById("resultsSection").style.display = "block";
+    
+    // Format currency values
+    let formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    });
+    
+    // Update price cards
+    document.getElementById("recommendedPrice").innerText = formatter.format(data.recommended_price);
+    document.getElementById("minPrice").innerText = formatter.format(data.min_price);
+    document.getElementById("maxPrice").innerText = formatter.format(data.max_price);
+    document.getElementById("profitMargin").innerText = data.profit_margin + "%";
+    
+    // Update conversion rate
+    document.getElementById("conversionRate").innerText = data.conversion_rate + "%";
+    
+    // Update elasticity info
+    document.getElementById("elasticityCategory").innerText = data.elasticity_info.category;
+    document.getElementById("elasticityImpact").innerText = data.elasticity_info.impact;
+    
+    // Update explanation
+    document.getElementById("priceExplanation").innerText = data.explanation;
+    
+    // Update impact factors
+    updateImpactFactors(data.impact_factors);
+    
+    // Update segment visualization if data available
+    if (data.segment_data) {
+      updateSegmentVisualization(data.segment_data);
     }
     
-    #impactGaugeBar {
-      transition: width 0.5s ease;
+    // Update price position markers
+    updatePricePositionVisualization(data.actual_price, data.competitor_price, data.recommended_price);
+    
+    // Update profit optimization chart
+    updateProfitOptimizationChart(data);
+    
+    // Update model comparison section
+    if (data.model_info) {
+      document.getElementById("modelComparisonSection").style.display = "block";
+      document.getElementById("modelPerformance").innerText = data.model_info.performance;
+      document.getElementById("legacyPrice").innerText = formatter.format(data.model_info.legacy_price);
+      
+      const priceDiff = document.getElementById("priceDiffPct");
+      priceDiff.innerText = (data.model_info.price_diff_pct > 0 ? "+" : "") + 
+                            data.model_info.price_diff_pct + "%";
+      
+      // Add color based on the difference
+      if (data.model_info.price_diff_pct > 0) {
+        priceDiff.classList.add("text-success");
+      } else if (data.model_info.price_diff_pct < 0) {
+        priceDiff.classList.add("text-danger");
+      }
+    } else {
+      document.getElementById("modelComparisonSection").style.display = "none";
     }
     
-    .card {
-      transition: all 0.3s ease;
+    // Update demand forecast if available
+    if (data.demand_forecast) {
+      updateDemandForecast(data.demand_forecast);
     }
     
-    .shadow-hover:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    // Scroll to results
+    document.getElementById("resultsSection").scrollIntoView({behavior: "smooth"});
+  }
+  </script>
+
+  <!-- Third-party Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+  <!-- Hidden container for API sample data -->
+  <script type="application/json" id="dealsApiSample" style="display: none;">
+    {
+      "responseStatus": "PRODUCT_FOUND_RESPONSE",
+      "responseMessage": "Product successfully found!",
+      "currentPage": 1,
+      "lastPage": 334,
+      "countDeals": 10000,
+      "domainCode": "com",
+      "deals": [
+        {
+          "id": "eaacaf73",
+          "dealType": "BEST_DEAL",
+          "title": "Apple iPad Air (5th Generation): with M1 chip, 10.9-inch Liquid Retina Display, 256GB, Wi-Fi 6, 12MP front/12MP Back Camera, Touch ID, All-Day Battery Life – Space Gray",
+          "dealState": "AVAILABLE",
+          "url": "https://www.amazon.com/Apple-iPad-Air-5th-Generation/dp/B09V3H386P",
+          "startsAt": "2024-05-10T07:00:00.000Z",
+          "endsAt": "2024-07-01T06:59:59.000Z",
+          "price": 599,
+          "retailPrice": 749,
+          "savingAmount": 150,
+          "savingPercentage": 20,
+          "type": "BEST_DEAL",
+          "asin": "B09V3H386P",
+          "badgeMessage": "Limited time deal"
+        },
+        {
+          "id": "35f80eae",
+          "dealType": "BEST_DEAL",
+          "title": "Beats Studio Buds - True Wireless Noise Cancelling Earbuds - Compatible with Apple & Android, Built-in Microphone, IPX4 Rating, Sweat Resistant Earphones, Class 1 Bluetooth Headphones - Sunset Pink",
+          "dealState": "AVAILABLE",
+          "url": "https://www.amazon.com/Beats-Studio-Cancelling-Earbuds-Built-Bluetooth-Headphones/dp/B09WPMT8TG",
+          "startsAt": "2024-05-05T07:00:00.000Z",
+          "endsAt": "2024-05-19T06:59:59.000Z",
+          "price": 79.99,
+          "retailPrice": 149.95,
+          "savingAmount": 69.96,
+          "savingPercentage": 47,
+          "type": "BEST_DEAL",
+          "asin": "B09WPMT8TG",
+          "badgeMessage": "Limited time deal"
+        },
+        {
+          "id": "7ff715e1",
+          "dealType": "BEST_DEAL",
+          "title": "Apple AirPods Max Wireless Over-Ear Headphones, Active Noise Cancelling, Transparency Mode, Personalized Spatial Audio, Dolby Atmos, Bluetooth Headphones for iPhone – Space Gray",
+          "dealState": "AVAILABLE",
+          "url": "https://www.amazon.com/New-Apple-AirPods-Max-Space/dp/B08PZHYWJS",
+          "startsAt": "2024-05-09T07:00:00.000Z",
+          "endsAt": "2024-05-24T06:59:59.000Z",
+          "price": 449.99,
+          "retailPrice": 549,
+          "savingAmount": 99.01,
+          "savingPercentage": 18,
+          "type": "BEST_DEAL",
+          "asin": "B08PZHYWJS",
+          "badgeMessage": "Limited time deal"
+        },
+        {
+          "id": "02fe2795",
+          "dealType": "BEST_DEAL",
+          "title": "Twin Size 3 Piece Sheet Set - Comfy Breathable & Cooling Sheets - Hotel Luxury Bed Sheets for Women & Men - Deep Pockets, Easy-Fit, Soft & Wrinkle Free Sheets - Heathered Tan Oeko-Tex Bed Sheet Set",
+          "dealState": "AVAILABLE",
+          "url": "https://www.amazon.com/Twin-Size-Sheet-Set-Breathable/dp/B09JMB971W",
+          "startsAt": "2024-05-13T07:00:00.000Z",
+          "endsAt": "2024-05-20T06:45:00.000Z",
+          "price": 25.49,
+          "retailPrice": 29.99,
+          "savingAmount": 4.5,
+          "savingPercentage": 15,
+          "type": "BEST_DEAL",
+          "asin": "B09JMB971W",
+          "badgeMessage": "Limited time deal"
+        },
+        {
+          "id": "c062d8ef",
+          "dealType": "BEST_DEAL", 
+          "title": "SAMSUNG Galaxy Tab A9+ Tablet 11" 64GB Android Tablet, Big Screen, Quad Speakers, Upgraded Chipset, Multi Window Display, Slim, Light, Durable Design, US Version, 2024, Graphite",
+          "dealState": "AVAILABLE",
+          "url": "https://www.amazon.com/SAMSUNG-Android-Speakers-Upgraded-Graphite/dp/B0CLF3VPMV",
+          "startsAt": "2024-04-29T07:00:00.000Z",
+          "endsAt": "2024-05-20T06:59:59.000Z",
+          "price": 169.99,
+          "retailPrice": 219.99,
+          "savingAmount": 50,
+          "savingPercentage": 23,
+          "type": "BEST_DEAL",
+          "asin": "B0CLF3VPMV",
+          "badgeMessage": "Limited time deal"
+        },
+        {
+          "id": "9d5e1139",
+          "dealType": "BEST_DEAL",
+          "title": "Blink Outdoor 4 (4th Gen) – Wire-free smart security camera, two-year battery life, two-way audio, HD live view, enhanced motion detection, Works with Alexa – 2 camera system",
+          "dealState": "AVAILABLE",
+          "url": "https://www.amazon.com/Blink-Outdoor-4th-Gen-2-Camera/dp/B0B1N6B8QT",
+          "startsAt": "2024-05-13T04:00:00.000Z",
+          "endsAt": "2024-05-28T04:00:00.000Z",
+          "price": 99.99,
+          "retailPrice": 179.99,
+          "savingAmount": 80,
+          "savingPercentage": 44,
+          "type": "BEST_DEAL",
+          "asin": "B0B1N6B8QT",
+          "badgeMessage": "Limited time deal"
+        },
+        {
+          "id": "0d74d7f4",
+          "dealType": "BEST_DEAL",
+          "title": "BISSELL Little Green Multi-Purpose Portable Carpet and Upholstery Cleaner, Car and Auto Detailer, with Exclusive Specialty Tools, Green, 1400B",
+          "dealState": "AVAILABLE",
+          "url": "https://www.amazon.com/Bissell-Multi-Purpose-Portable-Upholstery-1400B/dp/B0016HF5GK",
+          "startsAt": "2024-04-30T07:00:00.000Z",
+          "endsAt": "2024-06-05T06:59:59.999Z",
+          "price": 98.59,
+          "retailPrice": 123.59,
+          "savingAmount": 25,
+          "savingPercentage": 20,
+          "type": "BEST_DEAL",
+          "asin": "B0016HF5GK",
+          "badgeMessage": "Limited time deal"
+        },
+        {
+          "id": "868d9e5c",
+          "dealType": "BEST_DEAL",
+          "title": "Logitech MK270 Wireless Keyboard And Mouse Combo For Windows, 2.4 GHz Wireless, Compact Mouse, 8 Multimedia And Shortcut Keys, For PC, Laptop - Black",
+          "dealState": "AVAILABLE",
+          "url": "https://www.amazon.com/Logitech-MK270-Wireless-Keyboard-Mouse/dp/B079JLY5M5",
+          "startsAt": "2024-05-12T07:00:00.000Z",
+          "endsAt": "2024-06-02T06:59:59.000Z",
+          "price": 22.99,
+          "retailPrice": 27.99,
+          "savingAmount": 5,
+          "savingPercentage": 18,
+          "type": "BEST_DEAL",
+          "asin": "B079JLY5M5",
+          "badgeMessage": "Limited time deal"
+        },
+        {
+          "id": "a2d2a9a1",
+          "dealType": "BEST_DEAL",
+          "title": "SAMSUNG 49-Inch Odyssey G9 Series DQHD 1000R Curved Gaming Monitor, 1ms(GtG), VESA DisplayHDR 1000, 240Hz, AMD FreeSync Premium Pro, Height Adjustable Stand, LS49CG954ENXZA, 2024",
+          "dealState": "AVAILABLE",
+          "url": "https://www.amazon.com/SAMSUNG-DisplayHDR-FreeSync-Adjustable-LS49CG954ENXZA/dp/B0CP6HW894",
+          "startsAt": "2024-05-13T07:05:00.000Z",
+          "endsAt": "2024-05-20T06:59:59.000Z",
+          "price": 799.99,
+          "retailPrice": 1299.99,
+          "savingAmount": 500,
+          "savingPercentage": 38,
+          "type": "BEST_DEAL",
+          "asin": "B0CP6HW894",
+          "badgeMessage": "Limited time deal"
+        },
+        {
+          "id": "565dd0e7",
+          "dealType": "BEST_DEAL",
+          "title": "Amazon Fire TV 50\" 4-Series 4K UHD smart TV, stream live TV without cable",
+          "dealState": "AVAILABLE",
+          "url": "https://www.amazon.com/amazon-fire-tv-50-inch-4-series-4k-smart-tv/dp/B0B3GTSQ9Q",
+          "startsAt": "2024-04-17T16:00:00.000Z",
+          "endsAt": "2024-05-20T15:55:00.000Z",
+          "price": 329.99,
+          "retailPrice": 449.99,
+          "savingAmount": 120,
+          "savingPercentage": 27,
+          "type": "BEST_DEAL",
+          "asin": "B0B3GTSQ9Q",
+          "badgeMessage": "Limited time deal"
+        },
+        {
+          "id": "3c6927ae",
+          "dealType": "BEST_DEAL",
+          "title": "Sony WH-1000XM5 Wireless Noise Canceling Headphones with Auto Noise Canceling Optimizer, Crystal Clear Hands-Free Calling, and Alexa Voice Control, Black",
+          "dealState": "AVAILABLE",
+          "url": "https://www.amazon.com/Sony-WH-1000XM5-Canceling-Headphones-Hands-Free/dp/B09XS7JWHH",
+          "startsAt": "2024-05-01T05:00:00.000Z",
+          "endsAt": "2024-05-30T05:00:00.000Z",
+          "price": 328.00,
+          "retailPrice": 399.99,
+          "savingAmount": 71.99,
+          "savingPercentage": 18,
+          "type": "BEST_DEAL",
+          "asin": "B09XS7JWHH",
+          "badgeMessage": "Limited time deal"
+        },
+        {
+          "id": "990fba37",
+          "dealType": "BEST_DEAL",
+          "title": "JBL Charge 5 - Portable Bluetooth Speaker with IP67 Waterproof and USB Charge out - Black",
+          "dealState": "AVAILABLE",
+          "url": "https://www.amazon.com/JBL-Charge-Waterproof-Bluetooth-Speaker/dp/B08VDND3SK",
+          "startsAt": "2024-04-28T07:00:00.000Z",
+          "endsAt": "2024-05-19T06:59:59.000Z",
+          "price": 129.95,
+          "retailPrice": 179.95,
+          "savingAmount": 50.00,
+          "savingPercentage": 28,
+          "type": "BEST_DEAL",
+          "asin": "B08VDND3SK",
+          "badgeMessage": "Limited time deal"
+        }
+      ]
+    }
+  </script>
+
+  <!-- Hidden container for category filters data -->
+  <script type="application/json" id="dealsCategoriesApiSample" style="display: none;">
+    {
+      "departmentFilter": {
+        "options": [
+          { "value": "16333373011", "text": "Amazon Devices & Accessories" },
+          { "value": "2619526011", "text": "Appliances" },
+          { "value": "15690151", "text": "Automotive" },
+          { "value": "165797011", "text": "Baby Products" },
+          { "value": "11055981", "text": "Beauty & Personal Care" },
+          { "value": "2335753011", "text": "Cell Phones & Accessories" },
+          { "value": "493964", "text": "Electronics" },
+          { "value": "1063498", "text": "Home & Kitchen" },
+          { "value": "11965861", "text": "Musical Instruments" },
+          { "value": "3375301", "text": "Sports & Outdoors" },
+          { "value": "468240", "text": "Tools & Home Improvement" },
+          { "value": "165795011", "text": "Toys & Games" },
+          { "value": "11846801", "text": "Video Games" }
+        ],
+        "id": "departments",
+        "name": "Department"
+      }
+    }
+  </script>
+
+  <!-- Include the market deals tracking patch -->
+  <script src="static/market_deals_patch.js"></script>
+  
+  <!-- Script to ensure Overview tab is the default and refreshes when selected -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check authentication with server
+      fetch('/check-auth')
+        .then(response => response.json())
+        .then(data => {
+          if (data.authenticated) {
+            // Update user info in header with server data
+            updateUserHeader(data.user);
+          } else {
+            // Check localStorage as fallback
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+              updateUserHeader(currentUser);
+              
+              // Also send to server to create session
+              fetch('/login', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  email: currentUser.email,
+                  name: currentUser.name,
+                  role: currentUser.role
+                })
+              }).catch(err => console.error('Error syncing session:', err));
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error checking auth:', error);
+          // Fallback to localStorage
+          const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+          if (currentUser) {
+            updateUserHeader(currentUser);
+          }
+        });
+      
+      // Function to update user header with data
+      function updateUserHeader(user) {
+        const userNameElement = document.querySelector('.user-name');
+        const userRoleElement = document.querySelector('.user-role');
+        
+        if (userNameElement && user.name) {
+          userNameElement.textContent = user.name;
+        }
+        
+        if (userRoleElement && user.role) {
+          userRoleElement.textContent = user.role;
+        }
+      }
+      
+      // Set overview as the active tab on initial page load
+      window.switchTab('overview');
+      
+      // Override the original switchTab function to add refresh behavior for overview
+      const originalSwitchTab = window.switchTab;
+      window.switchTab = function(tabName) {
+        // Call the original function first
+        originalSwitchTab(tabName);
+        
+        // If switching to overview tab, reload the page after a short delay
+        if (tabName === 'overview') {
+          // Store the current state to indicate we're coming from a tab switch
+          sessionStorage.setItem('comingFromTabSwitch', 'true');
+          
+          // Check if we're coming from a previous refresh to avoid refresh loops
+          if (sessionStorage.getItem('justRefreshed') !== 'true') {
+            setTimeout(function() {
+              // Only refresh if we just switched to overview from another tab
+              if (sessionStorage.getItem('comingFromTabSwitch') === 'true') {
+                sessionStorage.setItem('justRefreshed', 'true');
+                sessionStorage.setItem('comingFromTabSwitch', 'false');
+                // Set the active tab in session storage
+                sessionStorage.setItem('activeTab', 'overview');
+                // Refresh the page
+                window.location.reload();
+              }
+            }, 100);
+          } else {
+            // Reset the refresh state after a delay
+            setTimeout(function() {
+              sessionStorage.setItem('justRefreshed', 'false');
+            }, 500);
+          }
+        } else {
+          // Store the current active tab
+          sessionStorage.setItem('activeTab', tabName);
+        }
+      };
+      
+      // Check if we need to switch to a specific tab after refresh
+      const activeTab = sessionStorage.getItem('activeTab');
+      if (activeTab && activeTab !== 'overview') {
+        setTimeout(function() {
+          window.switchTab(activeTab);
+        }, 100);
+      }
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('adminDropdown');
+        const roleButton = document.querySelector('.user-role');
+        
+        if (!dropdown || !roleButton) return;
+        
+        if (!roleButton.contains(event.target) && !dropdown.contains(event.target)) {
+          dropdown.classList.remove('show');
+        }
+      });
+    });
+    
+    // Function to toggle the admin dropdown menu
+    function toggleDropdown() {
+      const dropdown = document.getElementById('adminDropdown');
+      dropdown.classList.toggle('show');
     }
     
-    .key-metric {
-      transition: all 0.3s ease;
-      border-left: 4px solid transparent;
-    }
-    
-    .key-metric.highlight {
-      border-left: 4px solid #ff5a5f;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .pricing-impact {
-      font-weight: 600;
-    }
-    
-    .pricing-impact.critical {
-      color: #ff5a5f;
-      font-weight: 700;
+    function logout() {
+      // Clear localStorage
+      localStorage.removeItem('currentUser');
+      
+      // Redirect to the server logout route which will handle session cleanup
+      window.location.href = '/logout';
     }
 
-    /* Market Deals Analysis Styling - Matching Latest Transactions style */
-    .action-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
+    // Function to set redirect flag before going to profile
+    function setProfileRedirect(event) {
+      // Set flag in sessionStorage
+      sessionStorage.setItem('redirected_to_profile', 'true');
     }
-    
-    .action-button {
-      background-color: #4c6ef5;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      font-weight: 500;
-    }
-    
-    .action-button:hover {
-      background-color: #3b5bdb;
-    }
-    
-    .last-updated {
-      font-size: 0.85rem;
-      color: #6c757d;
-    }
-    
-    .section-title {
-      font-size: 1.1rem;
-      margin-bottom: 15px;
-      color: #343a40;
-      font-weight: 600;
-    }
-    
-    .deal-metrics {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
-    }
-    
-    .metric-box {
-      flex: 1;
-      min-width: 180px;
-    }
-    
-    .key-metric {
-      padding: 15px;
-      background-color: #f8f9fa;
-      border-radius: 6px;
-      border-left: 4px solid transparent;
-      transition: all 0.3s ease;
-    }
-    
-    .key-metric.highlight {
-      border-left: 4px solid #4c6ef5;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .metric-label {
-      font-size: 0.85rem;
-      color: #6c757d;
-      margin-bottom: 5px;
-    }
-    
-    .metric-value {
-      display: flex;
-      align-items: center;
-    }
-    
-    .metric-icon {
-      margin-right: 8px;
-      color: #4c6ef5;
-    }
-    
-    .pricing-impact {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #212529;
-    }
-    
-    .pricing-impact.critical {
-      color: #dc3545;
-      font-weight: 700;
-    }
-    
-    .impact-section {
-      padding: 15px;
-      border: 1px solid #dee2e6;
-      border-radius: 6px;
-      background-color: #fff;
-    }
-    
-    .impact-content {
-      text-align: center;
-    }
-    
-    .impact-icon {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-      color: #495057;
-    }
-    
-    .impact-text {
-      margin-bottom: 15px;
-      font-weight: 500;
-    }
-    
-    .impact-gauge {
-      margin-top: 15px;
-    }
-    
-    .progress-bar-container {
-      height: 8px;
-      background-color: #e9ecef;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    
-    .progress-bar {
-      height: 100%;
-      background-color: #4c6ef5;
-      transition: width 0.5s ease;
-    }
-    
-    .gauge-labels {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 5px;
-      font-size: 0.75rem;
-      color: #6c757d;
-    }
-  </style>
+  </script>
 </body>
 </html>

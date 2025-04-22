@@ -1,0 +1,827 @@
+{
+  "status": "OK",
+  "request_id": "fabf900d-dde6-45b2-9fe4-27a00d3626bd",
+  "parameters": {
+    "country": "US",
+    "price_range": "ALL",
+    "discount_range": "ALL",
+    "num_pages": 1
+  },
+  "data": {
+    "deals": [
+      {
+        "deal_id": "27f5d95e",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "MaryRuth Organics Liquid Multivitamin + Lustriva\u00ae Hair Growth for Women| Biotin 10000mcg | Vitamin B & D | Clinically Tested for Thicker Hair, Wrinkles, Fine Lines, Skin Care | Ages 18+ | 30 Fl Oz",
+        "deal_photo": "https://m.media-amazon.com/images/I/81TvHikPW1L.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/MaryRuths-Multivitamin-Multimineral-Supplement-Picolinate/dp/B0CGKVHHCY",
+        "canonical_deal_url": "https://www.amazon.com/deal/27f5d95e",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:55:00.000Z",
+        "deal_price": {
+          "amount": "56.21",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "79.95",
+          "currency": "USD"
+        },
+        "savings_percentage": 30,
+        "savings_amount": {
+          "amount": "23.74",
+          "currency": "USD"
+        },
+        "deal_badge": "30% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CGKVHHCY"
+      },
+      {
+        "deal_id": "8110efb6",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "SAMSUNG 49\" Odyssey QD-OLED (G93SC) Series Curved Gaming Monitor, 240Hz, 0.03ms,Dual QHD,DisplayHDR True Black 400,AMD FreeSync Premium Pro,Height Adjustable Stand,3 Year Warranty,LS49CG932SNXZA",
+        "deal_photo": "https://m.media-amazon.com/images/I/61A7+iThMZL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/samsung-oled-displayhdr-freesync-adjustable-ls49cg932snxza/dp/B0CDQMQQS2",
+        "canonical_deal_url": "https://www.amazon.com/deal/8110efb6",
+        "deal_starts_at": "2025-03-24T07:05:00.000Z",
+        "deal_ends_at": "2025-03-31T06:59:59.000Z",
+        "deal_price": {
+          "amount": "949.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "1599.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 41,
+        "savings_amount": {
+          "amount": "650.0",
+          "currency": "USD"
+        },
+        "deal_badge": "41% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CDQMQQS2"
+      },
+      {
+        "deal_id": "7c69e96f",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Amika soulfood nourishing mask",
+        "deal_photo": "https://m.media-amazon.com/images/I/71bhhmijHRL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/amika-Soulfood-Nourishing-Mask/dp/B07H3GBSC3",
+        "canonical_deal_url": "https://www.amazon.com/deal/7c69e96f",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "25.5",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "34.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 25,
+        "savings_amount": {
+          "amount": "8.5",
+          "currency": "USD"
+        },
+        "deal_badge": "25% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B07H3GBSC3"
+      },
+      {
+        "deal_id": "f7ba8bdb",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "adidas Women's Breaknet Sleek Sneaker",
+        "deal_photo": "https://m.media-amazon.com/images/I/71pZd8XRjaL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/adidas-Breaknet-Sportswear-Sneaker-Magenta/dp/B0D22S9PNP",
+        "canonical_deal_url": "https://www.amazon.com/deal/f7ba8bdb",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "55.25",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "65.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 15,
+        "savings_amount": {
+          "amount": "9.75",
+          "currency": "USD"
+        },
+        "deal_badge": "15% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0D22S9PNP"
+      },
+      {
+        "deal_id": "f4230629",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "DJI Osmo Action 4 Standard Combo, 4K/120fps Waterproof Action Camera with a 1/1.3-Inch Sensor, Stunning Low-Light Imaging,10-bit & D-Log M Color Performance, Long-Lasting 160 Mins, Outdoor Camera",
+        "deal_photo": "https://m.media-amazon.com/images/I/71wlB2kVc+L.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/DJI-Waterproof-Low-Light-Performance-Long-Lasting/dp/B0C783YNW7",
+        "canonical_deal_url": "https://www.amazon.com/deal/f4230629",
+        "deal_starts_at": "2025-03-17T07:00:00.000Z",
+        "deal_ends_at": "2025-03-31T06:59:59.000Z",
+        "deal_price": {
+          "amount": "209.0",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "299.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 30,
+        "savings_amount": {
+          "amount": "90.0",
+          "currency": "USD"
+        },
+        "deal_badge": "30% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0C783YNW7"
+      },
+      {
+        "deal_id": "a2a27c7a",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "SAMSUNG 85-Inch Class QLED 4K LS03D The Frame Series Quantum HDR Smart TV w/Dolby Atmos, Art Mode, Anti-Reflection, Customizable Frame, Slim Fit Wall Mount with Alexa Built-in (QN85LS03D, 2024 Model)",
+        "deal_photo": "https://m.media-amazon.com/images/I/71q0Zmb74pL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/SAMSUNG-85-Inch-Anti-Reflection-Customizable-QN85LS03D/dp/B0CVS9BFH4",
+        "canonical_deal_url": "https://www.amazon.com/deal/a2a27c7a",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "2497.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "4297.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 42,
+        "savings_amount": {
+          "amount": "1800.0",
+          "currency": "USD"
+        },
+        "deal_badge": "42% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CVS9BFH4"
+      },
+      {
+        "deal_id": "26580e4e",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Premier Protein Shake, Chocolate, 30g Protein 1g Sugar 24 Vitamins Minerals Nutrients to Support Immune Health, 11.5 fl oz (Pack of 12)",
+        "deal_photo": "https://m.media-amazon.com/images/I/719eDVmYeYL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Premier-Protein-Shake-Chocolate-11-5/dp/B07MJL8NXR",
+        "canonical_deal_url": "https://www.amazon.com/deal/26580e4e",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "25.59",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "31.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 20,
+        "savings_amount": {
+          "amount": "6.4",
+          "currency": "USD"
+        },
+        "deal_badge": "20% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B07MJL8NXR"
+      },
+      {
+        "deal_id": "c072ca8d",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Stanley Quencher H2.0 Tumbler with Handle and Straw 30 oz | Flowstate 3-Position Lid | Cup Holder Compatible for Travel | Insulated Stainless Steel Cup | BPA-Free | Mist",
+        "deal_photo": "https://m.media-amazon.com/images/I/514aYTw7P7L.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Quencher-FlowState-Stainless-Insulated-Smoothie/dp/B0CRMY5BMK",
+        "canonical_deal_url": "https://www.amazon.com/deal/c072ca8d",
+        "deal_starts_at": "2025-03-12T07:00:00.000Z",
+        "deal_ends_at": "2025-03-27T06:59:59.000Z",
+        "deal_price": {
+          "amount": "26.25",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "35.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 25,
+        "savings_amount": {
+          "amount": "8.75",
+          "currency": "USD"
+        },
+        "deal_badge": "25% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CRMY5BMK"
+      },
+      {
+        "deal_id": "f91f2030",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Lumineux Teeth Whitening Strips 21 Treatments \u2013 Peroxide Free - Enamel Safe for Whiter Teeth - Whitening Without The Sensitivity - Dentist Formulated - Sensitivity Free",
+        "deal_photo": "https://m.media-amazon.com/images/I/61EsX1P0g1L.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Lumineux-Teeth-Whitening-Strips-Treatments-Enamel-Safe/dp/B082TPDTM2",
+        "canonical_deal_url": "https://www.amazon.com/deal/f91f2030",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-03-29T06:55:00.000Z",
+        "deal_price": {
+          "amount": "29.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "44.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 33,
+        "savings_amount": {
+          "amount": "15.0",
+          "currency": "USD"
+        },
+        "deal_badge": "33% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B082TPDTM2"
+      },
+      {
+        "deal_id": "8b9e68c0",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Beckham Hotel Collection Bed Pillows Standard / Queen Size Set of 2 - Down Alternative Bedding Gel Cooling Pillow for Back, Stomach or Side Sleepers",
+        "deal_photo": "https://m.media-amazon.com/images/I/71329CVoVDL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Pillows-for-Sleeping-2-Pack/dp/B01LYNW421",
+        "canonical_deal_url": "https://www.amazon.com/deal/8b9e68c0",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "45.0",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "79.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 44,
+        "savings_amount": {
+          "amount": "34.99",
+          "currency": "USD"
+        },
+        "deal_badge": "44% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B01LYNW421"
+      },
+      {
+        "deal_id": "bb8643be",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Beats Studio Pro - Wireless Bluetooth Noise Cancelling Headphones - Personalized Spatial Audio, USB-C Lossless Audio, Apple & Android Compatibility, Up to 40 Hours Battery Life - Black",
+        "deal_photo": "https://m.media-amazon.com/images/I/61u-OaDSfQL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Beats-Studio-Pro-Personalized-Compatibility/dp/B0C8PR4W22",
+        "canonical_deal_url": "https://www.amazon.com/deal/bb8643be",
+        "deal_starts_at": "2025-03-16T07:05:00.000Z",
+        "deal_ends_at": "2025-03-30T06:59:59.000Z",
+        "deal_price": {
+          "amount": "179.95",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "349.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 49,
+        "savings_amount": {
+          "amount": "170.04",
+          "currency": "USD"
+        },
+        "deal_badge": "49% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0C8PR4W22"
+      },
+      {
+        "deal_id": "7690e311",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Seresto Large Dog Vet-Recommended Flea & Tick Treatment & Prevention Collar for Dogs Over 18 lbs. | 2-Pack",
+        "deal_photo": "https://m.media-amazon.com/images/I/61llImE4erL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Bayer-Seresto-Collar-Large-2-Pack/dp/B00WMMMHNM",
+        "canonical_deal_url": "https://www.amazon.com/deal/7690e311",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "86.38",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "107.98",
+          "currency": "USD"
+        },
+        "savings_percentage": 20,
+        "savings_amount": {
+          "amount": "21.6",
+          "currency": "USD"
+        },
+        "deal_badge": "20% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B00WMMMHNM"
+      },
+      {
+        "deal_id": "26580e4e",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Premier Protein Shake Limited Edition 30g 1g Sugar 24 Vitamins Minerals Nutrients, Winter Mint Chocolate, 11.5 Fl Oz (Pack of 12) Artwork Case - Packaging May Vary",
+        "deal_photo": "https://m.media-amazon.com/images/I/81jCauNp82L.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Premier-Protein-Vitamins-Nutrients-Chocolate/dp/B0CZY5WBVN",
+        "canonical_deal_url": "https://www.amazon.com/deal/26580e4e",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "15.0",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "25.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 40,
+        "savings_amount": {
+          "amount": "10.0",
+          "currency": "USD"
+        },
+        "deal_badge": "40% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CZY5WBVN"
+      },
+      {
+        "deal_id": "d80d803c",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Tineco Floor ONE S5 Smart Cordless Wet Dry Vacuum Cleaner and Mop for Hard Floors, Digital Display, Long Run Time, Great for Sticky Messes and Pet Hair, Space-Saving Design, Blue",
+        "deal_photo": "https://m.media-amazon.com/images/I/61mT-Nti4uL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Tineco-ONE-S5-Lightweight-Multi-Surface/dp/B09P2RKRWX",
+        "canonical_deal_url": "https://www.amazon.com/deal/d80d803c",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:45:00.000Z",
+        "deal_price": {
+          "amount": "269.9",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "449.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 40,
+        "savings_amount": {
+          "amount": "180.09",
+          "currency": "USD"
+        },
+        "deal_badge": "40% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B09P2RKRWX"
+      },
+      {
+        "deal_id": "ad9c6fd5",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Blink Outdoor 4 (newest model), Wire-free smart security camera, two-year battery life, two-way audio, HD live view, enhanced motion detection, Works with Alexa \u2013 5 camera system",
+        "deal_photo": "https://m.media-amazon.com/images/I/41Op5wMrmpL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Blink-Outdoor-4th-Gen-5-Camera/dp/B0B1N4LM4J",
+        "canonical_deal_url": "https://www.amazon.com/deal/ad9c6fd5",
+        "deal_starts_at": "2025-03-16T04:00:00.000Z",
+        "deal_ends_at": "2025-04-01T04:00:00.000Z",
+        "deal_price": {
+          "amount": "199.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "399.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 50,
+        "savings_amount": {
+          "amount": "200.0",
+          "currency": "USD"
+        },
+        "deal_badge": "50% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0B1N4LM4J"
+      },
+      {
+        "deal_id": "63419bf8",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Amazon Fire TV Stick 4K (newest model) with AI-powered Fire TV Search, Wi-Fi 6, stream over 1.5 million movies and shows, free & live TV",
+        "deal_photo": "https://m.media-amazon.com/images/I/51AIvaX964L.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Amazon-Fire-TV-Stick-4K-streaming-device/dp/B0CJM1GNFQ",
+        "canonical_deal_url": "https://www.amazon.com/deal/63419bf8",
+        "deal_starts_at": "2025-03-18T15:00:00.000Z",
+        "deal_ends_at": "2025-04-01T15:00:00.000Z",
+        "deal_price": {
+          "amount": "29.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "49.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 40,
+        "savings_amount": {
+          "amount": "20.0",
+          "currency": "USD"
+        },
+        "deal_badge": "40% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CJM1GNFQ"
+      },
+      {
+        "deal_id": "213019a2",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "King Size 4 Piece Sheet Set - Comfy Breathable & Cooling Bed Sheets Set - Hotel Luxury Bedding for Women, Men, Kids & Teens - Deep Pockets, Easy Secure Fit, Soft and Wrinkle Free - Oeko-Tex - White",
+        "deal_photo": "https://m.media-amazon.com/images/I/71girJD2oyL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/King-Size-Piece-Sheet-Set/dp/B01LWMWAXV",
+        "canonical_deal_url": "https://www.amazon.com/deal/213019a2",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "24.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "49.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 50,
+        "savings_amount": {
+          "amount": "25.0",
+          "currency": "USD"
+        },
+        "deal_badge": "50% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B01LWMWAXV"
+      },
+      {
+        "deal_id": "72954449",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "eufy Robot Vacuum Omni C20, Robot Vacuum and Mop Combo, Self Emptying, Auto Mop Washing and Auto Drying for Hands-free Cleaning, 7000 Pa Powerful Suction, 3.35-Inch Ultra-Slim Body, All-in-One Station",
+        "deal_photo": "https://m.media-amazon.com/images/I/61fPLtmoSNL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/eufy-Emptying-hands-free-3-35-Inch-Ultra-Slim/dp/B0DCFNZF32",
+        "canonical_deal_url": "https://www.amazon.com/deal/72954449",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "399.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "699.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 43,
+        "savings_amount": {
+          "amount": "300.0",
+          "currency": "USD"
+        },
+        "deal_badge": "43% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0DCFNZF32"
+      },
+      {
+        "deal_id": "4ee62e96",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Crest 3D Whitestrips Professional Effects, Whitestrip 3D White, Teeth Whitening Strip Kit, 44 Strips (22 Count Pack), Crest Teeth Whitening Strips, Teeth Whitening Kit",
+        "deal_photo": "https://m.media-amazon.com/images/I/61D1vQZv7UL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Crest-Professional-Whitestrips-Whitening-Treatments/dp/B00AHAWWO0",
+        "canonical_deal_url": "https://www.amazon.com/deal/4ee62e96",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-03T06:59:59.000Z",
+        "deal_price": {
+          "amount": "29.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "43.49",
+          "currency": "USD"
+        },
+        "savings_percentage": 31,
+        "savings_amount": {
+          "amount": "13.5",
+          "currency": "USD"
+        },
+        "deal_badge": "31% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B00AHAWWO0"
+      },
+      {
+        "deal_id": "3b771c3d",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "BIODANCE Bio-Collagen Real Deep Mask, Hydrating Overnight Hydrogel Mask, Pore Minimizing, Elasticity Improvement, 34g x4ea",
+        "deal_photo": "https://m.media-amazon.com/images/I/51299uVd3YL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Biodance-Bio-Collagen-Tightening-Hydrating-Molecular/dp/B0B2RM68G2",
+        "canonical_deal_url": "https://www.amazon.com/deal/3b771c3d",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:45:00.000Z",
+        "deal_price": {
+          "amount": "15.2",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "19.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 20,
+        "savings_amount": {
+          "amount": "3.8",
+          "currency": "USD"
+        },
+        "deal_badge": "20% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0B2RM68G2"
+      },
+      {
+        "deal_id": "8c2029f3",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "DEWALT 20V MAX Cordless Drill and Impact Driver, Power Tool Combo Kit with 2 Batteries and Charger (DCK240C2)",
+        "deal_photo": "https://m.media-amazon.com/images/I/71yHM6kK-zL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/DEWALT-DCK240C2-Lithium-Driver-Impact/dp/B00IJ0ALYS",
+        "canonical_deal_url": "https://www.amazon.com/deal/8c2029f3",
+        "deal_starts_at": "2025-03-01T08:00:00.000Z",
+        "deal_ends_at": "2025-03-30T06:59:59.000Z",
+        "deal_price": {
+          "amount": "124.0",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "239.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 48,
+        "savings_amount": {
+          "amount": "115.0",
+          "currency": "USD"
+        },
+        "deal_badge": "48% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B00IJ0ALYS"
+      },
+      {
+        "deal_id": "08d03eae",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Medicube Zero Pore Pads 2.0, Dual-Textured Facial Toner Pads for Exfoliation and Pore Care with 4.5% AHA Lactic Acid & 0.45% BHA Salicylic Acid, Ideal for All Skin Types, Korean Skin Care (70 Pads)",
+        "deal_photo": "https://m.media-amazon.com/images/I/71Mcspt-6AL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Medicube-Zero-Pore-Pads-Dual-Textured/dp/B09V7Z4TJG",
+        "canonical_deal_url": "https://www.amazon.com/deal/08d03eae",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:45:00.000Z",
+        "deal_price": {
+          "amount": "14.9",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "31.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 52,
+        "savings_amount": {
+          "amount": "16.1",
+          "currency": "USD"
+        },
+        "deal_badge": "52% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B09V7Z4TJG"
+      },
+      {
+        "deal_id": "63419bf8",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Amazon Fire TV Stick 4K Max streaming device (newest model) supports Wi-Fi 6E, free & live TV without cable or satellite",
+        "deal_photo": "https://m.media-amazon.com/images/I/51ZvnM5sALL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/all-new-amazon-fire-tv-stick-4k-max/dp/B0BP9SNVH9",
+        "canonical_deal_url": "https://www.amazon.com/deal/63419bf8",
+        "deal_starts_at": "2025-03-18T15:00:00.000Z",
+        "deal_ends_at": "2025-04-01T15:00:00.000Z",
+        "deal_price": {
+          "amount": "39.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "59.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 33,
+        "savings_amount": {
+          "amount": "20.0",
+          "currency": "USD"
+        },
+        "deal_badge": "33% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0BP9SNVH9"
+      },
+      {
+        "deal_id": "e6aa9c9d",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "SAMSUNG 990 PRO SSD 4TB PCIe 4.0 M.2 2280 Internal Solid State Hard Drive, Seq. Read Speeds Up to 7,450 MB/s for High End Computing, Gaming, and Heavy Duty Workstations, MZ-V9P4T0B/AM",
+        "deal_photo": "https://m.media-amazon.com/images/I/81WuG6lQuDL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/SAMSUNG-Computing-Workstations-MZ-V9P4T0B-AM/dp/B0CHGT1KFJ",
+        "canonical_deal_url": "https://www.amazon.com/deal/e6aa9c9d",
+        "deal_starts_at": "2025-03-24T07:05:00.000Z",
+        "deal_ends_at": "2025-04-07T06:59:59.000Z",
+        "deal_price": {
+          "amount": "279.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "464.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 40,
+        "savings_amount": {
+          "amount": "185.0",
+          "currency": "USD"
+        },
+        "deal_badge": "40% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CHGT1KFJ"
+      },
+      {
+        "deal_id": "407b04ab",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Dyson V8 Plus Cordless Vacuum, Silver/Nickel",
+        "deal_photo": "https://m.media-amazon.com/images/I/51hFJWAdfNL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Dyson-Cordless-Vacuum-Silver-Nickel/dp/B0CT9552BL",
+        "canonical_deal_url": "https://www.amazon.com/deal/407b04ab",
+        "deal_starts_at": "2025-03-18T19:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "329.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "469.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 30,
+        "savings_amount": {
+          "amount": "140.0",
+          "currency": "USD"
+        },
+        "deal_badge": "30% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CT9552BL"
+      },
+      {
+        "deal_id": "0fcd9b81",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "In The Swim 3 Inch Stabilized Chlorine Tablets for Sanitizing Swimming Pools - Individually Wrapped, Slow Dissolving - 90% Available Chlorine - Tri-Chlor - 50 Pounds",
+        "deal_photo": "https://m.media-amazon.com/images/I/71VPFJJZ7WL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Swimming-Chlorine-Tablets-Pounds-Swim/dp/B002WKO7LY",
+        "canonical_deal_url": "https://www.amazon.com/deal/0fcd9b81",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "179.99",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "234.99",
+          "currency": "USD"
+        },
+        "savings_percentage": 23,
+        "savings_amount": {
+          "amount": "55.0",
+          "currency": "USD"
+        },
+        "deal_badge": "23% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B002WKO7LY"
+      },
+      {
+        "deal_id": "e7204734",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "NordicTrack T Series: Perfect Treadmills for Home Use, Walking or Running Treadmill with Incline, Bluetooth Enabled, 300 lbs User Capacity",
+        "deal_photo": "https://m.media-amazon.com/images/I/719uh1Um6aL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/NordicTrack-NTL17915-6-5-Treadmill/dp/B0193V3DJ6",
+        "canonical_deal_url": "https://www.amazon.com/deal/e7204734",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "669.15",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "799.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 16,
+        "savings_amount": {
+          "amount": "129.85",
+          "currency": "USD"
+        },
+        "deal_badge": "16% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0193V3DJ6"
+      },
+      {
+        "deal_id": "e5ba9d33",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Fitbit Inspire 3 Health &-Fitness-Tracker with Stress Management, Workout Intensity, Sleep Tracking, 24/7 Heart Rate and more, Midnight Zen/Black One Size (S & L Bands Included)",
+        "deal_photo": "https://m.media-amazon.com/images/I/51CtR+quteL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Fitbit-Management-Intensity-Tracking-Midnight/dp/B0B5F9SZW7",
+        "canonical_deal_url": "https://www.amazon.com/deal/e5ba9d33",
+        "deal_starts_at": "2025-03-23T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:59:59.000Z",
+        "deal_price": {
+          "amount": "69.95",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "99.95",
+          "currency": "USD"
+        },
+        "savings_percentage": 30,
+        "savings_amount": {
+          "amount": "30.0",
+          "currency": "USD"
+        },
+        "deal_badge": "30% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0B5F9SZW7"
+      },
+      {
+        "deal_id": "5c7cd796",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "CRZ YOGA Butterluxe High Waisted Lounge Legging 25\" - Buttery Soft Workout Yoga Pants for Women",
+        "deal_photo": "https://m.media-amazon.com/images/I/61Isb40O6wL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/CRZ-YOGA-Butterluxe-Waisted-Legging/dp/B09P1GB319",
+        "canonical_deal_url": "https://www.amazon.com/deal/5c7cd796",
+        "deal_starts_at": "2025-03-25T07:00:00.000Z",
+        "deal_ends_at": "2025-04-01T06:45:00.000Z",
+        "deal_price": {
+          "amount": "27.2",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "32.0",
+          "currency": "USD"
+        },
+        "savings_percentage": 15,
+        "savings_amount": {
+          "amount": "4.8",
+          "currency": "USD"
+        },
+        "deal_badge": "15% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B09P1GB319"
+      },
+      {
+        "deal_id": "c2c2b4e5",
+        "deal_type": "BEST_DEAL",
+        "deal_title": "Beats Solo 4 - Wireless Bluetooth On-Ear Headphones, Apple & Android Compatible, Up to 50 Hours of Battery Life - Cloud Pink",
+        "deal_photo": "https://m.media-amazon.com/images/I/51JNqP2C4rL.jpg",
+        "deal_state": "AVAILABLE",
+        "deal_url": "https://www.amazon.com/Beats-Solo-Ear-Headphones-Compatible/dp/B0CZPGX972",
+        "canonical_deal_url": "https://www.amazon.com/deal/c2c2b4e5",
+        "deal_starts_at": "2025-03-16T07:00:00.000Z",
+        "deal_ends_at": "2025-03-30T06:59:59.000Z",
+        "deal_price": {
+          "amount": "129.95",
+          "currency": "USD"
+        },
+        "list_price": {
+          "amount": "199.95",
+          "currency": "USD"
+        },
+        "savings_percentage": 35,
+        "savings_amount": {
+          "amount": "70.0",
+          "currency": "USD"
+        },
+        "deal_badge": "35% off",
+        "type": "SINGLE_ITEM",
+        "product_asin": "B0CZPGX972"
+      }
+    ],
+    "total_deals": 500,
+    "country": "US",
+    "domain": "www.amazon.com"
+  }
+}
